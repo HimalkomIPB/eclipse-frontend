@@ -299,6 +299,14 @@ const NavMenu = () => {
               >
                 Prestasi
               </NavLink>
+
+              <NavLink
+                to="/riset"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
+              >
+                Riset
+              </NavLink>
             </motion.div>
           )}
         </AnimatePresence>

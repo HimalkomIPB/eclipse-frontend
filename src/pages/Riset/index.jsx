@@ -45,9 +45,10 @@ const Riset = () => {
 
   if (error)
     return (
-      <p className="text-red-500 font-bold text-xl text-center">
-        Error: {error}
-      </p>
+      <div className="mx-auto mt-24 max-w-xl rounded-lg border border-red-400/30 bg-red-500/10 px-6 py-6 text-center text-red-100">
+        <p className="font-semibold">Gagal memuat data riset.</p>
+        <p className="mt-2 text-sm">{error}</p>
+      </div>
     );
 
   return (
@@ -75,7 +76,7 @@ const Riset = () => {
               />
             </>
           ) : (
-            <p className="text-center text-gray-500">
+            <p className="text-center text-white/70">
               Tidak ada data riset untuk ditampilkan.
             </p>
           )}

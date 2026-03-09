@@ -15,7 +15,7 @@ const HeroSection = () => (
       />
       <div className="flex flex-col items-start text-center sm:text-left mt-4 sm:mt-0">
         {/* Title */}
-        <h1 className="max-w-xl text-start font-semibold md:pb-3 text-2xl sm:text-2xl md:text-4xl lg:text-[45px] leading-normal">
+        <h1 className="max-w-xl text-start font-semibold md:pb-3 text-2xl sm:text-2xl md:text-4xl lg:text-[45px] leading-normal text-white">
           RISET ILKOMERZ
         </h1>
         
@@ -27,7 +27,7 @@ const HeroSection = () => (
         />
         
         {/* Tagline dan Subtitle */}
-        <div className="text-left items-center max-w-sm sm:items-start sm:max-w-xl text-black text-[14px] sm:text-xl md:text-xl lg:text-2xl font-normal">
+        <div className="text-left items-center max-w-sm sm:items-start sm:max-w-xl text-white/80 text-[14px] sm:text-xl md:text-xl lg:text-2xl font-normal">
          <p><b>Riset Ilkomerz</b> merupakan kegiatan riset yang ditujukan untuk menjaring minat, pendapat, dan aspirasi ilkomerz untuk membangun Himalkom berdasarkan kebutuhan ilkomerz.</p>
         </div>
       </div>
