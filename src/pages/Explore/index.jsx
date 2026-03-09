@@ -5,7 +5,7 @@ import MotionReveal from '@/components/common/MotionReveal';
 import { useFetchData } from '@/hooks/useAPI';
 import TImages from '@/utils/images';
 
-const ExploreCard = ({ title, subtitle, image, href }) => (
+const ExploreCard = ({ title, subtitle, image, href, titleClassName = "", subtitleClassName = "" }) => (
   <Link
     to={href}
     className="group flex h-full min-h-[280px] flex-col overflow-hidden rounded-2xl border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.92)_0%,rgba(14,41,59,0.94)_100%)] shadow-[0_18px_36px_rgba(2,14,26,0.22)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 sm:min-h-[300px] lg:min-h-[320px]"
@@ -23,8 +23,12 @@ const ExploreCard = ({ title, subtitle, image, href }) => (
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
     </div>
     <div className="flex flex-1 flex-col p-4">
-      <h3 className="text-lg font-semibold text-white">{title}</h3>
-      {subtitle && <p className="mt-1 text-sm text-white/70">{subtitle}</p>}
+      <h3 className={`text-lg font-semibold text-white ${titleClassName}`}>{title}</h3>
+      {subtitle && (
+        <p className={`mt-1 text-sm text-white/70 ${subtitleClassName}`}>
+          {subtitle}
+        </p>
+      )}
       <span className="mt-auto inline-flex items-center gap-2 pt-4 text-xs font-semibold text-white/80">
         Jelajahi
       </span>
@@ -65,21 +69,23 @@ const Explore = () => {
               title="Profil"
               description="Kenalan lebih dekat dengan organisasi dan departemen."
             >
+            <ExploreCard
+              title="Himalkom"
+              subtitle="Struktur dan tujuan organisasi"
+              image={TImages.LOGO.LOGO_HIMALKOM}
+              href="/himalkom"
+              titleClassName="text-base sm:text-lg"
+            />
+            {divisions.map((division) => (
               <ExploreCard
-                title="Himalkom"
-                subtitle="Struktur dan tujuan organisasi"
-                image={TImages.LOGO.LOGO_HIMALKOM}
-                href="/himalkom"
+                key={division.id || division.slug}
+                title={division.abbreviation || division.name}
+                subtitle="Departemen"
+                image={`${baseUrl}/storage/${division.logo}`}
+                href={`/division/${division.slug}`}
+                titleClassName="text-base sm:text-lg"
               />
-              {divisions.map((division) => (
-                <ExploreCard
-                  key={division.id || division.slug}
-                  title={division.abbreviation || division.name}
-                  subtitle="Departemen"
-                  image={`${baseUrl}/storage/${division.logo}`}
-                  href={`/division/${division.slug}`}
-                />
-              ))}
+            ))}
             </ExploreSection>
           </MotionReveal>
 

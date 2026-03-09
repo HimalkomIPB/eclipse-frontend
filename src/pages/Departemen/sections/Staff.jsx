@@ -51,10 +51,10 @@ const StaffCard = ({ staff, baseUrl }) => {
       
       {/* Container untuk teks dengan height yang konsisten */}
       <div className="relative z-10 mt-auto w-full flex-1 flex flex-col justify-end pb-3">
-        <h3 className="text-shadow-soft font-semibold text-sm md:text-lg lg:text-xl text-white">
+        <h3 className="text-shadow-soft font-semibold text-[10px] md:text-lg lg:text-s text-white">
           {staff.jabatan || 'Staff'}
         </h3>
-        <p className="text-shadow-soft text-white text-[10px] md:text-sm lg:text-base mt-1">
+        <p className="text-shadow-soft text-white text-[7px] md:text-sm lg:text-base mt-1">
           {staff.name || 'Unnamed'}
         </p>
       </div>
