@@ -108,7 +108,7 @@ const NavMenu = () => {
             <NavLink
               to="/himalkom"
               className={({ isActive }) => `
-                block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
+                block px-4 py-2 text-white hover:bg-primary-light/20 transition-all
                 ${isActive ? "font-bold" : "font-normal"}
               `}
               onClick={closeDropdowns}
@@ -119,7 +119,7 @@ const NavMenu = () => {
             {/* Departemen Button */}
             <div ref={departmentRef}>
               <button
-                className="w-full text-left px-4 py-2 text-primary-darker hover:bg-primary-light transition-all flex items-center justify-between"
+                className="w-full text-left px-4 py-2 text-white hover:bg-primary-light/20 transition-all flex items-center justify-between"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsDepartmentOpen(!isDepartmentOpen);
@@ -151,7 +151,7 @@ const NavMenu = () => {
                         key={division.id || division.slug}
                         to={`/division/${division.slug}`}
                         className={({ isActive }) => `
-                          block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
+                          block px-4 py-2 text-white hover:bg-primary-light/20 transition-all
                           ${isActive ? "font-bold" : "font-normal"}
                         `}
                         onClick={closeDropdowns}
@@ -160,7 +160,7 @@ const NavMenu = () => {
                       </NavLink>
                     ))
                   ) : (
-                    <p className="px-4 py-2 text-gray-500 italic">Loading...</p>
+                    <p className="px-4 py-2 text-white/70 italic">Loading...</p>
                   )}
                 </div>
               )}
@@ -186,7 +186,7 @@ const NavMenu = () => {
                   key={community.id || community.slug}
                   to={`/community/${community.slug}`}
                   className={({ isActive }) => `
-                    block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
+                    block px-4 py-2 text-white hover:bg-primary-light/20 transition-all
                     ${isActive ? "font-bold" : "font-normal"}
                   `}
                   onClick={closeDropdowns}
@@ -195,7 +195,7 @@ const NavMenu = () => {
                 </NavLink>
               ))
             ) : (
-              <p className="px-4 py-2 text-gray-500 italic">Loading...</p>
+              <p className="px-4 py-2 text-white/70 italic">Loading...</p>
             )}
           </div>
         )}
@@ -215,7 +215,7 @@ const NavMenu = () => {
             <NavLink
               to="/komnews"
               className={({ isActive }) => `
-          block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
+          block px-4 py-2 text-white hover:bg-primary-light/20 transition-all
           ${isActive ? "font-bold" : "font-normal"}
         `}
               onClick={closeDropdowns}
@@ -226,7 +226,7 @@ const NavMenu = () => {
             <NavLink
               to="/galeri"
               className={({ isActive }) => `
-          block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
+          block px-4 py-2 text-white hover:bg-primary-light/20 transition-all
           ${isActive ? "font-bold" : "font-normal"}
         `}
               onClick={closeDropdowns}
@@ -237,7 +237,7 @@ const NavMenu = () => {
             <NavLink
               to="/jawara"
               className={({ isActive }) => `
-          block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
+          block px-4 py-2 text-white hover:bg-primary-light/20 transition-all
           ${isActive ? "font-bold" : "font-normal"}
         `}
               onClick={closeDropdowns}
@@ -248,7 +248,7 @@ const NavMenu = () => {
             <NavLink
               to="/prestasi"
               className={({ isActive }) => `
-          block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
+          block px-4 py-2 text-white hover:bg-primary-light/20 transition-all
           ${isActive ? "font-bold" : "font-normal"}
         `}
               onClick={closeDropdowns}

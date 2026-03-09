@@ -46,7 +46,7 @@ const PrestasiFilter = ({
         <button
           type="button"
           onClick={() => setYearDropdownOpen((v) => !v)}
-          className="flex items-center gap-2 px-3 py-1 shadow-card bg-white rounded-md cursor-pointer min-w-[100px]"
+          className="flex items-center gap-2 px-3 py-1 shadow-card bg-primary-darker text-white rounded-md cursor-pointer min-w-[100px]"
         >
           {activeYear === "all" ? "All Years" : activeYear}
           <svg
@@ -61,14 +61,14 @@ const PrestasiFilter = ({
         </button>
 
         {yearDropdownOpen && (
-          <div className="absolute left-0 mt-2 w-40 bg-white border border-primary/30 rounded-lg shadow-lg z-20 p-2 max-h-60 overflow-y-auto">
+          <div className="absolute left-0 mt-2 w-40 bg-primary-darker border border-primary/30 rounded-lg shadow-lg z-20 p-2 max-h-60 overflow-y-auto">
             <button
               type="button"
               onClick={() => {
                 setActiveYear("all");
                 setYearDropdownOpen(false);
               }}
-              className={`w-full text-left px-3 py-2 rounded-md cursor-pointer hover:bg-primary-light ${activeYear === "all" ? "font-semibold text-primary-dark" : ""
+              className={`w-full text-left px-3 py-2 rounded-md cursor-pointer text-white hover:bg-primary-light/20 ${activeYear === "all" ? "font-semibold" : ""
                 }`}
             >
               All Years
@@ -81,7 +81,7 @@ const PrestasiFilter = ({
                   setActiveYear(String(year));
                   setYearDropdownOpen(false);
                 }}
-                className={`w-full text-left px-3 py-2 rounded-md cursor-pointer hover:bg-primary-light ${activeYear === String(year) ? "font-semibold text-primary-dark" : ""
+                className={`w-full text-left px-3 py-2 rounded-md cursor-pointer text-white hover:bg-primary-light/20 ${activeYear === String(year) ? "font-semibold" : ""
                   }`}
               >
                 {year}

@@ -45,7 +45,7 @@ const Komnews = ({
 
   return (
     <MotionReveal animation="fade-up" delay={0.3}>
-      <div className="flex flex-col items-center max-w-6xl mx-auto relative">
+      <div className="flex flex-col items-center w-full relative">
         <Swiper
           modules={[Pagination, Autoplay, A11y]} // A11y = accessibility features
           centeredSlides
@@ -79,7 +79,7 @@ const Komnews = ({
         >
           {newsData.komnews.map((komnews, index) => (
             <SwiperSlide key={komnews.id || `news-${index}`}>
-              <div className="px-1 sm:px-2 md:px-3">
+              <div className="px-0">
                 <div className="rounded-[24px] shadow-card h-[520px] md:h-[340px] flex flex-col md:flex-row p-5 md:p-6 mx-auto my-3 w-full border border-white/15">
 
                   {/* Mobile image */}
