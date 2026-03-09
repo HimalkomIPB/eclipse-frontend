@@ -8,98 +8,112 @@ import MobileMenu from './MobileMenu';
  */
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  // Toggle mobile menu
+  const [isScrolled, setIsScrolled] = useState(false);
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(prev => !prev);
   };
-  
-  // Close menu when clicking outside
+
   useEffect(() => {
     const closeOnOutsideClick = (e) => {
-      if (isMobileMenuOpen && 
-          !e.target.closest('.mobile-menu') && 
-          !e.target.closest('.burger-button')) {
+      if (
+        isMobileMenuOpen &&
+        !e.target.closest('.mobile-menu') &&
+        !e.target.closest('.burger-button')
+      ) {
         setIsMobileMenuOpen(false);
       }
     };
-    
+
     document.addEventListener('click', closeOnOutsideClick);
     return () => document.removeEventListener('click', closeOnOutsideClick);
   }, [isMobileMenuOpen]);
 
-  // Mengunci scroll saat menu mobile terbuka
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
-    
+
     return () => {
       document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 12);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="z-50 w-screen top-0 left-0 bg-primary">
-      <div className="container mx-auto flex items-center justify-between px-6 xl:px-15 py-3">
-        {/* Logo */}
-        <Logo />
-        
-        {/* Navigation untuk Desktop */}
-        <div className="hidden lg:block">
-          <NavMenu />
-        </div>
-        
-        {/* Burger Menu untuk Mobile dengan animasi yang rapi */}
-        <div className="block lg:hidden">
-          <button 
-            className="burger-button relative z-50 p-2 hover:bg-primary-light/40 rounded-md transition-all duration-300"
-            onClick={toggleMobileMenu}
-            aria-label="Toggle mobile menu"
-          >
-            <div className="relative w-6 h-6 flex flex-col justify-center items-center">
-              <span 
-                className={`absolute h-0.5 w-6 bg-primary-darker rounded-sm transition-all duration-300 ease-in-out transform-gpu ${
-                  isMobileMenuOpen 
-                    ? 'rotate-45' 
-                    : '-translate-y-2'
-                }`}
-              ></span>
-              
-              <span 
-                className={`absolute h-0.5 w-6 bg-primary-darker rounded-sm transition-all duration-200 ease-in-out transform-gpu ${
-                  isMobileMenuOpen 
-                    ? 'opacity-0 scale-0' 
-                    : 'opacity-100'
-                }`}
-              ></span>
-              
-              <span 
-                className={`absolute h-0.5 w-6 bg-primary-darker rounded-sm transition-all duration-300 ease-in-out transform-gpu ${
-                  isMobileMenuOpen 
-                    ? '-rotate-45' 
-                    : 'translate-y-2'
-                }`}
-              ></span>
+    <header className="fixed left-0 top-0 z-50 w-full">
+      <div className="w-full">
+        <div
+          className={`nav-shell relative z-50 w-full ${
+            isScrolled ? 'is-scrolled mt-0' : 'mt-4 sm:mt-5 xl:mt-7'
+          }`}
+        >
+          <div className="nav-shell-bg" aria-hidden="true"></div>
+          <div className="relative z-10 mx-auto flex max-w-[1360px] items-center justify-center px-4 py-3 font-montserrat sm:px-6 xl:justify-between xl:px-8 xl:py-4">
+            <div className="xl:mx-0">
+              <Logo />
             </div>
-          </button>
-        </div>
+
+            <div className="hidden xl:block">
+              <NavMenu />
+            </div>
+
+            <div className="absolute right-4 block xl:hidden sm:right-6">
+              <button
+                className="burger-button relative z-50 rounded-full border border-white/15 bg-white/8 p-2 text-white transition-all duration-300 hover:bg-white/12"
+                onClick={toggleMobileMenu}
+                aria-label="Toggle mobile menu"
+              >
+                <div className="relative flex h-5 w-5 flex-col items-center justify-center sm:h-6 sm:w-6">
+                  <span
+                    className={`absolute h-0.5 w-5 rounded-sm bg-white transition-all duration-300 ease-in-out transform-gpu sm:w-6 ${
+                      isMobileMenuOpen ? 'rotate-45' : '-translate-y-1.5 sm:-translate-y-2'
+                    }`}
+                  ></span>
+
+                  <span
+                    className={`absolute h-0.5 w-5 rounded-sm bg-white transition-all duration-200 ease-in-out transform-gpu sm:w-6 ${
+                      isMobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100'
+                    }`}
+                  ></span>
+
+                  <span
+                    className={`absolute h-0.5 w-5 rounded-sm bg-white transition-all duration-300 ease-in-out transform-gpu sm:w-6 ${
+                      isMobileMenuOpen ? '-rotate-45' : 'translate-y-1.5 sm:translate-y-2'
+                    }`}
+                  ></span>
+                </div>
+              </button>
+            </div>
+          </div>
       </div>
-      
-      {/* Mobile Menu dengan animasi slide dan fade */}
-      <div 
-        className={`fixed top-0 right-0 w-full h-screen z-40 transition-all duration-300 ease-in-out transform ${
-          isMobileMenuOpen 
-            ? 'translate-x-0 opacity-100 visible' 
-            : 'translate-x-full opacity-0 invisible'
+      </div>
+
+      <div
+        className={`fixed inset-0 z-40 transition-[opacity,backdrop-filter,background-color] duration-400 ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-[backdrop-filter,opacity] ${
+          isMobileMenuOpen
+            ? 'bg-slate-950/20 backdrop-blur-sm opacity-100'
+            : 'pointer-events-none bg-slate-950/0 backdrop-blur-0 opacity-0'
+        }`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      ></div>
+      <div
+        className={`mobile-menu fixed right-4 top-20 z-50 w-[min(22rem,calc(100vw-2rem))] transform transition-transform duration-350 ease-[cubic-bezier(0.22,0.61,0.36,1)] sm:right-6 sm:top-24 lg:right-8 ${
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-[120%]'
         }`}
       >
-        <div className="absolute inset-0 backdrop-blur-sm transition-all" onClick={() => setIsMobileMenuOpen(false)}></div>
-        <div className="mobile-menu absolute top-0 right-0 w-64 bg-white shadow-card transition-transform duration-300 ease-in-out transform">
-          <MobileMenu onCloseMenu={() => setIsMobileMenuOpen(false)} />
-        </div>
+        <MobileMenu onCloseMenu={() => setIsMobileMenuOpen(false)} />
       </div>
     </header>
   );

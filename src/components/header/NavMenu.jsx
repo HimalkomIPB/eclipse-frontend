@@ -1,26 +1,23 @@
 import { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import { useFetchData } from "../../hooks/useAPI";
 
 /**
  * Menu navigasi untuk desktop view
  */
 const NavMenu = () => {
-  // Data untuk dropdown
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isInformasiOpen, setIsInformasiOpen] = useState(false);
   const [isDepartmentOpen, setIsDepartmentOpen] = useState(false);
   const [isCommunityOpen, setIsCommunityOpen] = useState(false);
 
-  // Fetch data dari API
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const { data: divisionsData } = useFetchData("divisions", baseUrl);
   const { data: communitiesData } = useFetchData("communities", baseUrl);
 
-  // Ekstrak data yang diperlukan
   const divisions = divisionsData?.divisions || [];
 
-  // Fallback untuk komunitas jika API gagal
   const defaultCommunities = [
     { name: "Agriux", slug: "agriux" },
     { name: "IWDC", slug: "iwdc" },
@@ -33,13 +30,11 @@ const NavMenu = () => {
   ];
   const communities = communitiesData?.communities || defaultCommunities;
 
-  // Refs untuk deteksi klik di luar dropdown
   const profileRef = useRef(null);
   const informasiRef = useRef(null);
   const departmentRef = useRef(null);
   const communityRef = useRef(null);
 
-  // Tutup dropdown
   const closeDropdowns = () => {
     setIsProfileOpen(false);
     setIsInformasiOpen(false);
@@ -47,11 +42,11 @@ const NavMenu = () => {
     setIsCommunityOpen(false);
   };
 
-  // Handle klik di luar dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setIsProfileOpen(false);
+        setIsDepartmentOpen(false);
       }
       if (
         departmentRef.current &&
@@ -69,233 +64,257 @@ const NavMenu = () => {
         setIsInformasiOpen(false);
       }
     };
-    if (isProfileOpen || isDepartmentOpen || isCommunityOpen || isInformasiOpen) {
+
+    if (
+      isProfileOpen ||
+      isDepartmentOpen ||
+      isCommunityOpen ||
+      isInformasiOpen
+    ) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
     }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isProfileOpen, isDepartmentOpen, isCommunityOpen, isInformasiOpen]);
 
+  const desktopLinkClass = ({ isActive }) =>
+    `relative text-[0.94rem] leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem] ${
+      isActive ? "font-semibold text-white" : "font-medium"
+    }`;
+
+  const desktopButtonClass =
+    "cursor-pointer text-[0.94rem] font-medium leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem]";
+
+  const dropdownPanelClass =
+    "absolute left-0 top-full z-40 mt-4 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64";
+
+  const dropdownLinkClass = ({ isActive }) =>
+    `block rounded-2xl px-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:bg-white/10 hover:text-white ${
+      isActive ? "bg-white/8 font-semibold text-white" : "font-normal"
+    }`;
+
+  const panelTransition = {
+    type: "spring",
+    stiffness: 420,
+    damping: 30,
+    mass: 0.9,
+  };
+
+  const panelVariants = {
+    hidden: { opacity: 0, y: -12, scale: 0.96 },
+    visible: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -10, scale: 0.97 },
+  };
+
+  const sidePanelVariants = {
+    hidden: { opacity: 0, x: -12, scale: 0.96 },
+    visible: { opacity: 1, x: 0, scale: 1 },
+    exit: { opacity: 0, x: -8, scale: 0.97 },
+  };
+
   return (
-    <nav className="flex items-center gap-14 font-athiti text-lg">
-      {/* Item Menu: Home */}
-      <NavLink
-        to="/home"
-        className={({ isActive }) => `
-          text-primary-darker transition-all duration-200
-          hover:text-primary-dark 
-          ${isActive ? "font-bold" : "font-medium"}
-        `}
-        onClick={closeDropdowns}
-      >
+    <nav className="flex items-center gap-8 font-montserrat 2xl:gap-10">
+      <NavLink to="/home" className={desktopLinkClass} onClick={closeDropdowns}>
         Home
       </NavLink>
 
-      {/* Item Menu: Profil (Dropdown) */}
       <div className="relative" ref={profileRef}>
         <button
-          className="text-primary-darker font-medium transition-all hover:text-primary-dark cursor-pointer"
-          onClick={() => setIsProfileOpen(!isProfileOpen)}
+          className={desktopButtonClass}
+          onClick={() => {
+            setIsProfileOpen(!isProfileOpen);
+            setIsDepartmentOpen(false);
+          }}
         >
           Profil
         </button>
 
-        {isProfileOpen && (
-          <div className="absolute mt-2 w-64 bg-white border border-primary rounded-md shadow-card z-40 py-2">
-            <NavLink
-              to="/himalkom"
-              className={({ isActive }) => `
-                block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
-                ${isActive ? "font-bold" : "font-normal"}
-              `}
-              onClick={closeDropdowns}
+        <AnimatePresence>
+          {isProfileOpen && (
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={panelVariants}
+              transition={panelTransition}
+              className={dropdownPanelClass}
+              style={{ transformOrigin: "top left" }}
             >
-              Himalkom
-            </NavLink>
-
-            {/* Departemen Button */}
-            <div ref={departmentRef}>
-              <button
-                className="w-full text-left px-4 py-2 text-primary-darker hover:bg-primary-light transition-all flex items-center justify-between"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsDepartmentOpen(!isDepartmentOpen);
-                }}
+              <NavLink
+                to="/himalkom"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
               >
-                <span>Departemen</span>
-                <svg
-                  className={`w-4 h-4 transition-transform duration-300 ${isDepartmentOpen ? "rotate-180" : ""
-                    }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
+                Himalkom
+              </NavLink>
 
-              {/* Departemen Dropdown */}
-              {isDepartmentOpen && (
-                <div className="absolute left-full top-12 w-64 bg-white border border-primary rounded-md shadow-card z-50 py-2">
-                  {divisions.length > 0 ? (
-                    divisions.map((division) => (
-                      <NavLink
-                        key={division.id || division.slug}
-                        to={`/division/${division.slug}`}
-                        className={({ isActive }) => `
-                          block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
-                          ${isActive ? "font-bold" : "font-normal"}
-                        `}
-                        onClick={closeDropdowns}
-                      >
-                        {division.abbreviation || division.name}
-                      </NavLink>
-                    ))
-                  ) : (
-                    <p className="px-4 py-2 text-gray-500 italic">Loading...</p>
+              <div ref={departmentRef} className="relative">
+                <button
+                  className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:bg-white/10 hover:text-white"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsDepartmentOpen(!isDepartmentOpen);
+                  }}
+                >
+                  <span>Departemen</span>
+                  <svg
+                    className={`h-4 w-4 transition-transform duration-300 ${
+                      isDepartmentOpen ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </button>
+
+                <AnimatePresence>
+                  {isDepartmentOpen && (
+                    <motion.div
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={sidePanelVariants}
+                      transition={panelTransition}
+                      className="absolute left-full top-0 z-50 ml-3 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64"
+                      style={{ transformOrigin: "top left" }}
+                    >
+                      {divisions.length > 0 ? (
+                        divisions.map((division) => (
+                          <NavLink
+                            key={division.id || division.slug}
+                            to={`/division/${division.slug}`}
+                            className={dropdownLinkClass}
+                            onClick={closeDropdowns}
+                          >
+                            {division.abbreviation || division.name}
+                          </NavLink>
+                        ))
+                      ) : (
+                        <p className="px-4 py-3 text-[0.95rem] italic text-white/60">
+                          Loading...
+                        </p>
+                      )}
+                    </motion.div>
                   )}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Item Menu: Komunitas (Dropdown) */}
       <div className="relative" ref={communityRef}>
         <button
-          className="text-primary-darker font-medium transition-all hover:text-primary-dark cursor-pointer"
+          className={desktopButtonClass}
           onClick={() => setIsCommunityOpen(!isCommunityOpen)}
         >
           Komunitas
         </button>
 
-        {isCommunityOpen && (
-          <div className="absolute mt-2 w-64 bg-white border border-primary rounded-md shadow-card z-40 py-2">
-            {communities.length > 0 ? (
-              communities.map((community) => (
-                <NavLink
-                  key={community.id || community.slug}
-                  to={`/community/${community.slug}`}
-                  className={({ isActive }) => `
-                    block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
-                    ${isActive ? "font-bold" : "font-normal"}
-                  `}
-                  onClick={closeDropdowns}
-                >
-                  {community.name}
-                </NavLink>
-              ))
-            ) : (
-              <p className="px-4 py-2 text-gray-500 italic">Loading...</p>
-            )}
-          </div>
-        )}
+        <AnimatePresence>
+          {isCommunityOpen && (
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={panelVariants}
+              transition={panelTransition}
+              className={dropdownPanelClass}
+              style={{ transformOrigin: "top left" }}
+            >
+              {communities.length > 0 ? (
+                communities.map((community) => (
+                  <NavLink
+                    key={community.id || community.slug}
+                    to={`/community/${community.slug}`}
+                    className={dropdownLinkClass}
+                    onClick={closeDropdowns}
+                  >
+                    {community.name}
+                  </NavLink>
+                ))
+              ) : (
+                <p className="px-4 py-3 text-[0.95rem] italic text-white/60">
+                  Loading...
+                </p>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Informasi */}
       <div className="relative" ref={informasiRef}>
         <button
-          className="text-primary-darker font-medium transition-all hover:text-primary-dark cursor-pointer"
+          className={desktopButtonClass}
           onClick={() => setIsInformasiOpen(!isInformasiOpen)}
         >
           Informasi
         </button>
 
-        {isInformasiOpen && (
-          <div className="absolute mt-2 w-64 bg-white border border-primary rounded-md shadow-card z-40 py-2">
-            <NavLink
-              to="/komnews"
-              className={({ isActive }) => `
-          block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
-          ${isActive ? "font-bold" : "font-normal"}
-        `}
-              onClick={closeDropdowns}
+        <AnimatePresence>
+          {isInformasiOpen && (
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={panelVariants}
+              transition={panelTransition}
+              className={dropdownPanelClass}
+              style={{ transformOrigin: "top left" }}
             >
-              Komnews
-            </NavLink>
+              <NavLink
+                to="/komnews"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
+              >
+                Komnews
+              </NavLink>
 
-            <NavLink
-              to="/galeri"
-              className={({ isActive }) => `
-          block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
-          ${isActive ? "font-bold" : "font-normal"}
-        `}
-              onClick={closeDropdowns}
-            >
-              Galeri
-            </NavLink>
+              <NavLink
+                to="/galeri"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
+              >
+                Galeri
+              </NavLink>
 
-            <NavLink
-              to="/jawara"
-              className={({ isActive }) => `
-          block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
-          ${isActive ? "font-bold" : "font-normal"}
-        `}
-              onClick={closeDropdowns}
-            >
-              Jawara
-            </NavLink>
+              <NavLink
+                to="/jawara"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
+              >
+                Jawara
+              </NavLink>
 
-            <NavLink
-              to="/prestasi"
-              className={({ isActive }) => `
-          block px-4 py-2 text-primary-darker hover:bg-primary-light transition-all
-          ${isActive ? "font-bold" : "font-normal"}
-        `}
-              onClick={closeDropdowns}
-            >
-              Prestasi
-            </NavLink>
-          </div>
-        )}
+              <NavLink
+                to="/prestasi"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
+              >
+                Prestasi
+              </NavLink>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Item Menu: Megaproker */}
       <NavLink
         to="/megaproker"
-        className={({ isActive }) => `
-          text-primary-darker transition-all duration-200
-          hover:text-primary-dark 
-          ${isActive ? "font-bold" : "font-medium"}
-        `}
+        className={desktopLinkClass}
         onClick={closeDropdowns}
       >
         Megaproker
-      </NavLink>
-
-      {/* Item Menu: Riset */}
-      <NavLink
-        to="/riset"
-        className={({ isActive }) => `
-          text-primary-darker transition-all duration-200
-          hover:text-primary-dark 
-          ${isActive ? "font-bold" : "font-medium"}
-        `}
-        onClick={closeDropdowns}
-      >
-        Riset
-      </NavLink>
-
-      {/* Item Menu: Syntax */}
-      <NavLink
-        to="/syntax"
-        className={({ isActive }) => `
-          text-primary-darker transition-all duration-200
-          hover:text-primary-dark 
-          ${isActive ? "font-bold" : "font-medium"}
-        `}
-        onClick={closeDropdowns}
-      >
-        Syntax
       </NavLink>
     </nav>
   );

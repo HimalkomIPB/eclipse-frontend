@@ -6,14 +6,9 @@ import TImages from '../../utils/images';
  * @param {string} title - Judul section
  * @param {string} altText - Alt text untuk gambar
  */
-const SectionHeader = ({ title, altText }) => (
-  <div className='flex flex-col items-center mb-10 lg:mb-10'>
-    <h1 className="text-3xl font-bold text-center text-[32px] leading-11">{title}</h1>
-    <img
-      src={TImages.DECORATIVE_ELEMENTS.GARIS_ILKOMMUNITY}
-      alt={altText}
-      className="w-[150px] mb-4"
-    />
+const SectionHeader = ({ title }) => (
+  <div className='mb-6 flex flex-col items-center md:mb-8'>
+    <h1 className="text-center text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">{title}</h1>
   </div>
 );
 
