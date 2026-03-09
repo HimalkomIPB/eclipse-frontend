@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useFetchData } from '@/hooks/useAPI';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import MotionReveal from '@/components/common/MotionReveal';
@@ -42,12 +43,12 @@ const ModalPorto = ({ porto, baseUrl, onClose }) => {
       />
 
       {/* Modal Card */}
-      <div className='relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-scale-in font-athiti'>
+      <div className='relative w-full max-w-4xl border border-white/15 bg-[linear-gradient(180deg,rgba(27,62,89,0.96)_0%,rgba(14,41,59,0.96)_100%)] rounded-2xl shadow-2xl overflow-hidden animate-scale-in font-athiti'>
         {/* Close Button */}
         <button
           onClick={onClose}
           aria-label='Tutup detail portofolio'
-          className='absolute top-3 right-3 rounded-full p-2 bg-white shadow hover:bg-gray-100 transition'
+          className='absolute top-3 right-3 rounded-full p-2 bg-white/10 text-white shadow hover:bg-white/20 transition'
         >
           <IoClose size={22} />
         </button>
@@ -75,16 +76,16 @@ const ModalPorto = ({ porto, baseUrl, onClose }) => {
           {/* Content */}
           <div className='flex flex-col p-6 overflow-y-auto custom-scrollbar'>
             {porto.author && (
-              <p className='text-sm text-gray-500 mb-2'>
-                Dibuat oleh <span className='font-bold'>{porto.author}</span>
+              <p className='text-sm text-white/70 mb-2'>
+                Dibuat oleh <span className='font-bold text-white'>{porto.author}</span>
               </p>
             )}
             {porto.description ? (
-              <p className='text-gray-700 leading-relaxed whitespace-pre-line text-[15px] md:text-base'>
+              <p className='text-white/85 leading-relaxed whitespace-pre-line text-[15px] md:text-base'>
                 {porto.description}
               </p>
             ) : (
-              <p className='italic text-gray-400'>Tidak ada deskripsi.</p>
+              <p className='italic text-white/60'>Tidak ada deskripsi.</p>
             )}
 
             {/* Actions */}
@@ -94,7 +95,7 @@ const ModalPorto = ({ porto, baseUrl, onClose }) => {
                   href={porto.link}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-dark text-white hover:bg-primary transition text-sm font-medium shadow'
+                  className='inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/15 bg-white/10 text-white hover:bg-white/20 transition text-sm font-medium shadow'
                 >
                   {porto.link.includes('github.com') ? (
                     <FaGithub size={16} />
@@ -110,7 +111,7 @@ const ModalPorto = ({ porto, baseUrl, onClose }) => {
               )}
               <button
                 onClick={onClose}
-                className='inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 hover:border-gray-400 text-gray-700 text-sm font-medium bg-white hover:bg-gray-50 transition'
+                className='inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/20 hover:border-white/40 text-white/80 text-sm font-medium bg-white/5 hover:bg-white/10 transition'
               >
                 Tutup
               </button>
@@ -124,13 +125,39 @@ const ModalPorto = ({ porto, baseUrl, onClose }) => {
 
 const PortoKomun = ({ slug, baseUrl }) => {
   const [selectedPorto, setSelectedPorto] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data, loading, error } = useFetchData(
     `communities/${slug}/portofolio`,
     baseUrl
   );
 
-  const openModal = (porto) => setSelectedPorto(porto);
-  const closeModal = () => setSelectedPorto(null);
+  const openModal = (porto) => {
+    setSelectedPorto(porto);
+    if (porto?.id) {
+      const params = new URLSearchParams(searchParams);
+      params.set('project', porto.id);
+      setSearchParams(params, { replace: true });
+    }
+  };
+  const closeModal = () => {
+    setSelectedPorto(null);
+    const params = new URLSearchParams(searchParams);
+    if (params.has('project')) {
+      params.delete('project');
+      setSearchParams(params, { replace: true });
+    }
+  };
+
+  useEffect(() => {
+    const projectId = searchParams.get('project');
+    if (!projectId || !data?.communityPortofolios?.length) return;
+    const match = data.communityPortofolios.find(
+      (porto) => String(porto.id) === String(projectId)
+    );
+    if (match) {
+      setSelectedPorto(match);
+    }
+  }, [data, searchParams]);
 
   if (loading) {
     return (
@@ -157,7 +184,7 @@ const PortoKomun = ({ slug, baseUrl }) => {
     data.communityPortofolios.length === 0
   ) {
     return (
-      <p className='text-center text-gray-500'>
+      <p className='text-center text-white/70'>
         Belum ada portofolio untuk komunitas ini.
       </p>
     );
@@ -179,7 +206,7 @@ const PortoKomun = ({ slug, baseUrl }) => {
                   openModal(porto);
                 }
               }}
-              className='bg-white rounded-xl shadow-card overflow-hidden hover:shadow-lg transition-all duration-300 hover:translate-y-[-5px] h-full flex flex-col cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark'
+              className='rounded-xl border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.92)_0%,rgba(14,41,59,0.94)_100%)] shadow-[0_18px_36px_rgba(2,14,26,0.22)] overflow-hidden transition-all duration-300 hover:translate-y-[-5px] h-full flex flex-col cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40'
               aria-label={`Lihat detail portofolio ${porto.name}`}
             >
               {/* Image dengan link dan overlay */}
@@ -202,18 +229,18 @@ const PortoKomun = ({ slug, baseUrl }) => {
 
               {/* Konten */}
               <div className='p-5 flex-1 flex flex-col'>
-                <h3 className='font-bold text-lg mb-2 text-primary-dark group-hover:text-primary transition-colors'>
+                <h3 className='font-bold text-lg mb-2 text-white group-hover:text-white transition-colors'>
                   {porto.name}
                 </h3>
 
                 {porto.description && (
-                  <p className='text-sm text-gray-600 mb-4 line-clamp-3 flex-1'>
+                  <p className='text-sm text-white/75 mb-4 line-clamp-3 flex-1'>
                     {porto.description}
                   </p>
                 )}
 
                 {porto.author && (
-                  <div className='flex items-center text-xs text-gray-500 mb-4'>
+                  <div className='flex items-center text-xs text-white/70 mb-4'>
                     <span className='font-medium mr-1'>Oleh:</span>{' '}
                     {porto.author}
                   </div>
@@ -221,12 +248,12 @@ const PortoKomun = ({ slug, baseUrl }) => {
 
                 {/* Actions di bagian bawah */}
                 {porto.link && (
-                  <div className='mt-auto pt-3 border-t border-gray-100 flex justify-end'>
+                  <div className='mt-auto pt-3 border-t border-white/10 flex justify-end'>
                     <a
                       href={porto.link}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='flex items-center gap-2 text-sm font-medium text-primary-dark hover:text-primary transition'
+                      className='flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white transition'
                       aria-label={`Buka tautan proyek ${porto.name}`}
                       onClick={(e) => e.stopPropagation()}
                       onKeyDown={(e) => e.stopPropagation()}

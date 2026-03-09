@@ -121,6 +121,9 @@ const NavMenu = () => {
       <NavLink to="/home" className={desktopLinkClass} onClick={closeDropdowns}>
         Home
       </NavLink>
+      <NavLink to="/explore" className={desktopLinkClass} onClick={closeDropdowns}>
+        Explore
+      </NavLink>
 
       <div className="relative" ref={profileRef}>
         <button
@@ -287,14 +290,6 @@ const NavMenu = () => {
                 onClick={closeDropdowns}
               >
                 Galeri
-              </NavLink>
-
-              <NavLink
-                to="/jawara"
-                className={dropdownLinkClass}
-                onClick={closeDropdowns}
-              >
-                Jawara
               </NavLink>
 
               <NavLink

@@ -7,13 +7,13 @@ import MotionReveal from '@/components/common/MotionReveal';
 
 /* Card untuk departemen (Komponen Internal)*/
 const DeptCard = ({ division, baseUrl }) => (
-  <div className="rounded-[15px] bg-white shadow-card flex flex-col items-center justify-evenly p-8 w-[170px] h-[240px] md:w-[240px] lg:h-[250px] lg:w-[270px] xl:w-[270px] xl:h-[300px]"> 
+  <div className="rounded-[15px] border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.92)_0%,rgba(14,41,59,0.94)_100%)] shadow-[0_18px_36px_rgba(2,14,26,0.22)] backdrop-blur-xl flex flex-col items-center justify-evenly p-8 w-[170px] h-[240px] md:w-[240px] lg:h-[250px] lg:w-[270px] xl:w-[270px] xl:h-[300px]"> 
     <img
       src={`${baseUrl}/storage/${division.logo}`}
       alt={division.name}
       className="w-[120px] h-[100px] "
     />
-    <h1 className="font-semibold text-sm md:text-2xl text-center pt-2 ">{division.name}</h1>
+    <h1 className="font-semibold text-sm md:text-2xl text-center pt-2 text-white">{division.name}</h1>
       <div className="mt-4">
         <ReadMoreButton to={`/division/${division.slug}`} />
       </div>

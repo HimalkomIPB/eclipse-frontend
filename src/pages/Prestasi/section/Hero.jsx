@@ -6,7 +6,7 @@ const Hero = () => (
     <section className="pb-4 md:pb-8 mb-2">
         <MotionReveal animation="fade-up">
             <SectionHeader title="Prestasi Ilkomerz" altText="Garis Prestasi" />
-            <p className="text-center max-w-2xl mx-auto text-lg text-primary-darker mb-4">
+            <p className="text-center max-w-2xl mx-auto text-lg text-white/80 mb-4">
                 Pusat Informasi Prestasi Ilkomerz
             </p>
         </MotionReveal>

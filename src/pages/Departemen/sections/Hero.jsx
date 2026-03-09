@@ -31,7 +31,7 @@ const HeroSection = ({ department, baseUrl }) => {
 
         {/* Department name and description */}
         <div className="flex flex-col items-start text-center sm:text-left mt-4 sm:mt-0">
-          <h1 className="max-w-xl text-start font-semibold md:pb-3 text-3xl md:text-4xl lg:text-[45px] leading-normal">
+          <h1 className="max-w-xl text-start font-semibold md:pb-3 text-3xl md:text-4xl lg:text-[45px] leading-normal text-white">
             {department?.abbreviation || department?.name || 'Departemen'}
           </h1>
           
@@ -45,7 +45,7 @@ const HeroSection = ({ department, baseUrl }) => {
           </div>
           
           {/* Department description */}
-          <p className="text-justify items-center max-w-sm sm:items-start sm:max-w-xl text-black text-[12px] sm:text-[17px] md:text-xl lg:text-2xl font-normal">
+          <p className="text-justify items-center max-w-sm sm:items-start sm:max-w-xl text-white/85 text-[12px] sm:text-[17px] md:text-xl lg:text-2xl font-normal">
             {department?.description || 'Deskripsi tidak tersedia'}
           </p>
         </div>

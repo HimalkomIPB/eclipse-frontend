@@ -54,7 +54,7 @@ const Komnews = () => {
             message="Memuat berita..."
           />
         ) : errorNews ? (
-          <div className="text-red-500 text-center py-8 bg-red-50 rounded-lg">
+          <div className="rounded-lg border border-red-400/30 bg-red-500/10 py-8 text-center text-red-100">
             <p>Gagal memuat berita</p>
             <p className="text-sm mt-2">{errorNews}</p>
           </div>

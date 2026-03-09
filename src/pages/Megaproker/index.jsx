@@ -32,9 +32,12 @@ const Megaproker = () => {
       {/* Megaproker */}
       <section className="w-full my-[150px] md:my-[300px] space-y-20">
         {megaprokers.map((megaprokers, index) => (
-          <MotionReveal animation="fade-up" delay={0.2}>
+          <MotionReveal
+            key={megaprokers.id || megaprokers.slug || `megaproker-${index}`}
+            animation="fade-up"
+            delay={0.2}
+          >
             <MegaprokerSection 
-              key={megaprokers.id || index} 
               megaprokers={megaprokers} 
               index={index} 
               baseUrl={baseUrl} 

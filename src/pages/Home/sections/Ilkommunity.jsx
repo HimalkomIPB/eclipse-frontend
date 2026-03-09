@@ -37,7 +37,7 @@ const CommunityCard = ({ community, loading, baseUrl }) => {
           className="h-[122px] w-[122px]"
         />
 
-        <h3 className="text-center text-2xl font-bold">{community.name}</h3>
+        <h3 className="mt-3 text-center text-2xl font-bold">{community.name}</h3>
 
         <div className="mb-auto hidden h-[120px] overflow-hidden lg:block">
           {loading ? (

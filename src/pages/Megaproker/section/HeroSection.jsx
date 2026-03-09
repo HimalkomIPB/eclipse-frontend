@@ -13,10 +13,10 @@ const HeroSection = () => (
         alt="Logo Megaproker"
         className="w-28 sm:w-40 md:w-60 xl:w-90"
       />
-      <div className="flex flex-col items-start text-center sm:text-left mt-4 sm:mt-0">
+      <div className="flex flex-col items-start text-center text-white sm:text-left mt-4 sm:mt-0">
         {/* Title */}
         <h1 className="max-w-xl text-start font-semibold md:pb-3 text-[18px] sm:text-2xl md:text-4xl lg:text-[45px] leading-normal">
-          MEGAPROKER HIMALKOM IPB UNIVERSITY 2024/2025
+          MEGAPROKER HIMALKOM IPB UNIVERSITY 2026/2027
         </h1>
         
         {/* Garis Dekoratif */}

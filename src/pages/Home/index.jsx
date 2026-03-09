@@ -1,4 +1,6 @@
+import { useEffect, useMemo, useState } from 'react';
 import MotionReveal from '@/components/common/MotionReveal';
+import axios from 'axios';
 
 // Custom hooks
 import { useFetchData } from '@/hooks/useAPI';
@@ -13,6 +15,7 @@ import About from './sections/About';
 import Ilkomunity from './sections/Ilkommunity';
 import Komnews from './sections/KomNews';
 import Megaproker from './sections/Megaproker';
+import GalleryMarquee from './sections/GalleryMarquee';
 
 /**
  * Home Page Component
@@ -38,6 +41,93 @@ const Home = () => {
     loading: loadingNews,
     error: errorNews
   } = useFetchData('komnews/home', baseUrl);
+
+  const {
+    data: galleriesData,
+  } = useFetchData('igalleries', baseUrl);
+  const [communityPortfolios, setCommunityPortfolios] = useState([]);
+
+  const galleryItems = useMemo(() => (
+    galleriesData?.igalleries
+      ? galleriesData.igalleries.flatMap(subject =>
+          (subject.i_galleries || []).map(gallery => ({
+            id: gallery.id,
+            name: gallery.name,
+            imageUrl: `${baseUrl}/storage/${gallery.image}`,
+            href: `/galeri/${gallery.id}`,
+            external: false,
+            subtitle: subject.name,
+          }))
+        )
+      : []
+  ), [galleriesData, baseUrl]);
+
+  const mapCommunityPorto = (porto, slug, label) => {
+    return {
+      id: porto.id ? `${slug}-${porto.id}` : `${slug}-${porto.name}`,
+      name: porto.name || 'Project',
+      imageUrl: `${baseUrl}/storage/${porto.image}`,
+      href: `/community/${slug}#portfolio`,
+      external: false,
+      subtitle: label,
+    };
+  };
+
+  const communitySlugKey = (communitiesData?.communities || [])
+    .map((community) => community.slug)
+    .join('|');
+
+  useEffect(() => {
+    if (!communitiesData?.communities?.length) {
+      setCommunityPortfolios([]);
+      return;
+    }
+
+    let cancelled = false;
+
+    const fetchCommunityPortfolios = async () => {
+      const results = await Promise.all(
+        communitiesData.communities.map(async (community) => {
+          try {
+            const response = await axios.get(
+              `${baseUrl}/communities/${community.slug}/portofolio`
+            );
+            const list = response.data?.communityPortofolios || [];
+            return list.map((porto) =>
+              mapCommunityPorto(porto, community.slug, community.name)
+            );
+          } catch (error) {
+            return [];
+          }
+        })
+      );
+
+      if (!cancelled) {
+        setCommunityPortfolios(results.flat());
+      }
+    };
+
+    fetchCommunityPortfolios();
+    return () => {
+      cancelled = true;
+    };
+  }, [baseUrl, communitySlugKey]);
+
+  const communityProjects = communityPortfolios;
+
+  const shuffleItems = (items) => {
+    const result = [...items];
+    for (let i = result.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  };
+
+  const marqueeItems = useMemo(
+    () => shuffleItems([...galleryItems, ...communityProjects]),
+    [galleryItems, communityProjects]
+  );
 
   const {
     currentIndex: currentNewsIndex,
@@ -100,6 +190,18 @@ const Home = () => {
           />
         </MotionReveal>
       </section>
+
+      {marqueeItems.length > 0 && (
+        <section className={`w-full ${sectionGapClass}`}>
+          <div className="px-4 sm:px-6 lg:px-8 xl:px-10">
+            <SectionHeader title="Community Projects" altText="Garis Community Projects" />
+            <p className="mt-3 text-center text-base text-white sm:text-lg">
+              "The world is but a canvas to our imagination." — Henry David Thoreau
+            </p>
+            <GalleryMarquee items={marqueeItems} />
+          </div>
+        </section>
+      )}
 
       <section className={`w-full ${sectionGapClass}`}>
         <MotionReveal animation="fade-up" className="px-4 sm:px-6 lg:px-8 xl:px-10">

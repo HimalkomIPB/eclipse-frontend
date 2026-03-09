@@ -40,8 +40,9 @@ const MegaprokerSection = ({ megaprokers, index, baseUrl }) => {
 
           {/* Konten */}
           <div className={`text-center ${isEven ? 'md:text-start md:place-items-start' : 'md:text-end md:place-items-end'} px-4 md:px-0`}>
+            <div className="rounded-[28px] border border-white/15 bg-[linear-gradient(180deg,rgba(27,62,89,0.9)_0%,rgba(14,41,59,0.94)_100%)] px-6 py-6 shadow-[0_18px_40px_rgba(2,14,26,0.24)] backdrop-blur-xl">
             <div className="place-items-center">
-              <h1 className="text-5xl lg:text-6xl font-bold mb-3 md:mb-4">{megaprokers.name}</h1>
+              <h1 className="text-5xl lg:text-6xl font-bold mb-3 md:mb-4 text-white">{megaprokers.name}</h1>
               <img
                 src={TImages.DECORATIVE_ELEMENTS.GARIS_HERO_ELEVOR}
                 alt="Garis Elevor"
@@ -49,15 +50,16 @@ const MegaprokerSection = ({ megaprokers, index, baseUrl }) => {
               />
             </div>
             <div className="py-5">
-              <p className="mb-4 text-2xl">{megaprokers.description}</p>
+              <p className="mb-4 text-2xl text-white/85">{megaprokers.description}</p>
             </div>
 
             <div className={`place-items-center mt-4 md:mt-6 ${isEven ? 'md:place-items-start' : 'md:place-items-end'}`}>
-              <h3 className="font-semibold text-4xl pb-4">DOKUMENTASI</h3>
+              <h3 className="font-semibold text-4xl pb-4 text-white">DOKUMENTASI</h3>
               {/* Tombol atau link dokumentasi */}
-              <div className="bg-white w-[155px] rounded-[3px]">
+              <div className="glass-btn w-[155px] rounded-full p-1 inline-flex justify-center">
                 <ReadMoreButton to={megaprokers.video_url} newTab="True"/>
               </div>
+            </div>
             </div>
           </div>
       </div>

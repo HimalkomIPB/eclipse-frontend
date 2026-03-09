@@ -16,16 +16,16 @@ const GaleriFilter = ({ subjects, activeSubject, setActiveSubject }) => {
 
   return (
     <div className="mb-8">
-      <h3 className="text-xl font-semibold mb-4">Daftar Mata Kuliah</h3>
+      <h3 className="text-xl font-semibold mb-4 text-white">Daftar Mata Kuliah</h3>
       
       <div className="flex flex-wrap gap-2 mb-6">
         {/* All subjects option */}
         <button
           onClick={() => setActiveSubject('all')}
-          className={`px-3 py-2 shadow-card bg-white rounded-md cursor-pointer transition-colors
+          className={`px-3 py-2 rounded-md cursor-pointer transition-colors border border-white/12 bg-white/6 text-white/80
             ${activeSubject === 'all' 
-              ? 'bg-primary-dark text-white font-medium' 
-              : 'hover:bg-primary-light'
+              ? 'bg-white/14 text-white border-white/30 font-medium' 
+              : 'hover:bg-white/10 hover:text-white'
             }`}
         >
           Semua
@@ -35,10 +35,10 @@ const GaleriFilter = ({ subjects, activeSubject, setActiveSubject }) => {
         {subjects.map((subject) => (
           <button
             key={`subject-${subject.id}`}
-            className={`px-3 py-2 shadow-card bg-white rounded-md cursor-pointer transition-colors
+            className={`px-3 py-2 rounded-md cursor-pointer transition-colors border border-white/12 bg-white/6 text-white/80
               ${activeSubject === subject.id || activeSubject === subject.name
-                ? 'bg-primary-dark text-white font-medium' 
-                : 'hover:bg-primary-light'
+                ? 'bg-white/14 text-white border-white/30 font-medium' 
+                : 'hover:bg-white/10 hover:text-white'
               }`}
             onClick={() => setActiveSubject(subject.id)}
           >

@@ -35,6 +35,7 @@ body {
   width: 100%;
   min-height: 100%;
   background-color: #0E293B;
+  color: #ffffff;
 }
 
 #root {
@@ -49,6 +50,10 @@ body {
 
 .shadow-card-hover {
   box-shadow: var(--shadow-card-hover);
+}
+
+.text-shadow-soft {
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
 }
 
 .bg-primary {
@@ -131,7 +136,7 @@ body {
 .news-content figcaption {
     text-align: center;
     font-size: 0.875rem;
-    color: #6b7280;
+    color: rgba(255, 255, 255, 0.7);
     margin-top: 0.5rem;
 }
 
@@ -189,6 +194,87 @@ button:active {
   filter: blur(1.5px);
   transform: translateZ(0);
 }
+
+.gallery-marquee {
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  padding-top: 5rem;
+  --marquee-duration: 48s;
+}
+
+.marquee-row {
+  position: relative;
+  overflow: visible;
+  width: 100%;
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: max-content;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.marquee-row:hover .marquee-track,
+.marquee-row:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.marquee-item:hover {
+  z-index: 3;
+}
+
+.marquee-tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translate(-50%, 6px);
+  min-width: 160px;
+  max-width: 220px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(180deg, rgba(27, 62, 89, 0.96) 0%, rgba(14, 41, 59, 0.96) 100%);
+  box-shadow: 0 16px 30px rgba(2, 14, 26, 0.28);
+  backdrop-filter: blur(16px);
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+  text-align: center;
+}
+
+.marquee-item:hover .marquee-tooltip,
+.marquee-item:focus-within .marquee-tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.marquee-left .marquee-track {
+  animation: marquee-left var(--marquee-duration) linear infinite;
+}
+
+.marquee-right .marquee-track {
+  animation: marquee-left var(--marquee-duration) linear infinite reverse;
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 
 .starfield {
   position: absolute;
