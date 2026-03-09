@@ -41,10 +41,10 @@ const MobileMenu = ({ onCloseMenu }) => {
 
   // Modifikasi CSS di item menu:
   const menuItemClass = (isActive) => `
-    block py-2 px-3 rounded-md transition text-primary-darker
+    block py-2 px-3 rounded-md transition text-white
     transform transition-all duration-300
     ${animateItems ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'}
-    ${isActive ? 'bg-primary-light font-semibold' : 'hover:bg-primary-light/50'}
+    ${isActive ? 'bg-primary-light/30 font-semibold' : 'hover:bg-primary-light/20'}
   `;
 
   return (
@@ -66,7 +66,7 @@ const MobileMenu = ({ onCloseMenu }) => {
         {/* Profile Dropdown */}
         <div className="px-2 py-1 border-b border-gray-100">
           <button 
-            className="flex items-center justify-between w-full py-2 px-3 rounded-md text-left text-primary-darker hover:bg-primary-light/50 transition"
+            className="flex items-center justify-between w-full py-2 px-3 rounded-md text-left text-white hover:bg-primary-light/20 transition"
             onClick={() => toggleSection('profile')}
           >
             <span>Profil</span>
@@ -93,7 +93,7 @@ const MobileMenu = ({ onCloseMenu }) => {
               
               {/* Departemen */}
               <div className="mt-1 mb-2">
-                <h4 className="px-3 py-1 text-sm font-medium text-gray-500">Departemen:</h4>
+                <h4 className="px-3 py-1 text-sm font-medium text-white/80">Departemen:</h4>
                 <div className="pl-2">
                   {divisions.length > 0 ? (
                     divisions.map((division, index) => (
@@ -108,7 +108,7 @@ const MobileMenu = ({ onCloseMenu }) => {
                       </NavLink>
                     ))
                   ) : (
-                    <p className="px-3 py-1 text-sm text-gray-500 italic">Loading...</p>
+                    <p className="px-3 py-1 text-sm text-white/70 italic">Loading...</p>
                   )}
                 </div>
               </div>
@@ -119,7 +119,7 @@ const MobileMenu = ({ onCloseMenu }) => {
         {/* Community Dropdown */}
         <div className="px-2 py-1 border-b border-gray-100">
           <button 
-            className="flex items-center justify-between w-full py-2 px-3 rounded-md text-left text-primary-darker hover:bg-primary-light/50 transition"
+            className="flex items-center justify-between w-full py-2 px-3 rounded-md text-left text-white hover:bg-primary-light/20 transition"
             onClick={() => toggleSection('community')}
           >
             <span>Komunitas</span>
@@ -148,7 +148,7 @@ const MobileMenu = ({ onCloseMenu }) => {
                   </NavLink>
                 ))
               ) : (
-                <p className="px-3 py-1 text-sm text-gray-500 italic">Loading...</p>
+                <p className="px-3 py-1 text-sm text-white/70 italic">Loading...</p>
               )}
             </div>
           )}
@@ -157,7 +157,7 @@ const MobileMenu = ({ onCloseMenu }) => {
         {/* Informasi */}
         <div className="px-2 py-1 border-b border-gray-100">
           <button 
-            className="flex items-center justify-between w-full py-2 px-3 rounded-md text-left text-primary-darker hover:bg-primary-light/50 transition"
+            className="flex items-center justify-between w-full py-2 px-3 rounded-md text-left text-white hover:bg-primary-light/20 transition"
             onClick={() => toggleSection('informasi')}
           >
             <span>Informasi</span>

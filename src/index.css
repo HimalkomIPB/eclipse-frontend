@@ -11,7 +11,8 @@
   --color-primary-darker: #2B4248;
   
   /* Shadows */
-  --shadow-card: 0px 0px 8px 0.3px #AFE1EA;
+  --shadow-card: -8px 8px 8px 0px #00000040;
+
   --shadow-card-hover: 0px 0px 12px 0.5px #5CA6B3;
 }
 
@@ -29,10 +30,19 @@
 html,
 body {
   font-family: 'Athiti', sans-serif;
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: #0E293B;
+}
+
+#root {
+  min-height: 100%;
 }
 
 /* UTILITY CLASSES */
 .shadow-card {
+  background: #FFFFFF1A;
   box-shadow: var(--shadow-card);
 }
 
@@ -57,7 +67,7 @@ body {
 }
 
 .text-primary {
-  color: var(--color-primary);
+  color: white;
 }
 
 .text-primary-dark {
@@ -115,5 +125,15 @@ body {
 /* Global Styling */
 body {
   overflow-x: hidden;
-  width: 100%;
+}
+
+.komnews-swiper .swiper-slide {
+  opacity: 0.35;
+  transform: scale(0.9);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.komnews-swiper .swiper-slide-active {
+  opacity: 1;
+  transform: scale(1);
 }

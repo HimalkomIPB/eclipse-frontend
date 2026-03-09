@@ -20,7 +20,7 @@ import MotionReveal from '@/components/common/MotionReveal';
 const MegaprokerCard = ({ megaproker, baseUrl }) => (
   <MotionReveal animation="fade-up" delay={0.2}>
     <div
-      className=" w-[320px] h-[180px] md:w-[390px] md:h-[220px] lg:w-[400px] lg:h-[274px] xl:w-[557px] rounded-[15px] bg-white shadow-card flex items-center justify-between md:justify-evenly p-5"
+      className="w-[320px] h-[180px] md:w-[390px] md:h-[220px] lg:w-[400px] lg:h-[274px] xl:w-[557px] rounded-[15px] bg-white/10 backdrop-blur-md border border-white/20 shadow-card flex items-center justify-between md:justify-evenly p-5"
     >
       {/* Logo megaproker - container dengan ukuran tetap */}
       <div className="flex justify-center items-center h-full ">
@@ -37,7 +37,7 @@ const MegaprokerCard = ({ megaproker, baseUrl }) => (
       
       {/* Informasi dan tombol navigasi */}
       <div className='flex flex-col items-center justify-center gap-4 h-full'>
-        <h3 className="font-bold text-xl md:text-2xl text-center">{megaproker.name}</h3>
+        <h3 className="font-bold text-white text-xl md:text-2xl text-center">{megaproker.name}</h3>
         <ReadMoreButton to={`/megaproker/`} />
       </div>
     </div>
