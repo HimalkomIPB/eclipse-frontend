@@ -4,7 +4,6 @@ import { useFetchData } from '../../hooks/useAPI';
 import { FaFacebook, FaInstagram, FaYoutube, FaXTwitter } from "react-icons/fa6";
 
 const MobileMenu = ({ onCloseMenu }) => {
-  // State untuk expand/collapse submenu
   const [expandedSections, setExpandedSections] = useState({
     profile: false,
     community: false,
@@ -12,17 +11,15 @@ const MobileMenu = ({ onCloseMenu }) => {
   });
 
   const [animateItems, setAnimateItems] = useState(false);
-  
-  // Trigger animations after component mounts
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setAnimateItems(true);
     }, 100);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
-  // Toggle section expand/collapse
   const toggleSection = (section) => {
     setExpandedSections(prev => ({
       ...prev,
@@ -30,31 +27,25 @@ const MobileMenu = ({ onCloseMenu }) => {
     }));
   };
 
-  // API data
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const { data: divisionsData } = useFetchData('divisions', baseUrl);
   const { data: communitiesData } = useFetchData('communities', baseUrl);
 
-  // Pastikan ada data atau fallback ke array kosong
   const divisions = divisionsData?.divisions || [];
   const communities = communitiesData?.communities || [];
 
-  // Modifikasi CSS di item menu:
   const menuItemClass = (isActive) => `
-    block py-2 px-3 rounded-md transition text-white
-    transform transition-all duration-300
+    block rounded-xl px-3 py-2.5 text-white transition-all duration-300
     ${animateItems ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'}
-    ${isActive ? 'bg-primary-light/30 font-semibold' : 'hover:bg-primary-light/20'}
+    ${isActive ? 'bg-white/14 font-semibold' : 'hover:bg-white/10'}
   `;
 
   return (
-    <div className="fixed top-16 right-0 w-64 bg-white shadow-card rounded-bl-lg z-50">
-      <div className="flex flex-col py-2 max-h-[80vh] overflow-y-auto">
-        
-        {/* Menu items */}
-        <div className="px-2 py-1 border-b border-gray-100">
-          <NavLink 
-            to="/home" 
+    <div className="fixed right-0 top-0 z-50 w-full rounded-[1.75rem] border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl">
+      <div className="flex max-h-[min(70vh,34rem)] flex-col overflow-y-auto px-3 py-3 sm:px-4">
+        <div className="border-b border-white/10 px-1 pb-2">
+          <NavLink
+            to="/home"
             className={({isActive}) => menuItemClass(isActive)}
             onClick={onCloseMenu}
             style={{ transitionDelay: '100ms' }}
@@ -63,26 +54,25 @@ const MobileMenu = ({ onCloseMenu }) => {
           </NavLink>
         </div>
 
-        {/* Profile Dropdown */}
-        <div className="px-2 py-1 border-b border-gray-100">
-          <button 
-            className="flex items-center justify-between w-full py-2 px-3 rounded-md text-left text-white hover:bg-primary-light/20 transition"
+        <div className="border-b border-white/10 px-1 py-2">
+          <button
+            className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-white transition hover:bg-white/10"
             onClick={() => toggleSection('profile')}
           >
             <span>Profil</span>
-            <svg 
-              className={`w-4 h-4 transition-transform ${expandedSections.profile ? 'rotate-180' : ''}`} 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              className={`h-4 w-4 transition-transform ${expandedSections.profile ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
-          
+
           {expandedSections.profile && (
-            <div className="pl-3 my-1 border-l-2 border-primary ml-3">
-              <NavLink 
+            <div className="ml-3 my-1 border-l-2 border-white/20 pl-3">
+              <NavLink
                 to="/himalkom"
                 className={({isActive}) => menuItemClass(isActive)}
                 onClick={onCloseMenu}
@@ -90,10 +80,9 @@ const MobileMenu = ({ onCloseMenu }) => {
               >
                 Himalkom
               </NavLink>
-              
-              {/* Departemen */}
-              <div className="mt-1 mb-2">
-                <h4 className="px-3 py-1 text-sm font-medium text-white/80">Departemen:</h4>
+
+              <div className="mb-2 mt-1">
+                <h4 className="px-3 py-1 text-sm font-medium text-white/70">Departemen:</h4>
                 <div className="pl-2">
                   {divisions.length > 0 ? (
                     divisions.map((division, index) => (
@@ -108,7 +97,7 @@ const MobileMenu = ({ onCloseMenu }) => {
                       </NavLink>
                     ))
                   ) : (
-                    <p className="px-3 py-1 text-sm text-white/70 italic">Loading...</p>
+                    <p className="px-3 py-1 text-sm italic text-white/60">Loading...</p>
                   )}
                 </div>
               </div>
@@ -116,17 +105,16 @@ const MobileMenu = ({ onCloseMenu }) => {
           )}
         </div>
 
-        {/* Community Dropdown */}
-        <div className="px-2 py-1 border-b border-gray-100">
-          <button 
-            className="flex items-center justify-between w-full py-2 px-3 rounded-md text-left text-white hover:bg-primary-light/20 transition"
+        <div className="border-b border-white/10 px-1 py-2">
+          <button
+            className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-white transition hover:bg-white/10"
             onClick={() => toggleSection('community')}
           >
             <span>Komunitas</span>
-            <svg 
-              className={`w-4 h-4 transition-transform ${expandedSections.community ? 'rotate-180' : ''}`} 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              className={`h-4 w-4 transition-transform ${expandedSections.community ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
@@ -134,7 +122,7 @@ const MobileMenu = ({ onCloseMenu }) => {
           </button>
 
           {expandedSections.community && (
-            <div className="pl-3 my-1 border-l-2 border-primary ml-3">
+            <div className="ml-3 my-1 border-l-2 border-white/20 pl-3">
               {communities.length > 0 ? (
                 communities.map((community, index) => (
                   <NavLink
@@ -148,32 +136,31 @@ const MobileMenu = ({ onCloseMenu }) => {
                   </NavLink>
                 ))
               ) : (
-                <p className="px-3 py-1 text-sm text-white/70 italic">Loading...</p>
+                <p className="px-3 py-1 text-sm italic text-white/60">Loading...</p>
               )}
             </div>
           )}
         </div>
-        
-        {/* Informasi */}
-        <div className="px-2 py-1 border-b border-gray-100">
-          <button 
-            className="flex items-center justify-between w-full py-2 px-3 rounded-md text-left text-white hover:bg-primary-light/20 transition"
+
+        <div className="border-b border-white/10 px-1 py-2">
+          <button
+            className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-white transition hover:bg-white/10"
             onClick={() => toggleSection('informasi')}
           >
             <span>Informasi</span>
-            <svg 
-              className={`w-4 h-4 transition-transform ${expandedSections.informasi ? 'rotate-180' : ''}`} 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              className={`h-4 w-4 transition-transform ${expandedSections.informasi ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
-          
+
           {expandedSections.informasi && (
-            <div className="pl-3 my-1 border-l-2 border-primary ml-3">
-              <NavLink 
+            <div className="ml-3 my-1 border-l-2 border-white/20 pl-3">
+              <NavLink
                 to="/komnews"
                 className={({isActive}) => menuItemClass(isActive)}
                 onClick={onCloseMenu}
@@ -181,7 +168,7 @@ const MobileMenu = ({ onCloseMenu }) => {
               >
                 Komnews
               </NavLink>
-              <NavLink 
+              <NavLink
                 to="/galeri"
                 className={({isActive}) => menuItemClass(isActive)}
                 onClick={onCloseMenu}
@@ -189,7 +176,7 @@ const MobileMenu = ({ onCloseMenu }) => {
               >
                 Galeri
               </NavLink>
-              <NavLink 
+              <NavLink
                 to="/Jawara"
                 className={({isActive}) => menuItemClass(isActive)}
                 onClick={onCloseMenu}
@@ -197,7 +184,7 @@ const MobileMenu = ({ onCloseMenu }) => {
               >
                 Jawara
               </NavLink>
-              <NavLink 
+              <NavLink
                 to="/Prestasi"
                 className={({isActive}) => menuItemClass(isActive)}
                 onClick={onCloseMenu}
@@ -207,76 +194,72 @@ const MobileMenu = ({ onCloseMenu }) => {
               </NavLink>
             </div>
           )}
-        </div> 
+        </div>
 
-        {/* Other Menu Items */}
-        <div className="px-2 py-1">
-          <NavLink 
-            to="/megaproker" 
+        <div className="px-1 py-2">
+          <NavLink
+            to="/megaproker"
             className={({isActive}) => menuItemClass(isActive)}
             onClick={onCloseMenu}
           >
             Megaproker
           </NavLink>
-          
-          <NavLink 
-            to="/riset" 
+
+          <NavLink
+            to="/riset"
             className={({isActive}) => menuItemClass(isActive)}
             onClick={onCloseMenu}
           >
             Riset
           </NavLink>
-          
-          <NavLink 
-            to="/syntax" 
+
+          <NavLink
+            to="/syntax"
             className={({isActive}) => menuItemClass(isActive)}
             onClick={onCloseMenu}
           >
             Syntax
           </NavLink>
-
         </div>
 
-        {/* Social Media */}
-        <div className="mt-2 pt-3 border-t border-gray-200 px-4">
-          <div className="flex justify-center space-x-5 mb-3">
-            <a 
-              href="https://www.facebook.com/himalkom/?locale=id_ID" 
-              className="text-gray-600 hover:text-blue-600 transition" 
-              target="_blank" 
+        <div className="mt-2 border-t border-white/10 px-3 pb-1 pt-4">
+          <div className="mb-3 flex justify-center space-x-5">
+            <a
+              href="https://www.facebook.com/himalkom/?locale=id_ID"
+              className="text-white/70 transition hover:text-white"
+              target="_blank"
               rel="noopener noreferrer"
             >
               <FaFacebook size={18} />
             </a>
-            <a 
-              href="https://www.instagram.com/himalkomipb/" 
-              className="text-gray-600 hover:text-pink-600 transition" 
-              target="_blank" 
+            <a
+              href="https://www.instagram.com/himalkomipb/"
+              className="text-white/70 transition hover:text-white"
+              target="_blank"
               rel="noopener noreferrer"
             >
               <FaInstagram size={18} />
             </a>
-            <a 
-              href="https://twitter.com/HimalkomIPB" 
-              className="text-gray-600 hover:text-gray-800 transition" 
-              target="_blank" 
+            <a
+              href="https://twitter.com/HimalkomIPB"
+              className="text-white/70 transition hover:text-white"
+              target="_blank"
               rel="noopener noreferrer"
             >
               <FaXTwitter size={18} />
             </a>
-            <a 
-              href="https://www.youtube.com/@himalkomipb4653" 
-              className="text-gray-600 hover:text-red-600 transition" 
-              target="_blank" 
+            <a
+              href="https://www.youtube.com/@himalkomipb4653"
+              className="text-white/70 transition hover:text-white"
+              target="_blank"
               rel="noopener noreferrer"
             >
               <FaYoutube size={18} />
             </a>
           </div>
 
-          {/* Copyright */}
-          <p className="text-[10px] text-center text-gray-500 mb-2">
-            © Himalkom 2025. All rights reserved.
+          <p className="mb-2 text-center text-[10px] text-white/45">
+            Copyright © Himalkom 2026. All rights reserved.
           </p>
         </div>
       </div>

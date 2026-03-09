@@ -48,8 +48,8 @@ importers:
         specifier: ^0.15.0
         version: 0.15.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       swiper:
-        specifier: ^11.2.6
-        version: 11.2.6
+        specifier: ^12.1.2
+        version: 12.1.2
       tailwindcss:
         specifier: ^4.0.11
         version: 4.0.15
@@ -891,8 +891,8 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
-  swiper@11.2.6:
-    resolution: {integrity: sha512-8aXpYKtjy3DjcbzZfz+/OX/GhcU5h+looA6PbAzHMZT6ESSycSp9nAjPCenczgJyslV+rUGse64LMGpWE3PX9Q==}
+  swiper@12.1.2:
+    resolution: {integrity: sha512-4gILrI3vXZqoZh71I1PALqukCFgk+gpOwe1tOvz5uE9kHtl2gTDzmYflYCwWvR4LOvCrJi6UEEU+gnuW5BtkgQ==}
     engines: {node: '>= 4.7.0'}
 
   tailwindcss@4.0.15:
@@ -1660,7 +1660,7 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
-  swiper@11.2.6: {}
+  swiper@12.1.2: {}
 
   tailwindcss@4.0.15: {}
 

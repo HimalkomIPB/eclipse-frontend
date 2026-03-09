@@ -6,15 +6,17 @@ const MainLayout = ({ children }) => {
     <div
       className="relative min-h-screen flex-1 overflow-x-hidden md:pt-14 lg:pt-20"
       style={{
-        backgroundImage: `url(${bgStars})`,
         backgroundColor: '#0E293B',
-        backgroundSize: '100% 100%',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center top',
-        backgroundAttachment: 'scroll',
       }}
     >
-      <div className="relative overflow-hidden">
+      <div
+        className="page-bg-blur"
+        style={{
+          backgroundImage: `url(${bgStars})`,
+        }}
+        aria-hidden="true"
+      ></div>
+      <div className="relative z-10 overflow-hidden">
         {children}
       </div>
     </div>

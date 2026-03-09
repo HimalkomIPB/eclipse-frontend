@@ -5,25 +5,13 @@ import MotionReveal from '@/components/common/MotionReveal';
 
 /**
  * MegaprokerCard Component
- * 
- * Menampilkan informasi untuk satu program kerja utama dalam bentuk card
- * dengan logo dan navigasi ke halaman detail
- * 
- * @param {Object} props
- * @param {Object} props.megaproker - Data megaproker dari API
- * @param {string} props.megaproker.name - Nama megaproker
- * @param {string} props.megaproker.logo - Path ke logo megaproker
- * @param {string} props.megaproker.slug - Slug untuk navigasi
- * @param {string} props.baseUrl - URL dasar API untuk assets
- * @returns {JSX.Element}
  */
 const MegaprokerCard = ({ megaproker, baseUrl }) => (
   <MotionReveal animation="fade-up" delay={0.2}>
     <div
-      className="w-[320px] h-[180px] md:w-[390px] md:h-[220px] lg:w-[400px] lg:h-[274px] xl:w-[557px] rounded-[15px] bg-white/10 backdrop-blur-md border border-white/20 shadow-card flex items-center justify-between md:justify-evenly p-5"
+      className="h-[180px] w-[320px] rounded-[15px] border border-white/20 bg-white/10 p-5 shadow-card backdrop-blur-md flex items-center justify-between md:h-[220px] md:w-[390px] md:justify-evenly lg:h-[274px] lg:w-[400px] xl:w-[557px]"
     >
-      {/* Logo megaproker - container dengan ukuran tetap */}
-      <div className="flex justify-center items-center h-full ">
+      <div className="flex h-full items-center justify-center">
         <img
           src={`${baseUrl}/storage/${megaproker.logo}`}
           alt={megaproker.name}
@@ -34,53 +22,35 @@ const MegaprokerCard = ({ megaproker, baseUrl }) => (
           }}
         />
       </div>
-      
-      {/* Informasi dan tombol navigasi */}
-      <div className='flex flex-col items-center justify-center gap-4 h-full'>
-        <h3 className="font-bold text-white text-xl md:text-2xl text-center">{megaproker.name}</h3>
+
+      <div className='flex h-full flex-col items-center justify-center gap-4'>
+        <h3 className="text-center text-xl font-bold text-white md:text-2xl">{megaproker.name}</h3>
         <ReadMoreButton to={`/megaproker/`} />
       </div>
     </div>
   </MotionReveal>
 );
 
-/**
- * Megaproker Section Component
- * 
- * Menampilkan daftar program kerja utama HIMALKOM
- * dalam layout grid responsif dengan 1 kolom (mobile) atau 2 kolom (desktop)
- * 
- * @param {Object} props
- * @param {Object} props.megaprokerData - Data megaproker dari API
- * @param {Array} props.megaprokerData.megaprokers - Daftar megaproker
- * @param {boolean} props.loadingMegaproker - Status loading data
- * @param {string|null} props.errorMegaproker - Pesan error jika ada
- * @param {string} props.baseUrl - URL dasar API untuk assets
- * @returns {JSX.Element|null}
- */
 const Megaproker = ({ megaprokerData, loadingMegaproker, errorMegaproker, baseUrl }) => {
-  // Handle loading state
   if (loadingMegaproker) {
     return <LoadingSpinner variant="section" message="Memuat megaproker..." />;
   }
-  
-  // Handle error state
+
   if (errorMegaproker) {
-    return <p className="text-red-500 font-bold text-xl text-center">Error: {errorMegaproker}</p>;
+    return <p className="text-center text-xl font-bold text-red-500">Error: {errorMegaproker}</p>;
   }
-  
-  // Handle empty data
+
   if (!megaprokerData?.megaprokers || megaprokerData.megaprokers.length === 0) {
-    return <p className="text-center text-gray-500 my-8">Tidak ada data megaproker</p>;
+    return <p className="my-8 text-center text-gray-500">Tidak ada data megaproker</p>;
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-18 justify-items-center mx-auto max-w-6xl py-8">
+    <div className="mx-auto grid max-w-6xl grid-cols-1 justify-items-center gap-6 py-4 md:py-5 lg:grid-cols-2 lg:gap-10 lg:py-6">
       {megaprokerData.megaprokers.map((megaproker) => (
-        <MegaprokerCard 
-          key={megaproker.id || `megaproker-${megaproker.slug}`} 
-          megaproker={megaproker} 
-          baseUrl={baseUrl} 
+        <MegaprokerCard
+          key={megaproker.id || `megaproker-${megaproker.slug}`}
+          megaproker={megaproker}
+          baseUrl={baseUrl}
         />
       ))}
     </div>

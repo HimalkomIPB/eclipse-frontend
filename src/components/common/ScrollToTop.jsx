@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 /**
@@ -9,13 +9,25 @@ import { useLocation } from 'react-router-dom';
  */
 function ScrollToTop() {
   const { pathname } = useLocation();
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      return;
+    }
+
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   }, [pathname]);
+
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'auto';
+    }
+  }, []);
 
   return null;
 }

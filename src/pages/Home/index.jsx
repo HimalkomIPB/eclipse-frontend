@@ -16,20 +16,11 @@ import Megaproker from './sections/Megaproker';
 
 /**
  * Home Page Component
- * 
- * Main landing page of HIMALKOM website featuring:
- * - Hero section
- * - Communities section
- * - Major programs/events section
- * - Latest news section
- * 
- * @returns {JSX.Element}
  */
 const Home = () => {
-  const sectionGapClass = 'mt-32 md:mt-24 lg:mt-64 mb-32 md:mb-24 lg:mb-64';
+  const sectionGapClass = 'mt-16 md:mt-20 lg:mt-24 mb-16 md:mb-20 lg:mb-24';
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
-  // Fetch all required data using custom hook
   const {
     data: communitiesData,
     loading: loadingCommunities,
@@ -48,7 +39,6 @@ const Home = () => {
     error: errorNews
   } = useFetchData('komnews/home', baseUrl);
 
-  // Initialize carousels with custom hook
   const {
     currentIndex: currentNewsIndex,
     goToSlide: goToNewsSlide
@@ -61,8 +51,7 @@ const Home = () => {
   } = useCarousel(communitiesData?.communities);
 
   return (
-    <div className="w-full">
-      {/* Hero Section */}
+    <div className="w-full pb-20 md:pb-24 lg:pb-28">
       <section className="w-full">
         <MotionReveal animation="fade-up">
           <HeroSection />
@@ -74,16 +63,15 @@ const Home = () => {
           <About />
         </MotionReveal>
       </section>
-      
-      {/* Megaproker Section */}
-      <section className={`px-4 flex flex-col items-center ${sectionGapClass}`}>
+
+      <section className={`flex w-full flex-col items-center px-4 ${sectionGapClass}`}>
         <MotionReveal animation="fade-up">
           <SectionHeader
             title="MEGAPROKER"
             altText="Program Kerja Utama"
           />
         </MotionReveal>
-        <MotionReveal animation="fade-up" delay={0.2}>
+        <MotionReveal animation="fade-up" delay={0.2} className="w-full">
           <Megaproker
             megaprokerData={megaprokerData}
             loadingMegaproker={loadingMegaproker}
@@ -93,13 +81,14 @@ const Home = () => {
         </MotionReveal>
       </section>
 
-      {/* Ilkomunity Section */}
-      <section className={`px-4 flex flex-col items-center text-center ${sectionGapClass}`}>
+      <section className={`flex w-full flex-col items-center px-4 text-center ${sectionGapClass}`}>
         <MotionReveal animation="fade-up">
           <SectionHeader
             title="ILKOMUNITY"
             altText="Komunitas Ilmu Komputer"
           />
+        </MotionReveal>
+        <MotionReveal animation="fade-up" className="w-full" delay={0.15}>
           <Ilkomunity
             communitiesData={communitiesData}
             loadingCommunities={loadingCommunities}
@@ -112,13 +101,14 @@ const Home = () => {
         </MotionReveal>
       </section>
 
-      {/* Komnews Section */}
-      <section className={sectionGapClass}>
-        <MotionReveal animation="fade-up">
+      <section className={`w-full ${sectionGapClass}`}>
+        <MotionReveal animation="fade-up" className="px-4 sm:px-6 lg:px-8 xl:px-10">
           <SectionHeader
             title="KOMNEWS"
             altText="Berita dan Aktivitas Terkini"
           />
+        </MotionReveal>
+        <MotionReveal animation="fade-up" delay={0.2}>
           <Komnews
             newsData={newsData}
             loadingNews={loadingNews}
