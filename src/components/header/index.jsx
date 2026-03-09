@@ -42,7 +42,7 @@ const Header = () => {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className="z-50 w-screen top-0 left-0 bg-primary">
+    <header className="z-50 w-full top-0 left-0 bg-primary">
       <div className="container mx-auto flex items-center justify-between px-6 xl:px-15 py-3">
         {/* Logo */}
         <Logo />

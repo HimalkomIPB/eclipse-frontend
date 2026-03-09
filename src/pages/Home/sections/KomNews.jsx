@@ -48,22 +48,39 @@ const Komnews = ({
       <div className="flex flex-col items-center max-w-6xl mx-auto relative">
         <Swiper
           modules={[Pagination, Autoplay, A11y]} // A11y = accessibility features
-          spaceBetween={30}
-          slidesPerView={1}
-          onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+          centeredSlides
+          loop={newsData.komnews.length > 1}
+          watchSlidesProgress
+          spaceBetween={16}
+          slidesPerView={1.05}
+          breakpoints={{
+            640: {
+              slidesPerView: 1.12,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 1.18,
+              spaceBetween: 24,
+            },
+            1024: {
+              slidesPerView: 1.24,
+              spaceBetween: 28,
+            },
+          }}
+          onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
           autoplay={{
             delay: 5000,
             disableOnInteraction: false,
           }}
-          className="w-full"
+          className="w-full komnews-swiper overflow-visible"
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
           }}
         >
           {newsData.komnews.map((komnews, index) => (
             <SwiperSlide key={komnews.id || `news-${index}`}>
-              <div className="px-8">
-                <div className="rounded-[15px] bg-white shadow-card h-[550px] md:h-[400px] flex flex-col md:flex-row p-6 mx-auto md:mx-0 my-3 max-w-[90%] md:max-w-full">
+              <div className="px-1 sm:px-2 md:px-3">
+                <div className="rounded-[24px] shadow-card h-[520px] md:h-[340px] flex flex-col md:flex-row p-5 md:p-6 mx-auto my-3 w-full border border-white/15">
 
                   {/* Mobile image */}
                   <div className="md:hidden w-full h-[180px] overflow-clip rounded-xl mb-4">
@@ -79,16 +96,16 @@ const Komnews = ({
                   </div>
 
                   {/* Content area */}
-                  <div className="w-full md:w-1/2 md:pr-6 flex flex-col h-full">
-                    <h3 className="font-bold text-xl md:text-2xl mb-2 line-clamp-2">{komnews.title}</h3>
+                  <div className="w-full md:w-[52%] md:pr-6 flex flex-col h-full">
+                    <h3 className="font-bold text-2xl md:text-[2rem] leading-tight mb-2 line-clamp-2 text-white">{komnews.title}</h3>
 
-                    <p className="text-sm text-gray-500 mb-2">
+                    <p className="text-sm text-white/80 mb-2">
                       {timeAgo(komnews.created_at)}
                     </p>
 
                     <div className="max-h-[180px] overflow-hidden mb-4">
                       <div
-                        className="text-gray-700 text-sm md:text-base line-clamp-6"
+                        className="text-white/90 text-sm md:text-base line-clamp-6"
                         dangerouslySetInnerHTML={{ __html: sanitizeHtml(komnews.content || '') }}
                       ></div>
                     </div>
@@ -101,7 +118,7 @@ const Komnews = ({
                   </div>
 
                   {/* Desktop image */}
-                  <div className="hidden md:block md:w-1/2 h-full overflow-clip rounded-xl">
+                  <div className="hidden md:block md:w-[48%] h-full overflow-clip rounded-xl">
                     <img
                       src={`${baseUrl}/storage/${komnews.image}`}
                       alt={komnews.title}
@@ -119,26 +136,26 @@ const Komnews = ({
         </Swiper>
         
         {/* Controls container - arrows and pagination together */}
-        <div className="flex items-center justify-between w-full mt-8 px-10">
+        <div className="flex items-center justify-center w-full mt-6 gap-6 md:gap-8">
           {/* Left arrow */}
           <button 
             onClick={() => swiperRef.current?.slidePrev()} 
-            className="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors border border-gray-200"
+            className="w-10 h-10 flex items-center justify-center bg-white/15 rounded-full shadow-card hover:bg-white/25 transition-colors border border-white/20"
             aria-label="Previous slide"
           >
-            <FaChevronLeft className="text-primary-dark text-sm" />
+            <FaChevronLeft className="text-white text-sm" />
           </button>
           
           {/* Pagination dots */}
-          <div className="flex justify-center items-center gap-3">
+          <div className="flex justify-center items-center gap-3 px-6 py-2 rounded-full bg-white/10 border border-white/15 shadow-card">
             {newsData.komnews.map((_, index) => (
               <button
                 key={`dot-${index}`}
-                onClick={() => swiperRef.current?.slideTo(index)}
+                onClick={() => swiperRef.current?.slideToLoop(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   index === activeIndex 
-                    ? 'bg-primary-dark scale-125' 
-                    : 'bg-gray-200 hover:bg-gray-400'
+                    ? 'bg-white scale-125' 
+                    : 'bg-white/40 hover:bg-white/60'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -148,10 +165,10 @@ const Komnews = ({
           {/* Right arrow */}
           <button 
             onClick={() => swiperRef.current?.slideNext()} 
-            className="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors border border-gray-200"
+            className="w-10 h-10 flex items-center justify-center bg-white/15 rounded-full shadow-card hover:bg-white/25 transition-colors border border-white/20"
             aria-label="Next slide"
           >
-            <FaChevronRight className="text-primary-dark text-sm" />
+            <FaChevronRight className="text-white text-sm" />
           </button>
         </div>
       </div>

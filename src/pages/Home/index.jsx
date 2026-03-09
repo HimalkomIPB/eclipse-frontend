@@ -9,6 +9,7 @@ import SectionHeader from '@/components/common/SectionHeader';
 
 // Page sections
 import HeroSection from './sections/HeroSection';
+import About from './sections/About';
 import Ilkomunity from './sections/Ilkommunity';
 import Komnews from './sections/KomNews';
 import Megaproker from './sections/Megaproker';
@@ -25,6 +26,7 @@ import Megaproker from './sections/Megaproker';
  * @returns {JSX.Element}
  */
 const Home = () => {
+  const sectionGapClass = 'mt-32 md:mt-24 lg:mt-64 mb-32 md:mb-24 lg:mb-64';
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
   // Fetch all required data using custom hook
@@ -67,8 +69,32 @@ const Home = () => {
         </MotionReveal>
       </section>
 
+      <section className={`w-full ${sectionGapClass}`}>
+        <MotionReveal animation="fade-up">
+          <About />
+        </MotionReveal>
+      </section>
+      
+      {/* Megaproker Section */}
+      <section className={`px-4 flex flex-col items-center ${sectionGapClass}`}>
+        <MotionReveal animation="fade-up">
+          <SectionHeader
+            title="MEGAPROKER"
+            altText="Program Kerja Utama"
+          />
+        </MotionReveal>
+        <MotionReveal animation="fade-up" delay={0.2}>
+          <Megaproker
+            megaprokerData={megaprokerData}
+            loadingMegaproker={loadingMegaproker}
+            errorMegaproker={errorMegaproker}
+            baseUrl={baseUrl}
+          />
+        </MotionReveal>
+      </section>
+
       {/* Ilkomunity Section */}
-      <section className="px-4 flex flex-col items-center text-center my-[230px] md:mt-80">
+      <section className={`px-4 flex flex-col items-center text-center ${sectionGapClass}`}>
         <MotionReveal animation="fade-up">
           <SectionHeader
             title="ILKOMUNITY"
@@ -86,26 +112,8 @@ const Home = () => {
         </MotionReveal>
       </section>
 
-      {/* Megaproker Section */}
-      <section className="px-4 flex flex-col items-center my-[200px]">
-        <MotionReveal animation="fade-up">
-          <SectionHeader
-            title="MEGAPROKER"
-            altText="Program Kerja Utama"
-          />
-        </MotionReveal>
-        <MotionReveal animation="fade-up" delay={0.2}>
-          <Megaproker
-            megaprokerData={megaprokerData}
-            loadingMegaproker={loadingMegaproker}
-            errorMegaproker={errorMegaproker}
-            baseUrl={baseUrl}
-          />
-        </MotionReveal>
-      </section>
-
       {/* Komnews Section */}
-      <section className="my-50">
+      <section className={sectionGapClass}>
         <MotionReveal animation="fade-up">
           <SectionHeader
             title="KOMNEWS"

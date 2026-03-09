@@ -51,10 +51,10 @@ const StaffCard = ({ staff, baseUrl }) => {
       
       {/* Container untuk teks dengan height yang konsisten */}
       <div className="mt-4 w-full flex-1 flex flex-col justify-start">
-        <h3 className="font-semibold text-base md:text-lg lg:text-xl">
+        <h3 className="font-semibold text-base md:text-lg lg:text-xl text-white">
           {staff.jabatan || 'Staff'}
         </h3>
-        <p className="text-primary-darker text-xs md:text-sm lg:text-base mt-1">
+        <p className="text-white text-xs md:text-sm lg:text-base mt-1">
           {staff.name || 'Unnamed'}
         </p>
       </div>
@@ -73,7 +73,7 @@ const StaffCard = ({ staff, baseUrl }) => {
  */
 const StaffSection = ({ staff, baseUrl }) => {
   if (!staff || staff.length === 0) {
-    return <p className="text-center text-gray-500 text-xl">No staff data available.</p>;
+    return <p className="text-center text-white text-xl">No staff data available.</p>;
   }
 
   // Separate department head from regular staff
@@ -101,14 +101,14 @@ const StaffSection = ({ staff, baseUrl }) => {
 
   return (
     <MotionReveal animation="fade-up" delay={0.3}>
-      <div className="flex flex-col items-center max-w-6xl mx-auto py-12">
+      <div className="flex flex-col text-white items-center max-w-6xl mx-auto py-12">
 
         {/* Desktop Grid - hidden on mobile */}
-        <div className="hidden md:grid grid-cols-3 gap-x-12 gap-y-16 md:gap-y-24">
+        <div className="hidden text-white md:grid grid-cols-3 gap-x-12 gap-y-16 md:gap-y-24">
           {gridStaff.map((staffMember, index) => (
             <div 
               key={staffMember.id || `staff-grid-${index}`}
-              className={`flex justify-center ${getCardPositionClass(index)}`}
+              className={`flex justify-center text-white ${getCardPositionClass(index)}`}
             >
               <StaffCard staff={staffMember} baseUrl={baseUrl} />
             </div>
@@ -125,7 +125,7 @@ const StaffSection = ({ staff, baseUrl }) => {
           )}
           
           {/* Regular Staff (2 columns grid) */}
-          <div className="grid grid-cols-2 gap-y-8 justify-items-center">
+          <div className="grid text-white grid-cols-2 gap-y-8 justify-items-center">
             {regularStaff.map((staffMember, index) => (
               <div key={staffMember.id}>
                 <StaffCard staff={staffMember} baseUrl={baseUrl} />

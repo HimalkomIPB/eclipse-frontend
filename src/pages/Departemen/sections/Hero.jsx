@@ -17,7 +17,7 @@ const HeroSection = ({ department, baseUrl }) => {
 
   return (
     <MotionReveal animation="fade-up" delay={0.3}>
-      <div className="flex flex-row justify-center items-center gap-6 sm:gap-12 md:gap-16 lg:gap-24 w-full px-4">
+      <div className="flex flex-row justify-center items-center gap-6 sm:gap-12 md:gap-16 lg:gap-24 w-full px-4 pt-20 sm:pt-20 md:pt-10 lg:pt-8">
         {/* Department logo */}
         {department?.logo ? (
           <img

@@ -26,7 +26,7 @@ const CommunityCard = ({ community, loading, baseUrl }) => {
 
   return (
     <MotionReveal animation="fade-up" delay={0.1}>
-      <div className="rounded-[15px] bg-white shadow-card flex flex-col items-center justify-around p-8 w-[170px] h-[240px] md:w-[240px] md:h-[300px] lg:h-[400px] lg:w-[270px]">
+      <div className="rounded-[15px] text-white bg-white shadow-card flex flex-col items-center justify-around p-8 w-[170px] h-[240px] md:w-[240px] md:h-[300px] lg:h-[400px] lg:w-[270px]">
         {/* Logo komunitas */}
           <img
             src={`${baseUrl}/storage/${community.logo}`}

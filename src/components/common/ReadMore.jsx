@@ -27,7 +27,7 @@ const ReadMoreButton = ({
         target={newTab ? "_blank" : "_self"}
         rel={newTab ? "noopener noreferrer" : ""}
       >
-        <span className="text-sm font-medium text-primary-darker group-hover:text-primary-dark transition-colors duration-300">
+        <span className="text-sm font-medium text-primary group-hover:text-primary-dark transition-colors duration-300">
           {label}
         </span>
         <div className="bg-primary p-0.5 rounded flex items-center justify-center transition-all duration-300 group-hover:bg-primary-dark group-hover:transform group-hover:translate-x-1">
