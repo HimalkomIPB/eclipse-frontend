@@ -307,6 +307,14 @@ const NavMenu = () => {
               >
                 Riset
               </NavLink>
+
+              <NavLink
+                to="/syntax"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
+              >
+                Syntax
+              </NavLink>
             </motion.div>
           )}
         </AnimatePresence>

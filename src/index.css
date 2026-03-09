@@ -56,6 +56,11 @@ body {
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
 }
 
+.theme-svg {
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+
 .bg-primary {
   background-color: var(--color-primary);
 }

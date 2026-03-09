@@ -10,11 +10,11 @@ const ExploreCard = ({ title, subtitle, image, href, titleClassName = "", subtit
     to={href}
     className="group flex h-full min-h-[280px] flex-col overflow-hidden rounded-2xl border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.92)_0%,rgba(14,41,59,0.94)_100%)] shadow-[0_18px_36px_rgba(2,14,26,0.22)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 sm:min-h-[300px] lg:min-h-[320px]"
   >
-    <div className="relative h-40 w-full overflow-hidden">
+    <div className="relative h-40 w-full overflow-hidden sm:h-28 lg:h-32">
       <img
         src={image}
         alt={title}
-        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        className="h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-105 sm:p-4 lg:p-5"
         onError={(e) => {
           e.target.onerror = null;
           e.target.src = '/images/placeholder-news.jpg';

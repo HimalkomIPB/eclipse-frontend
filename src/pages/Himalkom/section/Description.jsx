@@ -7,8 +7,8 @@ const Description = () => {
     <div className="relative flex flex-row items-center lg:items-center">
       <div className="absolute inset-0 flex justify-center items-center opacity-20 pointer-events-none z-0">
         <img
-          src={TImages.LOGO.LOGO_HIMALKOM} 
-          alt='Logo Himalkom'
+          src={TImages.DECORATIVE_ELEMENTS.ECLIPSE_HIMALKOM}
+          alt='Logo Eclipse Himalkom'
           className="w-[400px] lg:w-[440px] h-auto"
         />
       </div>
@@ -21,7 +21,7 @@ const Description = () => {
             <p className="text-justify text-[17px] md:text-xl lg:text-2xl text-white/85"> 
               Himpunan Mahasiswa Ilmu Komputer (HIMALKOM) adalah himpunan yang bergerak  
               dalam pengembangan dan eksistensi mahasiswa ilmu Komputer IPB.</p>
-            <img className='pt-[20px] w-[250px] lg:w-auto'
+            <img className='theme-svg pt-[20px] w-[250px] lg:w-auto'
               src={TImages.DECORATIVE_ELEMENTS.GARIS_HERO_ELEVOR}
             />
           </div>
@@ -32,7 +32,7 @@ const Description = () => {
             <h1 className="font-semibold pb-[10px] text-[35px] lg:text-[48px] leading-relaxed text-white">Tujuan HIMALKOM</h1>
             <p className="text-justify text-[17px] md:text-xl lg:text-2xl text-white/85"> Mencerdaskan ilkomerz agar siap dan semangat untuk menjadi professional, memperkuat internalisasi, meningkatkan eksistensi, dan membangun Ilmu Komputer
             IPB berdasarkan aspirasi Ilkomerz sehingga tercipta hasil yang dahsyat.</p>
-            <img className='pt-[20px] w-[250px] lg:w-auto'
+            <img className='theme-svg pt-[20px] w-[250px] lg:w-auto'
               src={TImages.DECORATIVE_ELEMENTS.GARIS_HERO_ELEVOR}
             />
           </div>

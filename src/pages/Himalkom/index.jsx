@@ -25,7 +25,7 @@ const Himalkom = () => {
     </MotionReveal>
 
     {/* Desc Section */}
-    <section className="flex flex-col items-center mt-70 lg:mx-30 sm:items-center md:items-center md:flex-col gap-11 lg:flex-row justify-around h-auto text-white">
+    <section className="flex flex-col items-center mt-40 lg:mx-30 sm:items-center md:items-center md:flex-col gap-11 lg:flex-row justify-around h-auto text-white">
       <Description />
     </section>
     
@@ -40,11 +40,11 @@ const Himalkom = () => {
           <img
             src={TImages.DECORATIVE_ELEMENTS.GARIS_HERO_ELEVOR}
             alt="Garis Prestasi"
-            className="w-[250px] lg:w-[340px]"
+            className="theme-svg w-[250px] lg:w-[340px]"
           />
         </div>
         <p className="text-xl text-center lg:text-2xl my-[30px] text-white/85">
-          <b>Elevor</b> bukan sekadar nama kabinet, tetapi sebuah gerakan yang membawa perubahan nyata dalam Himalkom.
+          <b>Eclipse</b> bukan sekadar nama kabinet, tetapi sebuah gerakan yang membawa perubahan nyata dalam Himalkom.
         </p>
       </MotionReveal>
       
@@ -63,7 +63,7 @@ const Himalkom = () => {
           <img
             src={TImages.DECORATIVE_ELEMENTS.GARIS_HERO_ELEVOR}
             alt="Garis Prestasi"
-            className="pb-8 w-[340px] lg:w-[500px]"
+            className="theme-svg pb-8 w-[340px] lg:w-[500px]"
           />
         </div>
       </MotionReveal>

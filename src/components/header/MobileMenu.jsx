@@ -192,6 +192,14 @@ const MobileMenu = ({ onCloseMenu }) => {
               >
                 Prestasi
               </NavLink>
+              <NavLink
+                to="/syntax"
+                className={({isActive}) => menuItemClass(isActive)}
+                onClick={onCloseMenu}
+                style={{ transitionDelay: '200ms' }}
+              >
+                Syntax
+              </NavLink>
             </div>
           )}
         </div>
@@ -213,13 +221,7 @@ const MobileMenu = ({ onCloseMenu }) => {
             Riset
           </NavLink>
 
-          <NavLink
-            to="/syntax"
-            className={({isActive}) => menuItemClass(isActive)}
-            onClick={onCloseMenu}
-          >
-            Syntax
-          </NavLink>
+          
         </div>
 
         <div className="mt-2 border-t border-white/10 px-3 pb-1 pt-4">
