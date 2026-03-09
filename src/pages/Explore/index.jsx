@@ -8,7 +8,7 @@ import TImages from '@/utils/images';
 const ExploreCard = ({ title, subtitle, image, href, titleClassName = "", subtitleClassName = "" }) => (
   <Link
     to={href}
-    className="group flex h-full min-h-[280px] flex-col overflow-hidden rounded-2xl border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.92)_0%,rgba(14,41,59,0.94)_100%)] shadow-[0_18px_36px_rgba(2,14,26,0.22)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 sm:min-h-[300px] lg:min-h-[320px]"
+    className="group flex h-full min-h-[235px] flex-col overflow-hidden rounded-2xl border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.92)_0%,rgba(14,41,59,0.94)_100%)] shadow-[0_18px_36px_rgba(2,14,26,0.22)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 sm:min-h-[255px] lg:min-h-[275px]"
   >
     <div className="relative h-40 w-full overflow-hidden sm:h-28 lg:h-32">
       <img
@@ -22,15 +22,27 @@ const ExploreCard = ({ title, subtitle, image, href, titleClassName = "", subtit
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
     </div>
-    <div className="flex flex-1 flex-col p-4">
+    <div className="relative flex flex-1 flex-col p-4">
       <h3 className={`text-lg font-semibold text-white ${titleClassName}`}>{title}</h3>
       {subtitle && (
         <p className={`mt-1 text-sm text-white/70 ${subtitleClassName}`}>
           {subtitle}
         </p>
       )}
-      <span className="mt-auto inline-flex items-center gap-2 pt-4 text-xs font-semibold text-white/80">
-        Jelajahi
+      <span className="mt-auto" />
+      <span className="pointer-events-none absolute bottom-3 right-3 inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white/70 transition group-hover:text-white">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-3.5 w-3.5"
+        >
+          <path d="M5 12h14" />
+          <path d="M13 6l6 6-6 6" />
+        </svg>
       </span>
     </div>
   </Link>
@@ -56,10 +68,6 @@ const Explore = () => {
     <div className="w-full px-4 pb-24 pt-24 sm:px-10 lg:px-20 xl:px-28">
       <MotionReveal animation="fade-up">
         <SectionHeader title="Explore" altText="Explore" />
-        <p className="mx-auto mt-3 max-w-3xl text-center text-base text-white/80 sm:text-lg">
-          Semua yang tersedia di website Himalkom, dirangkum dalam satu halaman agar kamu bisa
-          menjelajahi tiap bagian dengan cepat.
-        </p>
       </MotionReveal>
 
       <div className="mt-12 space-y-12">
