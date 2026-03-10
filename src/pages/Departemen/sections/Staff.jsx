@@ -36,7 +36,7 @@ const arrangeStaffForGrid = (ketua, regularStaff) => {
  */
 const StaffCard = ({ staff, baseUrl }) => {
   return (
-    <div className="shadow-card bg-white relative overflow-hidden rounded-2xl mx-2 md:mx-8 p-4 flex flex-col items-center text-center w-[150px] sm:w-[160px] md:w-[240px] min-h-[220px] sm:min-h-[250px] md:min-h-[300px]">
+    <div className="community-card shadow-card bg-white relative overflow-hidden rounded-2xl mx-2 md:mx-8 p-4 flex flex-col items-center text-center w-[150px] sm:w-[160px] md:w-[240px] min-h-[220px] sm:min-h-[250px] md:min-h-[300px]">
       <div className="absolute inset-0 translate-y-3 overflow-hidden">
         <img
           src={staff.image ? `${baseUrl}/storage/${staff.image}` : '/images/avatar-placeholder.png'}
