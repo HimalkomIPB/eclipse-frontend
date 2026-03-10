@@ -46,18 +46,18 @@ const HeadlineSection = ({ headlines, baseUrl, loading }) => {
 
             {headlines && headlines.length > 0 ? (
                 <MotionReveal animation="fade-up" delay={0.2}>
-                    <div className="mt-6 rounded-[15px] bg-white shadow-card overflow-hidden">
+                    <div className="mt-6 rounded-[15px] border border-white/15 bg-[linear-gradient(180deg,rgba(27,62,89,0.92)_0%,rgba(14,41,59,0.94)_100%)] shadow-[0_18px_40px_rgba(2,14,26,0.24)] backdrop-blur-xl overflow-hidden">
                         <div className="flex flex-col md:flex-row">
                             <div className="md:w-1/2 p-6">
                                 <div className="mb-2">
-                                    <p className="text-xs text-gray-500">
+                                    <p className="text-xs text-white/70">
                                         {timeAgo(activeHeadline.created_at)}
                                     </p>
                                 </div>
                                 
-                                <h3 className="font-bold text-xl md:text-2xl mb-4">{activeHeadline.title}</h3>
+                                <h3 className="font-bold text-xl md:text-2xl mb-4 text-white">{activeHeadline.title}</h3>
                                 
-                                <p className="text-gray-600 line-clamp-4">
+                                <p className="text-white/80 line-clamp-4">
                                     {stripHtml(activeHeadline.content).substring(0, 200)}
                                     {activeHeadline.content?.length > 200 ? '...' : ''}
                                 </p>
@@ -71,7 +71,7 @@ const HeadlineSection = ({ headlines, baseUrl, loading }) => {
                                             {activeHeadline.categories.map(category => (
                                                 <span 
                                                     key={`tag-${activeHeadline.id}-${category.id}`} 
-                                                    className="inline-block bg-primary-light text-primary-dark text-xs px-2 py-1 rounded mr-1"
+                                                    className="inline-block bg-white/10 text-white/80 text-xs px-2 py-1 rounded mr-1 border border-white/10"
                                                 >
                                                     {category.name}
                                                 </span>
@@ -97,8 +97,8 @@ const HeadlineSection = ({ headlines, baseUrl, loading }) => {
                 </MotionReveal>
                     
             ) : (
-                <div className="h-64 flex items-center justify-center bg-gray-100 rounded-[15px] mt-6">
-                    <p className="text-gray-500">Tidak ada headline saat ini</p>
+                <div className="h-64 flex items-center justify-center border border-white/10 bg-white/5 rounded-[15px] mt-6">
+                    <p className="text-white/70">Tidak ada headline saat ini</p>
                 </div>
             )}
 
@@ -109,17 +109,17 @@ const HeadlineSection = ({ headlines, baseUrl, loading }) => {
                         {headlines.map((headline, index) => (
                             <div 
                                 key={`headline-${headline.id}`} 
-                                className={`rounded-lg shadow-card bg-white p-3 cursor-pointer transition-all duration-300
+                                className={`rounded-lg border border-white/10 bg-white/5 p-3 cursor-pointer transition-all duration-300
                                           ${activeHeadlineIndex === index 
-                                              ? 'border-b-2 border-primary font-medium' 
+                                              ? 'border-b-2 border-white/40 font-medium' 
                                               : 'opacity-75 hover:opacity-100'}`}
                                 onClick={() => setActiveHeadlineIndex(index)}
                             >
-                                <h4 className="text-xs line-clamp-2 font-medium">{headline.title}</h4>
-                                <p className="text-[10px] text-gray-500 mt-1">
+                                <h4 className="text-xs line-clamp-2 font-medium text-white">{headline.title}</h4>
+                                <p className="text-[10px] text-white/70 mt-1">
                                     {timeAgo(headline.created_at)}
                                 </p>
-                                <p className="text-[10px] text-gray-600 line-clamp-2 mt-1">
+                                <p className="text-[10px] text-white/70 line-clamp-2 mt-1">
                                     {stripHtml(headline.content).substring(0, 50)}...
                                 </p>
                             </div>

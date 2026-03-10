@@ -23,8 +23,8 @@ const CategoriesFilter = ({
       {/* All category option */}
       <div
         onClick={() => setActiveCategory("all")}
-        className={`flex items-center px-3 py-1 shadow-card bg-white rounded-md cursor-pointer ${
-          activeCategory === "all" ? "bg-primary-dark text-white" : ""
+        className={`flex items-center px-3 py-1 rounded-md cursor-pointer border border-white/12 bg-white/6 text-white/80 ${
+          activeCategory === "all" ? "bg-white/14 text-white border-white/30" : ""
         }`}
       >
         <p className="font-normal text-xs md:text-sm">All</p>
@@ -34,8 +34,8 @@ const CategoriesFilter = ({
       {categories.map((item, index) => (
         <div
           key={`topic-${index}`}
-          className={`flex items-center px-3 py-1 shadow-card bg-white rounded-md cursor-pointer ${
-            activeCategory === item.slug ? "bg-primary-dark text-white" : ""
+          className={`flex items-center px-3 py-1 rounded-md cursor-pointer border border-white/12 bg-white/6 text-white/80 ${
+            activeCategory === item.slug ? "bg-white/14 text-white border-white/30" : ""
           }`}
           onClick={() => setActiveCategory(item.slug)}
         >
@@ -98,12 +98,9 @@ const NewsListSection = ({
             news.map((newsItem) => (
               <div
                 key={`news-list-${newsItem.id}`}
-                className="bg-white rounded-xl shadow-card flex flex-col h-full overflow-hidden"
+                className="rounded-xl border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.9)_0%,rgba(14,41,59,0.94)_100%)] shadow-[0_18px_36px_rgba(2,14,26,0.22)] backdrop-blur-xl flex flex-col h-full overflow-hidden"
               >
-                <Link
-                  to={`/komnews/${newsItem.slug}`}
-                  className="flex flex-col h-full"
-                >
+                <div className="flex flex-col h-full">
                   <div className="h-40 w-full overflow-hidden flex-shrink-0 relative">
                     <img
                       src={`${baseUrl}/storage/${newsItem.image}`}
@@ -120,7 +117,7 @@ const NewsListSection = ({
                         {newsItem.categories.map((cat) => (
                           <span
                             key={`tag-${newsItem.id}-${cat.id}`}
-                            className="inline-block bg-primary-light/90 text-primary-dark text-[10px] px-1.5 py-0.5 rounded font-medium shadow"
+                            className="inline-block bg-white/10 text-white/80 text-[10px] px-1.5 py-0.5 rounded font-medium border border-white/10"
                           >
                             {cat.name}
                           </span>
@@ -129,13 +126,13 @@ const NewsListSection = ({
                     )}
                   </div>
                   <div className="flex-1 flex flex-col p-4">
-                    <h4 className="font-bold text-base line-clamp-2 mb-2">
+                    <h4 className="font-bold text-base line-clamp-2 mb-2 text-white">
                       {stripHtml(newsItem.title).substring(0, 80)}
                     </h4>
-                    <p className="text-xs text-gray-500 mb-1">
+                    <p className="text-xs text-white/70 mb-1">
                       {timeAgo(newsItem.created_at)}
                     </p>
-                    <p className="text-xs text-gray-600 line-clamp-3 mb-3">
+                    <p className="text-xs text-white/75 line-clamp-3 mb-3">
                       {stripHtml(newsItem.content).substring(0, 80)}
                     </p>
                     <div className="mt-auto pt-2 flex">
@@ -147,11 +144,11 @@ const NewsListSection = ({
                       />
                     </div>
                   </div>
-                </Link>
+                </div>
               </div>
             ))
           ) : (
-            <div className="col-span-full text-center py-4 text-gray-500">
+            <div className="col-span-full text-center py-4 text-white/70">
               Tidak ada berita dalam kategori ini
             </div>
           )}

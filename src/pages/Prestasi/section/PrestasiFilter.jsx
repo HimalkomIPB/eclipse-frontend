@@ -25,7 +25,7 @@ const PrestasiFilter = ({
     <div className="flex flex-wrap gap-2 mb-6">
       <div
         onClick={() => setActiveCategory("all")}
-        className={`px-3 py-1 shadow-card bg-white rounded-md cursor-pointer ${activeCategory === "all" ? "bg-primary-dark text-white" : ""
+        className={`px-3 py-1 rounded-md cursor-pointer border border-white/12 bg-white/6 text-white/80 ${activeCategory === "all" ? "bg-white/14 text-white border-white/30" : "hover:bg-white/10 hover:text-white"
           }`}
       >
         All Category
@@ -35,7 +35,7 @@ const PrestasiFilter = ({
         <div
           key={item.id}
           onClick={() => setActiveCategory(item.name)}
-          className={`px-3 py-1 shadow-card bg-white rounded-md cursor-pointer ${activeCategory === item.name ? "bg-primary-dark text-white" : ""
+          className={`px-3 py-1 rounded-md cursor-pointer border border-white/12 bg-white/6 text-white/80 ${activeCategory === item.name ? "bg-white/14 text-white border-white/30" : "hover:bg-white/10 hover:text-white"
             }`}
         >
           {item.name}
@@ -46,7 +46,7 @@ const PrestasiFilter = ({
         <button
           type="button"
           onClick={() => setYearDropdownOpen((v) => !v)}
-          className="flex items-center gap-2 px-3 py-1 shadow-card bg-primary-darker text-white rounded-md cursor-pointer min-w-[100px]"
+          className="flex items-center gap-2 px-3 py-1 border border-white/12 bg-white/6 text-white rounded-md cursor-pointer min-w-[100px] hover:bg-white/10"
         >
           {activeYear === "all" ? "All Years" : activeYear}
           <svg
@@ -61,14 +61,14 @@ const PrestasiFilter = ({
         </button>
 
         {yearDropdownOpen && (
-          <div className="absolute left-0 mt-2 w-40 bg-primary-darker border border-primary/30 rounded-lg shadow-lg z-20 p-2 max-h-60 overflow-y-auto">
+          <div className="absolute left-0 mt-2 w-40 border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.96)_0%,rgba(14,41,59,0.96)_100%)] rounded-lg shadow-lg z-20 p-2 max-h-60 overflow-y-auto">
             <button
               type="button"
               onClick={() => {
                 setActiveYear("all");
                 setYearDropdownOpen(false);
               }}
-              className={`w-full text-left px-3 py-2 rounded-md cursor-pointer text-white hover:bg-primary-light/20 ${activeYear === "all" ? "font-semibold" : ""
+              className={`w-full text-left px-3 py-2 rounded-md cursor-pointer text-white/85 hover:bg-white/10 ${activeYear === "all" ? "font-semibold text-white" : ""
                 }`}
             >
               All Years
@@ -81,7 +81,7 @@ const PrestasiFilter = ({
                   setActiveYear(String(year));
                   setYearDropdownOpen(false);
                 }}
-                className={`w-full text-left px-3 py-2 rounded-md cursor-pointer text-white hover:bg-primary-light/20 ${activeYear === String(year) ? "font-semibold" : ""
+                className={`w-full text-left px-3 py-2 rounded-md cursor-pointer text-white/85 hover:bg-white/10 ${activeYear === String(year) ? "font-semibold text-white" : ""
                   }`}
               >
                 {year}

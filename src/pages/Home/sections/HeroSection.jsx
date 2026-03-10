@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import TImages from '@/utils/images';
 import MotionReveal from '@/components/common/MotionReveal';
 
@@ -31,12 +32,12 @@ const HeroSection = () => (
           </div>
         </MotionReveal>
         <MotionReveal animation="fade-up" delay={0.6}>
-          <a
-            href="#about"
+          <Link
+            to="/explore"
             className="glass-btn interactive-btn inline-flex items-center justify-center rounded-full px-5 py-2 text-sm font-semibold italic text-white md:text-base"
           >
             Explore
-          </a>
+          </Link>
         </MotionReveal>
       </div>
 

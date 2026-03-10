@@ -8,7 +8,7 @@ import ReadMoreButton from "@/components/common/ReadMore";
  */
 const GalleryCard = ({ gallery, baseUrl }) => {
   return (
-    <div className="bg-white rounded-xl shadow-card overflow-hidden hover:shadow-lg transition-all duration-300 hover:translate-y-[-5px] h-full flex flex-col">
+    <div className="rounded-xl border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.92)_0%,rgba(14,41,59,0.94)_100%)] shadow-[0_18px_36px_rgba(2,14,26,0.22)] backdrop-blur-xl overflow-hidden transition-all duration-300 hover:translate-y-[-5px] h-full flex flex-col">
       {/* Image dengan link */}
       <Link to={`/galeri/${gallery.id}`}>
         <div className="w-full h-[220px] overflow-hidden relative group">
@@ -33,10 +33,10 @@ const GalleryCard = ({ gallery, baseUrl }) => {
       <div className="p-5 flex-1 flex flex-col">
         {/* Info strip */}
         <div className="flex justify-between items-center mb-3">
-          <span className="inline-block bg-primary-light text-primary-dark text-xs px-3 py-1 rounded-full">
+          <span className="inline-block bg-white/10 text-white/80 text-xs px-3 py-1 rounded-full border border-white/10">
             {gallery.subjectName || gallery.subject?.name}
           </span>
-          <div className="flex items-center text-xs text-gray-500">
+          <div className="flex items-center text-xs text-white/70">
             <FaGraduationCap className="mr-1" />
             <span>Angkatan {gallery.angkatan}</span>
           </div>
@@ -44,22 +44,22 @@ const GalleryCard = ({ gallery, baseUrl }) => {
         
         {/* Title */}
         <Link to={`/galeri/${gallery.id}`}>
-          <h3 className="font-bold text-lg mb-2 hover:text-primary transition-colors">{gallery.name}</h3>
+          <h3 className="font-bold text-lg mb-2 text-white hover:text-white transition-colors">{gallery.name}</h3>
         </Link>
         
         {/* Description */}
-        <p className="text-sm text-gray-600 mb-4 line-clamp-3 flex-1">
+        <p className="text-sm text-white/75 mb-4 line-clamp-3 flex-1">
           {gallery.description}
         </p>
         
         {/* Contributors */}
-        <div className="flex items-center text-xs text-gray-500 mb-4">
+        <div className="flex items-center text-xs text-white/70 mb-4">
           <FaUserFriends className="mr-2" size={14} />
           <span className="font-medium mr-1">Kontributor:</span> {gallery.contributor}
         </div>
         
         {/* Actions */}
-        <div className="mt-auto pt-3 border-t border-gray-100 flex justify-between items-center">
+        <div className="mt-auto pt-3 border-t border-white/10 flex justify-between items-center">
           {/* Ganti link dengan ReadMoreButton */}
           <ReadMoreButton to={`/galeri/${gallery.id}`} />
           
@@ -68,7 +68,7 @@ const GalleryCard = ({ gallery, baseUrl }) => {
               href={gallery.link} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm font-medium text-primary-dark hover:text-primary transition"
+              className="flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white transition"
             >
               {gallery.link.includes('github.com') ? (
                 <>
@@ -95,8 +95,8 @@ const GalleryCard = ({ gallery, baseUrl }) => {
 const GalleryGrid = ({ galleries, baseUrl }) => {
   if (!galleries || galleries.length === 0) {
     return (
-      <div className="text-center py-12 bg-gray-50 rounded-lg">
-        <p className="text-gray-500">Tidak ada proyek yang tersedia untuk kategori ini.</p>
+      <div className="text-center py-12 border border-white/10 bg-white/5 rounded-lg">
+        <p className="text-white/70">Tidak ada proyek yang tersedia untuk kategori ini.</p>
       </div>
     );
   }

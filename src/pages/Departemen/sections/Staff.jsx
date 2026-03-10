@@ -36,12 +36,12 @@ const arrangeStaffForGrid = (ketua, regularStaff) => {
  */
 const StaffCard = ({ staff, baseUrl }) => {
   return (
-    <div className="shadow-card bg-white rounded-2xl mx-2 md:mx-8 p-4 flex flex-col items-center text-center w-[150px] sm:w-[160px] md:w-[240px] min-h-[220px] sm:min-h-[250px] md:min-h-[300px]">
-      <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] md:w-[150px] md:h-[150px] rounded-full overflow-hidden border-4 border-primary flex-shrink-0">
+    <div className="shadow-card bg-white relative overflow-hidden rounded-2xl mx-2 md:mx-8 p-4 flex flex-col items-center text-center w-[150px] sm:w-[160px] md:w-[240px] min-h-[220px] sm:min-h-[250px] md:min-h-[300px]">
+      <div className="absolute inset-0 translate-y-3 overflow-hidden">
         <img
           src={staff.image ? `${baseUrl}/storage/${staff.image}` : '/images/avatar-placeholder.png'}
           alt={staff.name || 'Staff Member'}
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = '/images/avatar-placeholder.png';
@@ -50,11 +50,11 @@ const StaffCard = ({ staff, baseUrl }) => {
       </div>
       
       {/* Container untuk teks dengan height yang konsisten */}
-      <div className="mt-4 w-full flex-1 flex flex-col justify-start">
-        <h3 className="font-semibold text-base md:text-lg lg:text-xl text-white">
+      <div className="relative z-10 mt-auto w-full flex-1 flex flex-col justify-end pb-3">
+        <h3 className="text-shadow-soft font-semibold text-[10px] md:text-lg lg:text-s text-white">
           {staff.jabatan || 'Staff'}
         </h3>
-        <p className="text-white text-xs md:text-sm lg:text-base mt-1">
+        <p className="text-shadow-soft text-white text-[7px] md:text-sm lg:text-base mt-1">
           {staff.name || 'Unnamed'}
         </p>
       </div>

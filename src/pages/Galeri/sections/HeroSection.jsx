@@ -13,7 +13,7 @@ const HeroSection = () => (
         alt="Logo Syntax"
         className="w-28 sm:w-40 md:w-60 xl:w-85"
       />
-      <div className="flex flex-col items-start text-center sm:text-left mt-4 sm:mt-0">
+      <div className="flex flex-col items-start text-center text-white sm:text-left mt-4 sm:mt-0">
         {/* Title */}
         <h1 className="max-w-xl text-start font-semibold md:pb-3 text-2xl sm:text-2xl md:text-4xl lg:text-[45px] leading-normal">
           I-Gallery
@@ -27,8 +27,8 @@ const HeroSection = () => (
         />
         
         {/* Tagline dan Subtitle */}
-        <div className="text-left items-center max-w-sm sm:items-start sm:max-w-xl text-black text-[14px] sm:text-xl md:text-xl lg:text-2xl font-normal">
-         <p><b>I-Gallery</b> adalah platform yang berisi kumpulan projek-projek yang telah dibuat oleh mahasiswa ilmu komputer. I-Gallery menampilkan projek dari setiap mata kuliah berprojek. Tujuan dari I-Gallery adalah untuk menunjukan projek yang telah dibuat oleh mahasiswa ilmu komputer.</p>
+        <div className="text-left items-center max-w-sm sm:items-start sm:max-w-xl text-white/85 text-[14px] sm:text-xl md:text-xl lg:text-2xl font-normal">
+         <p><b className="text-white">I-Gallery</b> adalah platform yang berisi kumpulan projek-projek yang telah dibuat oleh mahasiswa ilmu komputer. I-Gallery menampilkan projek dari setiap mata kuliah berprojek. Tujuan dari I-Gallery adalah untuk menunjukan projek yang telah dibuat oleh mahasiswa ilmu komputer.</p>
         </div>
       </div>
     </div>

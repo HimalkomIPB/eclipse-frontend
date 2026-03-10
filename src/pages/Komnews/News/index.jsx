@@ -78,7 +78,7 @@ const NewsDetail = () => {
                     <MotionReveal animation="fade-up">
                         <Link
                             to="/komnews"
-                            className="inline-flex items-center gap-2 text-primary-darker hover:text-primary-dark transition mb-6 text-sm sm:text-base"
+                            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-sm text-white/85 transition hover:bg-white/20 hover:text-white sm:text-base"
                         >
                             <FaArrowLeft size={14} />
                             <span>Kembali ke berita</span>
@@ -88,9 +88,9 @@ const NewsDetail = () => {
                     <div className="flex flex-col gap-8 lg:gap-10">
                         <div className="">
                             <MotionReveal animation="fade-up">
-                                <div className="bg-white shadow-card rounded-xl md:rounded-2xl overflow-hidden">
+                                <div className="rounded-xl border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.94)_0%,rgba(14,41,59,0.96)_100%)] shadow-[0_18px_40px_rgba(2,14,26,0.28)] md:rounded-2xl overflow-hidden">
                                     <div className="p-4 sm:p-5 md:p-6">
-                                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 leading-tight">
+                                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 leading-tight text-white">
                                             {news.title}
                                         </h1>
 
@@ -102,7 +102,7 @@ const NewsDetail = () => {
                                                 className="w-full"
                                             />
                                         </div>
-                                        <p className="text-xs sm:text-sm text-gray-500">
+                                        <p className="text-xs sm:text-sm text-white/60">
                                             {formatDate(news.created_at)}
                                         </p>
                                     </div>
@@ -122,7 +122,7 @@ const NewsDetail = () => {
                                                 {news.categories.map(category => (
                                                     <span
                                                         key={`tag-${category.id}`} 
-                                                        className="inline-block bg-primary-light mr-2 text-primary-dark text-xs px-3 py-1.5 rounded-full font-medium shadow-sm">
+                                                        className="mr-2 inline-block rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white/80 shadow-sm">
                                                         {category.name}
                                                     </span>
                                                 ))}
@@ -134,9 +134,9 @@ const NewsDetail = () => {
 
                             {/* Content */}
                             <MotionReveal animation="fade-up" delay={0.2}>
-                                <div className="bg-white shadow-card rounded-xl p-4 sm:p-6 mt-4 sm:mt-6">
+                                <div className="mt-4 rounded-xl border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.94)_0%,rgba(14,41,59,0.96)_100%)] p-4 shadow-[0_16px_32px_rgba(2,14,26,0.24)] sm:mt-6 sm:p-6">
                                     <div
-                                        className="indent-10 text-md md:text-lg leading-relaxed mb-8 px-4 space-y-2 text-justify max-w-none text-gray-800 news-content"
+                                        className="news-content indent-10 text-md md:text-lg leading-relaxed mb-8 px-4 space-y-2 text-justify max-w-none text-white/85"
                                         dangerouslySetInnerHTML={{ __html: sanitizeHtml(news.content) }}
                                     ></div>
                                 </div>
@@ -146,8 +146,8 @@ const NewsDetail = () => {
                         {/* Right Column - News List Section */}
                         <div className="mt-8 lg:mt-0">
                             <MotionReveal animation="fade-up" delay={0.3}>
-                                <div className="bg-white shadow-card rounded-xl overflow-hidden">
-                                    <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold p-4 sm:p-5 border-b border-gray-100">
+                                <div className="rounded-xl border border-white/12 bg-[linear-gradient(180deg,rgba(27,62,89,0.94)_0%,rgba(14,41,59,0.96)_100%)] shadow-[0_16px_32px_rgba(2,14,26,0.24)] overflow-hidden">
+                                    <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold p-4 sm:p-5 border-b border-white/10 text-white">
                                         Berita Lainnya
                                     </h3>
 
@@ -156,7 +156,7 @@ const NewsDetail = () => {
                                             <LoadingSpinner variant="inline" size="small" message="Memuat berita..." />
                                         </div>
                                     ) : errorAllNews ? (
-                                        <div className="text-center py-6 text-red-500 px-4">
+                                        <div className="text-center py-6 text-red-200 px-4">
                                             Gagal memuat berita
                                         </div>
                                     ) : (
@@ -164,7 +164,7 @@ const NewsDetail = () => {
                                             {filteredNews.length > 0 ? (
                                                 <div className="space-y-4">
                                                     {filteredNews.slice(0, 5).map((item) => (
-                                                        <div key={item.id} className="pb-4 border-b border-gray-100 last:border-0 last:pb-0">
+                                                        <div key={item.id} className="pb-4 border-b border-white/10 last:border-0 last:pb-0">
                                                             <Link
                                                                 to={`/komnews/${item.slug}`}
                                                                 className="group block"
@@ -180,10 +180,10 @@ const NewsDetail = () => {
                                                                         }}
                                                                     />
                                                                     <div className="flex-1 min-w-0">
-                                                                        <h4 className="font-medium text-md sm:text-base lg:text-lg line-clamp-2 group-hover:text-primary-dark transition-colors">
+                                                                        <h4 className="font-medium text-md sm:text-base lg:text-lg line-clamp-2 text-white/90 transition-colors group-hover:text-white">
                                                                             {item.title}
                                                                         </h4>
-                                                                        <p className="text-xs text-gray-500 mt-1">
+                                                                        <p className="mt-1 text-xs text-white/60">
                                                                             {timeAgo(item.created_at)}
                                                                         </p>
                                                                     </div>
@@ -193,7 +193,7 @@ const NewsDetail = () => {
                                                     ))}
                                                 </div>
                                             ) : (
-                                                <p className="text-center text-gray-500 text-sm py-4">
+                                                <p className="text-center text-sm text-white/60 py-4">
                                                     Tidak ada berita lainnya
                                                 </p>
                                             )}
@@ -201,7 +201,7 @@ const NewsDetail = () => {
                                             <div className="mt-6 text-center">
                                                 <Link
                                                     to="/komnews"
-                                                    className="inline-block px-4 py-2 bg-primary-light text-primary-dark hover:bg-primary transition-colors rounded-full text-sm font-medium"
+                                                    className="inline-block rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/85 transition hover:bg-white/20 hover:text-white"
                                                 >
                                                     Lihat semua berita
                                                 </Link>

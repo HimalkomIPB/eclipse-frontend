@@ -52,6 +52,14 @@ const MobileMenu = ({ onCloseMenu }) => {
           >
             Home
           </NavLink>
+          <NavLink
+            to="/explore"
+            className={({isActive}) => menuItemClass(isActive)}
+            onClick={onCloseMenu}
+            style={{ transitionDelay: '120ms' }}
+          >
+            Explore
+          </NavLink>
         </div>
 
         <div className="border-b border-white/10 px-1 py-2">
@@ -177,20 +185,20 @@ const MobileMenu = ({ onCloseMenu }) => {
                 Galeri
               </NavLink>
               <NavLink
-                to="/Jawara"
-                className={({isActive}) => menuItemClass(isActive)}
-                onClick={onCloseMenu}
-                style={{ transitionDelay: '200ms' }}
-              >
-                Jawara
-              </NavLink>
-              <NavLink
                 to="/Prestasi"
                 className={({isActive}) => menuItemClass(isActive)}
                 onClick={onCloseMenu}
                 style={{ transitionDelay: '200ms' }}
               >
                 Prestasi
+              </NavLink>
+              <NavLink
+                to="/syntax"
+                className={({isActive}) => menuItemClass(isActive)}
+                onClick={onCloseMenu}
+                style={{ transitionDelay: '200ms' }}
+              >
+                Syntax
               </NavLink>
             </div>
           )}
@@ -213,13 +221,7 @@ const MobileMenu = ({ onCloseMenu }) => {
             Riset
           </NavLink>
 
-          <NavLink
-            to="/syntax"
-            className={({isActive}) => menuItemClass(isActive)}
-            onClick={onCloseMenu}
-          >
-            Syntax
-          </NavLink>
+          
         </div>
 
         <div className="mt-2 border-t border-white/10 px-3 pb-1 pt-4">

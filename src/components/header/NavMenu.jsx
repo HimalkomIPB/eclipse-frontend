@@ -121,6 +121,9 @@ const NavMenu = () => {
       <NavLink to="/home" className={desktopLinkClass} onClick={closeDropdowns}>
         Home
       </NavLink>
+      <NavLink to="/explore" className={desktopLinkClass} onClick={closeDropdowns}>
+        Explore
+      </NavLink>
 
       <div className="relative" ref={profileRef}>
         <button
@@ -290,19 +293,27 @@ const NavMenu = () => {
               </NavLink>
 
               <NavLink
-                to="/jawara"
-                className={dropdownLinkClass}
-                onClick={closeDropdowns}
-              >
-                Jawara
-              </NavLink>
-
-              <NavLink
                 to="/prestasi"
                 className={dropdownLinkClass}
                 onClick={closeDropdowns}
               >
                 Prestasi
+              </NavLink>
+
+              <NavLink
+                to="/riset"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
+              >
+                Riset
+              </NavLink>
+
+              <NavLink
+                to="/syntax"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
+              >
+                Syntax
               </NavLink>
             </motion.div>
           )}

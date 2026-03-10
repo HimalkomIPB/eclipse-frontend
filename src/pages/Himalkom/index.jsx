@@ -25,7 +25,7 @@ const Himalkom = () => {
     </MotionReveal>
 
     {/* Desc Section */}
-    <section className="flex flex-col items-center mt-70 lg:mx-30 sm:items-center md:items-center md:flex-col gap-11 lg:flex-row justify-around h-auto">
+    <section className="flex flex-col items-center mt-40 lg:mx-30 sm:items-center md:items-center md:flex-col gap-11 lg:flex-row justify-around h-auto text-white">
       <Description />
     </section>
     
@@ -35,16 +35,16 @@ const Himalkom = () => {
       <MotionReveal animation="fade-up">
         <div className='flex flex-col items-center mb-[1px] '>
           {/* Judul */}
-          <h1 className="font-semibold pb-[10px] text-[35px] lg:text-[48px] leading-11">FILOSOFI LOGO</h1>
+          <h1 className="font-semibold pb-[10px] text-[35px] lg:text-[48px] leading-11 text-white">FILOSOFI LOGO</h1>
           {/* Garis */}
           <img
             src={TImages.DECORATIVE_ELEMENTS.GARIS_HERO_ELEVOR}
             alt="Garis Prestasi"
-            className="w-[250px] lg:w-[340px]"
+            className="theme-svg w-[250px] lg:w-[340px]"
           />
         </div>
-        <p className="text-xl text-center lg:text-2xl my-[30px]">
-          <b>Elevor</b> bukan sekadar nama kabinet, tetapi sebuah gerakan yang membawa perubahan nyata dalam Himalkom.
+        <p className="text-xl text-center lg:text-2xl my-[30px] text-white/85">
+          <b>Eclipse</b> bukan sekadar nama kabinet, tetapi sebuah gerakan yang membawa perubahan nyata dalam Himalkom.
         </p>
       </MotionReveal>
       
@@ -54,16 +54,16 @@ const Himalkom = () => {
     </section>
 
     {/* Departemen Section */}
-    <section className="px-4 flex flex-col items-center text-center mt-25 mb-50 lg:my-50">
+    <section className="px-4 flex flex-col items-center text-center mt-25 mb-50 lg:my-50 text-white">
       <MotionReveal animation="fade-up">
         <div className='flex flex-col items-center mb-[1px] '>
           {/* Judul */}
-          <h1 className="font-semibold pb-[10px] text-[30px] lg:text-[48px] leading-11">DEPARTEMEN HIMALKOM</h1>
+          <h1 className="font-semibold pb-[10px] text-[30px] lg:text-[48px] leading-11 text-white">DEPARTEMEN HIMALKOM</h1>
           {/* Garis */}
           <img
             src={TImages.DECORATIVE_ELEMENTS.GARIS_HERO_ELEVOR}
             alt="Garis Prestasi"
-            className="pb-8 w-[340px] lg:w-[500px]"
+            className="theme-svg pb-8 w-[340px] lg:w-[500px]"
           />
         </div>
       </MotionReveal>

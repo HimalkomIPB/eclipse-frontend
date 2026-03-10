@@ -40,9 +40,10 @@ const Syntax = () => {
 
   if (error)
     return (
-      <p className="text-red-500 font-bold text-xl text-center">
-        Error: {error}
-      </p>
+      <div className="mx-auto mt-24 max-w-xl rounded-lg border border-red-400/30 bg-red-500/10 px-6 py-6 text-center text-red-100">
+        <p className="font-semibold">Gagal memuat data syntax.</p>
+        <p className="mt-2 text-sm">{error}</p>
+      </div>
     );
 
   return (
@@ -51,7 +52,7 @@ const Syntax = () => {
         <HeroSection />
       </MotionReveal>
 
-      <section className="px-4 flex flex-col items-center text-center my-[130px] md:my-[150px] lg:my-[280px]">
+      <section className="px-4 flex flex-col items-center text-center mt-12 md:mt-16 lg:mt-20 mb-[130px] md:mb-[150px] lg:mb-[220px]">
         {dataList && dataList.length > 0 ? (
           <>
             <SynCard data={{ [NAMA_MODEL]: dataList }} baseUrl={baseUrl} />
@@ -62,7 +63,7 @@ const Syntax = () => {
             />
           </>
         ) : (
-          <p className="text-center text-gray-500">
+          <p className="text-center text-white/70">
             Tidak ada data syntax untuk ditampilkan.
           </p>
         )}

@@ -8,11 +8,11 @@ import Galeri from './pages/Galeri';
 import GalleryDetail from './pages/Galeri/Detail';
 import Himalkom from './pages/Himalkom';
 import Home from './pages/Home';
-import Jawara from './pages/Jawara';
 import Komnews from './pages/Komnews';
 import News from './pages/Komnews/News';
 import Komunitas from './pages/Komunitas';
 import Megaproker from './pages/Megaproker';
+import Explore from './pages/Explore';
 import NotFound from './pages/NotFound';
 import Riset from './pages/Riset';
 import Syntax from './pages/Syntax';
@@ -28,6 +28,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/explore" element={<Explore />} />
           <Route path="/community/:slug" element={<Komunitas />} />
           <Route path="/himalkom" element={<Himalkom />} />
           <Route path="/division/:slug" element={<Departemen />} />
@@ -38,7 +39,6 @@ const App = () => {
           <Route path="/megaproker" element={<Megaproker />} />
           <Route path="/galeri" element={<Galeri />} />
           <Route path="/galeri/:id" element={<GalleryDetail />} />
-          <Route path="/jawara" element={<Jawara />} />
           <Route path="/prestasi" element={<Prestasi />} />
           <Route path="/prestasi/:id" element={<DetailPrestasi />} />
           <Route path="*" element={<NotFound />} />

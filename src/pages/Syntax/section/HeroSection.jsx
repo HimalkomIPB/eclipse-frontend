@@ -5,7 +5,7 @@ const HeroSection = () => (
   <section>
     <div
       id="hero-section"
-      className="flex flex-row justify-center items-center gap-6 sm:gap-12 md:gap-16 lg:gap-24 sm:mt-15 md:mt-0 w-full px-4 "
+      className="flex flex-row justify-center items-center gap-6 sm:gap-12 md:gap-16 lg:gap-24 w-full px-4 pt-12 sm:pt-16 md:pt-20 lg:pt-24"
     >
       {/* Logo Syntax */}
       <img
@@ -15,7 +15,7 @@ const HeroSection = () => (
       />
       <div className="flex flex-col items-start text-center sm:text-left mt-4 sm:mt-0">
         {/* Title */}
-        <h1 className="max-w-xl text-start font-semibold md:pb-3 text-2xl sm:text-2xl md:text-4xl lg:text-[45px] leading-normal">
+        <h1 className="max-w-xl text-start font-semibold md:pb-3 text-2xl sm:text-2xl md:text-4xl lg:text-[45px] leading-normal text-white">
           SYNTAX
         </h1>
         
@@ -27,7 +27,7 @@ const HeroSection = () => (
         />
         
         {/* Tagline dan Subtitle */}
-        <div className="text-left items-center max-w-sm sm:items-start sm:max-w-xl text-black text-[14px] sm:text-xl md:text-xl lg:text-2xl font-normal">
+        <div className="text-left items-center max-w-sm sm:items-start sm:max-w-xl text-white/80 text-[14px] sm:text-xl md:text-xl lg:text-2xl font-normal">
          <p><b>Syntax</b> merupakan majalah tahunan yang dibuat oleh HImalkom IPB untuk memberikan informasi mengenai kaleidoskop program kerja yang telah terlaksana serta informasi lainnya dalam ruang lingkup departemen Ilmu Komputer IPB.</p>
         </div>
       </div>
