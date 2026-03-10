@@ -19,6 +19,8 @@ const Section = () => {
             <a
               href="mailto:himalkom@apps.ipb.ac.id"
               className="text-white transition hover:text-white hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               himalkom@apps.ipb.ac.id
             </a>
@@ -27,6 +29,8 @@ const Section = () => {
             <a
               href="https://wa.me/6285155391409"
               className="text-white transition hover:text-white hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               +62 851-5539-1409
             </a>
