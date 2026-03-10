@@ -82,18 +82,18 @@ const NavMenu = () => {
   }, [isProfileOpen, isDepartmentOpen, isCommunityOpen, isInformasiOpen]);
 
   const desktopLinkClass = ({ isActive }) =>
-    `relative text-[0.94rem] leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem] ${
+    `hover:cursor-pointer text-[0.94rem] leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem] ${
       isActive ? "font-semibold text-white" : "font-medium"
     }`;
 
   const desktopButtonClass =
-    "cursor-pointer text-[0.94rem] font-medium leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem]";
+    "text-[0.94rem] font-medium leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem]";
 
   const dropdownPanelClass =
-    "absolute left-0 top-full z-40 mt-4 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64";
+    "absolute hover:cursor-pointer left-0 top-full z-40 mt-4 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64";
 
   const dropdownLinkClass = ({ isActive }) =>
-    `block rounded-2xl px-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:bg-white/10 hover:text-white ${
+    `block rounded-2xl px-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${
       isActive ? "bg-white/8 font-semibold text-white" : "font-normal"
     }`;
 

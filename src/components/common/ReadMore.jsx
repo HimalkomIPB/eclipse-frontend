@@ -19,7 +19,7 @@ const ReadMoreButton = ({
   };
 
   return (
-    <div className='interactive-btn rounded-lg shadow-card hover:shadow-card-hover transition-all duration-300 p-1'>
+    <div className='interactive-btn rounded-lg shadow-card cursor-pointer hover:shadow-card-hover transition-all duration-300 p-1'>
       <Link 
         to={to}
         className="flex items-center justify-center transition-all duration-300 px-2 py-1 gap-4 group"

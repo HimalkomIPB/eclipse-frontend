@@ -56,9 +56,9 @@ const MegaprokerSection = ({ megaprokers, index, baseUrl }) => {
             <div className={`place-items-center mt-4 md:mt-6 ${isEven ? 'md:place-items-start' : 'md:place-items-end'}`}>
               <h3 className="font-semibold text-4xl pb-4 text-white">DOKUMENTASI</h3>
               {/* Tombol atau link dokumentasi */}
-              <div className="glass-btn w-[155px] rounded-full p-1 inline-flex justify-center">
-                <ReadMoreButton to={megaprokers.video_url} newTab="True"/>
-              </div>
+              
+              <ReadMoreButton to={megaprokers.video_url} newTab="True"/>
+
             </div>
             </div>
           </div>
