@@ -18,13 +18,13 @@ const About = () => {
 
 				<MotionReveal animation="fade-left" delay={0.2}>
 					<div className="max-w-2xl text-center text-white md:text-left">
-						<h2 className="text-3xl font-semibold italic sm:text-4xl lg:text-5xl">What is HIMALKOM?</h2>
+						<h2 className="text-3xl font-semibold italic sm:text-4xl lg:text-5xl">What is Himalkom?</h2>
 						<p className="mt-3 text-base leading-relaxed text-white/90 sm:text-lg lg:text-xl pb-6 md:pb-8">
-							Himpunan Mahasiswa Ilmu Komputer (HIMALKOM) adalah himpunan yang bergerak dalam
+							Himpunan Mahasiswa Ilmu Komputer (Himalkom) adalah himpunan yang bergerak dalam
 							pengembangan dan eksistensi mahasiswa ilmu Komputer IPB.
 						</p>
 
-						<h3 className="mt-8 text-3xl font-semibold italic sm:text-4xl lg:text-5xl">HIMALKOM Goals</h3>
+						<h3 className="mt-8 text-3xl font-semibold italic sm:text-4xl lg:text-5xl">Himalkom Goals</h3>
 						<p className="mt-3 text-base leading-relaxed text-white/90 sm:text-lg lg:text-xl pb-6 md:pb-8">
 							Mencerdaskan ilkomerz agar siap dan semangat untuk menjadi profesional, memperkuat
 							internalisasi, meningkatkan eksistensi, dan membangun Ilmu Komputer IPB berdasarkan
