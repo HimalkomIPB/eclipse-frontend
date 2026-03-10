@@ -126,7 +126,7 @@ const Komnews = ({
         <div className="mt-6 flex w-full items-center justify-center gap-6 md:gap-8">
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/15 shadow-card transition-colors hover:bg-white/25"
+            className="flex hover:cursor-pointer h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/15 shadow-card transition-colors hover:bg-white/25"
             aria-label="Previous slide"
           >
             <FaChevronLeft className="text-sm text-white" />
@@ -137,7 +137,7 @@ const Komnews = ({
               <button
                 key={`dot-${index}`}
                 onClick={() => swiperRef.current?.slideToLoop(index)}
-                className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                className={`h-3 w-3 hover:cursor-pointer rounded-full transition-all duration-300 ${
                   index === activeIndex
                     ? 'scale-125 bg-white'
                     : 'bg-white/40 hover:bg-white/60'
@@ -149,7 +149,7 @@ const Komnews = ({
 
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/15 shadow-card transition-colors hover:bg-white/25"
+            className="flex hover:cursor-pointer h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/15 shadow-card transition-colors hover:bg-white/25"
             aria-label="Next slide"
           >
             <FaChevronRight className="text-sm text-white" />

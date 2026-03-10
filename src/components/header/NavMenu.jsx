@@ -82,19 +82,17 @@ const NavMenu = () => {
   }, [isProfileOpen, isDepartmentOpen, isCommunityOpen, isInformasiOpen]);
 
   const desktopLinkClass = ({ isActive }) =>
-    `hover:cursor-pointer text-[0.94rem] leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem] ${
-      isActive ? "font-semibold text-white" : "font-medium"
+    `hover:cursor-pointer text-[0.94rem] leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem] ${isActive ? "font-semibold text-white" : "font-medium"
     }`;
 
   const desktopButtonClass =
-    "text-[0.94rem] font-medium leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem]";
+    "flex flex-row gap-2 text-[0.94rem] font-medium leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem]";
 
   const dropdownPanelClass =
     "absolute hover:cursor-pointer left-0 top-full z-40 mt-4 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64";
 
   const dropdownLinkClass = ({ isActive }) =>
-    `block rounded-2xl px-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${
-      isActive ? "bg-white/8 font-semibold text-white" : "font-normal"
+    `block rounded-2xl px-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${isActive ? "bg-white/8 font-semibold text-white" : "font-normal"
     }`;
 
   const panelTransition = {
@@ -110,10 +108,15 @@ const NavMenu = () => {
     exit: { opacity: 0, y: -10, scale: 0.97 },
   };
 
-  const sidePanelVariants = {
-    hidden: { opacity: 0, x: -12, scale: 0.96 },
-    visible: { opacity: 1, x: 0, scale: 1 },
-    exit: { opacity: 0, x: -8, scale: 0.97 },
+  const nestedPanelVariants = {
+    hidden: { opacity: 0, height: 0, marginTop: 0 },
+    visible: { opacity: 1, height: "auto", marginTop: 8 },
+    exit: { opacity: 0, height: 0, marginTop: 0 },
+  };
+
+  const nestedPanelTransition = {
+    duration: 0.2,
+    ease: "easeOut",
   };
 
   return (
@@ -134,6 +137,20 @@ const NavMenu = () => {
           }}
         >
           Profil
+          <svg
+            className={`h-4 w-4 transition-transform duration-300 ${isProfileOpen ? "rotate-180" : ""
+              }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
         </button>
 
         <AnimatePresence>
@@ -155,7 +172,7 @@ const NavMenu = () => {
                 Himalkom
               </NavLink>
 
-              <div ref={departmentRef} className="relative">
+              <div ref={departmentRef}>
                 <button
                   className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:bg-white/10 hover:text-white"
                   onClick={(e) => {
@@ -165,9 +182,8 @@ const NavMenu = () => {
                 >
                   <span>Departemen</span>
                   <svg
-                    className={`h-4 w-4 transition-transform duration-300 ${
-                      isDepartmentOpen ? "rotate-180" : ""
-                    }`}
+                    className={`h-4 w-4 transition-transform duration-300 ${isDepartmentOpen ? "rotate-180" : ""
+                      }`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -187,9 +203,9 @@ const NavMenu = () => {
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      variants={sidePanelVariants}
-                      transition={panelTransition}
-                      className="absolute left-full top-0 z-50 ml-3 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64"
+                      variants={nestedPanelVariants}
+                      transition={nestedPanelTransition}
+                      className="w-full overflow-hidden rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl"
                       style={{ transformOrigin: "top left" }}
                     >
                       {divisions.length > 0 ? (
@@ -223,6 +239,20 @@ const NavMenu = () => {
           onClick={() => setIsCommunityOpen(!isCommunityOpen)}
         >
           Komunitas
+          <svg
+            className={`h-4 w-4 transition-transform duration-300 ${isCommunityOpen ? "rotate-180" : ""
+              }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
         </button>
 
         <AnimatePresence>
@@ -263,6 +293,20 @@ const NavMenu = () => {
           onClick={() => setIsInformasiOpen(!isInformasiOpen)}
         >
           Informasi
+          <svg
+            className={`h-4 w-4 transition-transform duration-300 ${isInformasiOpen ? "rotate-180" : ""
+              }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
         </button>
 
         <AnimatePresence>

@@ -55,7 +55,7 @@ const Header = () => {
     <header className="fixed left-0 top-0 z-50 w-full">
       <div className="w-full">
         <div
-          className={`nav-shell relative z-50 w-full ${
+          className={`nav-shell relative z-50 px-5 w-full ${
             isScrolled ? 'is-scrolled mt-0' : 'mt-4 sm:mt-5 xl:mt-7'
           }`}
         >
