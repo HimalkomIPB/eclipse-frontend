@@ -45,14 +45,14 @@ const Section = () => {
                 </li>
                 <li>
                   <a
-                    href="https://wa.me/6281210242743"
+                    href="https://wa.me/6282166266155"
                     className="text-white transition hover:text-white hover:underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    +62 812‑1024‑2743
+                   +62 821‑6626‑6155
                   </a>{' '}
-                  (Luthfi)
+                  (Nafil)
                 </li>
               </ul>
             </div>
