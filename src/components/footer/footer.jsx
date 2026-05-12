@@ -14,27 +14,49 @@ const Section = () => {
         </div>
 
         <div className="leading-6 md:text-right md:leading-7">
-          <p>
-            Email:{' '}
-            <a
-              href="mailto:himalkom@apps.ipb.ac.id"
-              className="text-white transition hover:text-white hover:underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              himalkom@apps.ipb.ac.id
-            </a>
-            <br />
-            Phone:{' '}
-            <a
-              href="https://wa.me/6285155391409"
-              className="text-white transition hover:text-white hover:underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              +62 851-5539-1409
-            </a>
-          </p>
+          <div className="mt-0">
+            <div className="flex flex-col md:flex-row items-start">
+              <div className="md:w-24 md:text-right md:pr-3 text-white/82 mb-1 md:mb-0">Email:</div>
+              <div className="flex-1">
+                <a
+                  href="mailto:himalkom@apps.ipb.ac.id"
+                  className="text-white transition hover:text-white hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  himalkom@apps.ipb.ac.id
+                </a>
+              </div>
+            </div>
+
+            <div className="mt-2 flex flex-col md:flex-row items-start">
+              <div className="md:w-24 md:text-right md:pr-3 text-white/82 mb-1 md:mb-0">Phone:</div>
+              <ul className="flex-1 list-none ml-0 space-y-1 text-white">
+                <li>
+                  <a
+                    href="https://wa.me/6281210242743"
+                    className="text-white transition hover:text-white hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    +62 812‑1024‑2743
+                  </a>{' '}
+                  (Luthfi)
+                </li>
+                <li>
+                  <a
+                    href="https://wa.me/6281210242743"
+                    className="text-white transition hover:text-white hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    +62 812‑1024‑2743
+                  </a>{' '}
+                  (Luthfi)
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -70,7 +92,7 @@ const Section = () => {
             <FaXTwitter size={17} />
           </a>
           <a
-            href="https://www.youtube.com/@himalkomipb4653"
+            href="https://www.youtube.com/@ himalkomipb4653"
             className="rounded-full border border-white/10 bg-white/5 p-1.5 transition hover:border-white/40 hover:bg-white/10 hover:text-white sm:p-2"
             target="_blank"
             rel="noopener noreferrer"
