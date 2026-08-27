@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Logo from './Logo';
 import NavMenu from './NavMenu';
 import MobileMenu from './MobileMenu';
@@ -9,9 +9,15 @@ import MobileMenu from './MobileMenu';
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hasOpenedMobileMenu, setHasOpenedMobileMenu] = useState(false);
+  const rafId = useRef(null);
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(prev => !prev);
+    setIsMobileMenuOpen(prev => {
+      const next = !prev;
+      if (next) setHasOpenedMobileMenu(true);
+      return next;
+    });
   };
 
   useEffect(() => {
@@ -41,14 +47,32 @@ const Header = () => {
     };
   }, [isMobileMenuOpen]);
 
+  // Throttled scroll listener using requestAnimationFrame
   useEffect(() => {
+    let lastKnownScrollPosition = 0;
+    let ticking = false;
+
     const onScroll = () => {
-      setIsScrolled(window.scrollY > 12);
+      lastKnownScrollPosition = window.scrollY;
+
+      if (!ticking) {
+        rafId.current = window.requestAnimationFrame(() => {
+          const shouldScroll = lastKnownScrollPosition > 12;
+          setIsScrolled(prev => (prev !== shouldScroll ? shouldScroll : prev));
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    onScroll();
+    // Initial check
+    setIsScrolled(window.scrollY > 12);
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId.current) window.cancelAnimationFrame(rafId.current);
+    };
   }, []);
 
   return (
@@ -97,7 +121,7 @@ const Header = () => {
               </button>
             </div>
           </div>
-      </div>
+        </div>
       </div>
 
       <div
@@ -113,7 +137,12 @@ const Header = () => {
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-[120%]'
         }`}
       >
-        <MobileMenu onCloseMenu={() => setIsMobileMenuOpen(false)} />
+        {hasOpenedMobileMenu && (
+          <MobileMenu
+            isOpen={isMobileMenuOpen}
+            onCloseMenu={() => setIsMobileMenuOpen(false)}
+          />
+        )}
       </div>
     </header>
   );

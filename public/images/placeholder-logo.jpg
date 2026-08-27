@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" rx="20" fill="#13364F"/>
+  <circle cx="200" cy="200" r="120" fill="#18425F" stroke="#AFE1EA" stroke-width="4"/>
+  <text x="200" y="210" fill="#AFE1EA" font-family="sans-serif" font-size="28" text-anchor="middle" font-weight="bold">HIMALKOM</text>
+</svg>

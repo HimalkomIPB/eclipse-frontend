@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReadMoreButton from '@/components/common/ReadMore';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import MotionReveal from '@/components/common/MotionReveal';
+import RevealOnScroll from '@/components/common/RevealOnScroll';
 
 const CommunityCard = ({ community, loading, baseUrl }) => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const CommunityCard = ({ community, loading, baseUrl }) => {
   const truncatedDescription = truncateDescription(description);
 
   return (
-    <MotionReveal animation="fade-up" delay={0.1}>
+    <RevealOnScroll animation="fade-up" delay={0.1}>
       <div
         className="community-card flex h-[240px] w-[170px] cursor-pointer flex-col items-center justify-around rounded-[15px] bg-white p-8 text-white shadow-card md:h-[300px] md:w-[240px] lg:h-[400px] lg:w-[270px]"
         role="link"
@@ -34,7 +34,12 @@ const CommunityCard = ({ community, loading, baseUrl }) => {
         <img
           src={`${baseUrl}/storage/${community.logo}`}
           alt={community.name}
+          width="122"
+          height="122"
+          loading="lazy"
+          decoding="async"
           className="h-[122px] w-[122px]"
+          style={{ aspectRatio: '1 / 1' }}
         />
 
         <h3 className="mt-3 text-center text-2xl font-bold">{community.name}</h3>
@@ -53,7 +58,7 @@ const CommunityCard = ({ community, loading, baseUrl }) => {
           <ReadMoreButton to={`/community/${community.slug}`} />
         </div>
       </div>
-    </MotionReveal>
+    </RevealOnScroll>
   );
 };
 

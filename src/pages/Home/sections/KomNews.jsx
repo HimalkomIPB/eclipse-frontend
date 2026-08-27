@@ -3,9 +3,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, A11y } from 'swiper/modules';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import ReadMoreButton from '@/components/common/ReadMore';
-import MotionReveal from '@/components/common/MotionReveal';
+import RevealOnScroll from '@/components/common/RevealOnScroll';
 import DOMPurify from 'dompurify';
 import { timeAgo } from '@/utils/formatting';
+import logoHimalkom from '@/assets/logo-himalkom.svg';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -28,7 +29,7 @@ const Komnews = ({
   };
 
   if (loadingNews) {
-    return <div className="py-8 text-center">Memuat berita...</div>;
+    return <div className="py-8 text-center text-white/70">Memuat berita...</div>;
   }
 
   if (errorNews) {
@@ -36,11 +37,11 @@ const Komnews = ({
   }
 
   if (!newsData?.komnews || newsData.komnews.length === 0) {
-    return <div className="py-8 text-center">Tidak ada berita terkini</div>;
+    return <div className="py-8 text-center text-white/70">Tidak ada berita terkini</div>;
   }
 
   return (
-    <MotionReveal animation="fade-up" delay={0.3}>
+    <RevealOnScroll animation="fade-up" delay={0.2}>
       <div className="relative mx-auto flex w-full flex-col items-center">
         <Swiper
           modules={[Pagination, Autoplay, A11y]}
@@ -77,10 +78,14 @@ const Komnews = ({
                     <img
                       src={`${baseUrl}/storage/${komnews.image}`}
                       alt={komnews.title}
+                      width="400"
+                      height="160"
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = '/images/placeholder-news.jpg';
+                        e.target.src = logoHimalkom;
                       }}
                     />
                   </div>
@@ -110,10 +115,14 @@ const Komnews = ({
                     <img
                       src={`${baseUrl}/storage/${komnews.image}`}
                       alt={komnews.title}
+                      width="500"
+                      height="300"
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = '/images/placeholder-news.jpg';
+                        e.target.src = logoHimalkom;
                       }}
                     />
                   </div>
@@ -156,7 +165,7 @@ const Komnews = ({
           </button>
         </div>
       </div>
-    </MotionReveal>
+    </RevealOnScroll>
   );
 };
 

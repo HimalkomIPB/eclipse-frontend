@@ -1,13 +1,14 @@
 import React from 'react';
 import ReadMoreButton from '@/components/common/ReadMore';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import MotionReveal from '@/components/common/MotionReveal';
+import RevealOnScroll from '@/components/common/RevealOnScroll';
+import logoHimalkom from '@/assets/logo-himalkom.svg';
 
 /**
  * MegaprokerCard Component
  */
 const MegaprokerCard = ({ megaproker, baseUrl }) => (
-  <MotionReveal animation="fade-up" delay={0.2}>
+  <RevealOnScroll animation="fade-up" delay={0.15}>
     <div
       className="h-[180px] w-[320px] rounded-[15px] border border-white/20 bg-white/10 p-5 shadow-card backdrop-blur-md flex items-center justify-between md:h-[220px] md:w-[390px] md:justify-evenly lg:h-[274px] lg:w-[400px] xl:w-[557px]"
     >
@@ -15,20 +16,24 @@ const MegaprokerCard = ({ megaproker, baseUrl }) => (
         <img
           src={`${baseUrl}/storage/${megaproker.logo}`}
           alt={megaproker.name}
-          className="w-[130px] lg:w-[220px]"
+          width="220"
+          height="120"
+          loading="lazy"
+          decoding="async"
+          className="max-h-[120px] w-auto max-w-[130px] object-contain lg:max-w-[220px]"
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = '/images/placeholder-logo.jpg';
+            e.target.src = logoHimalkom;
           }}
         />
       </div>
 
-      <div className='flex h-full flex-col items-center justify-center gap-4'>
+      <div className="flex h-full flex-col items-center justify-center gap-4">
         <h3 className="text-center text-xl font-bold text-white md:text-2xl">{megaproker.name}</h3>
-        <ReadMoreButton to={`/megaproker/`} />
+        <ReadMoreButton to="/megaproker" />
       </div>
     </div>
-  </MotionReveal>
+  </RevealOnScroll>
 );
 
 const Megaproker = ({ megaprokerData, loadingMegaproker, errorMegaproker, baseUrl }) => {

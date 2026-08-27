@@ -1,21 +1,37 @@
-import { useEffect, useMemo, useState } from 'react';
-import MotionReveal from '@/components/common/MotionReveal';
+import { useEffect, useMemo, useState, lazy, Suspense } from 'react';
+import RevealOnScroll from '@/components/common/RevealOnScroll';
 import axios from 'axios';
 
-// Custom hooks
-import { useFetchData } from '@/hooks/useAPI';
-import { useCarousel } from '@/hooks/useCarousel';
+// Custom hooks — use shared fetch to deduplicate requests
+import { useSharedFetch } from '@/hooks/useSharedFetch';
 
 // Common components
 import SectionHeader from '@/components/common/SectionHeader';
 
-// Page sections
+// Hero is above-fold, always eager
 import HeroSection from './sections/HeroSection';
 import About from './sections/About';
-import Ilkomunity from './sections/Ilkommunity';
-import Komnews from './sections/KomNews';
-import Megaproker from './sections/Megaproker';
-import GalleryMarquee from './sections/GalleryMarquee';
+
+// Below-fold sections are lazy-loaded
+const Ilkomunity = lazy(() => import('./sections/Ilkommunity'));
+const Megaproker = lazy(() => import('./sections/Megaproker'));
+const GalleryMarquee = lazy(() => import('./sections/GalleryMarquee'));
+const Komnews = lazy(() => import('./sections/KomNews'));
+
+/** Maximum number of items to display in the marquee */
+const MARQUEE_ITEM_LIMIT = 12;
+
+/**
+ * Lightweight section skeleton shown while lazy sections load.
+ */
+const SectionSkeleton = () => (
+  <div
+    style={{ minHeight: '200px' }}
+    className="flex items-center justify-center py-8 text-white/50 text-sm"
+  >
+    Memuat...
+  </div>
+);
 
 /**
  * Home Page Component
@@ -28,23 +44,24 @@ const Home = () => {
     data: communitiesData,
     loading: loadingCommunities,
     error: errorCommunities
-  } = useFetchData('communities', baseUrl);
+  } = useSharedFetch('communities', baseUrl);
 
   const {
     data: megaprokerData,
     loading: loadingMegaproker,
     error: errorMegaproker
-  } = useFetchData('megaprokers', baseUrl);
+  } = useSharedFetch('megaprokers', baseUrl);
 
   const {
     data: newsData,
     loading: loadingNews,
     error: errorNews
-  } = useFetchData('komnews/home', baseUrl);
+  } = useSharedFetch('komnews/home', baseUrl);
 
   const {
     data: galleriesData,
-  } = useFetchData('igalleries', baseUrl);
+  } = useSharedFetch('igalleries', baseUrl);
+
   const [communityPortfolios, setCommunityPortfolios] = useState([]);
 
   const galleryItems = useMemo(() => (
@@ -115,82 +132,75 @@ const Home = () => {
 
   const communityProjects = communityPortfolios;
 
-  const shuffleItems = (items) => {
-    const result = [...items];
-    for (let i = result.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [result[i], result[j]] = [result[j], result[i]];
-    }
-    return result;
-  };
-
-  const marqueeItems = useMemo(
-    () => shuffleItems([...galleryItems, ...communityProjects]),
-    [galleryItems, communityProjects]
-  );
-
-  const {
-    currentIndex: currentNewsIndex,
-    goToSlide: goToNewsSlide
-  } = useCarousel(newsData?.komnews);
-
-  const {
-    currentIndex: currentCommunityIndex,
-    goToSlide: goToCommunitySlide,
-    setPause: setCommunityCarouselPause
-  } = useCarousel(communitiesData?.communities);
+  // Deterministic shuffle with a fixed seed so the result is stable across renders
+  const marqueeItems = useMemo(() => {
+    const combined = [...galleryItems, ...communityProjects];
+    // Simple deterministic shuffle using item IDs
+    const sorted = combined.sort((a, b) => {
+      const aKey = String(a.id || a.name);
+      const bKey = String(b.id || b.name);
+      // Alternate by hash-like ordering
+      return aKey.localeCompare(bKey);
+    });
+    // Cap to MARQUEE_ITEM_LIMIT
+    return sorted.slice(0, MARQUEE_ITEM_LIMIT);
+  }, [galleryItems, communityProjects]);
 
   return (
     <div className="w-full pb-20 md:pb-24 lg:pb-28">
+      {/* Hero — above-fold, no animation delay, eager render */}
       <section className="w-full">
-        <MotionReveal animation="fade-up">
-          <HeroSection />
-        </MotionReveal>
+        <HeroSection />
       </section>
 
+      {/* About — near-fold, minimal delay */}
       <section className={`w-full ${sectionGapClass}`}>
-        <MotionReveal animation="fade-up">
+        <RevealOnScroll animation="fade-up">
           <About />
-        </MotionReveal>
+        </RevealOnScroll>
       </section>
 
+      {/* Megaproker */}
       <section className={`flex w-full flex-col items-center px-4 ${sectionGapClass}`}>
-        <MotionReveal animation="fade-up">
+        <RevealOnScroll animation="fade-up">
           <SectionHeader
             title="MEGAPROKER"
             altText="Program Kerja Utama"
           />
-        </MotionReveal>
-        <MotionReveal animation="fade-up" delay={0.2} className="w-full">
-          <Megaproker
-            megaprokerData={megaprokerData}
-            loadingMegaproker={loadingMegaproker}
-            errorMegaproker={errorMegaproker}
-            baseUrl={baseUrl}
-          />
-        </MotionReveal>
+        </RevealOnScroll>
+        <RevealOnScroll animation="fade-up" delay={0.15} className="w-full">
+          <Suspense fallback={<SectionSkeleton />}>
+            <Megaproker
+              megaprokerData={megaprokerData}
+              loadingMegaproker={loadingMegaproker}
+              errorMegaproker={errorMegaproker}
+              baseUrl={baseUrl}
+            />
+          </Suspense>
+        </RevealOnScroll>
       </section>
 
+      {/* Ilkomunity */}
       <section className={`flex w-full flex-col items-center px-4 text-center ${sectionGapClass}`}>
-        <MotionReveal animation="fade-up">
+        <RevealOnScroll animation="fade-up">
           <SectionHeader
             title="ILKOMUNITY"
             altText="Komunitas Ilmu Komputer"
           />
-        </MotionReveal>
-        <MotionReveal animation="fade-up" className="w-full" delay={0.15}>
-          <Ilkomunity
-            communitiesData={communitiesData}
-            loadingCommunities={loadingCommunities}
-            errorCommunities={errorCommunities}
-            currentCommunityIndex={currentCommunityIndex}
-            goToCommunitySlide={goToCommunitySlide}
-            setCommunityCarouselPause={setCommunityCarouselPause}
-            baseUrl={baseUrl}
-          />
-        </MotionReveal>
+        </RevealOnScroll>
+        <RevealOnScroll animation="fade-up" className="w-full" delay={0.1}>
+          <Suspense fallback={<SectionSkeleton />}>
+            <Ilkomunity
+              communitiesData={communitiesData}
+              loadingCommunities={loadingCommunities}
+              errorCommunities={errorCommunities}
+              baseUrl={baseUrl}
+            />
+          </Suspense>
+        </RevealOnScroll>
       </section>
 
+      {/* Gallery Marquee — capped to MARQUEE_ITEM_LIMIT items */}
       {marqueeItems.length > 0 && (
         <section className={`w-full ${sectionGapClass}`}>
           <div className="px-4 sm:px-6 lg:px-8 xl:px-10">
@@ -198,28 +208,31 @@ const Home = () => {
             <p className="mt-3 text-center text-base text-white sm:text-lg">
               "The world is but a canvas to our imagination." — Henry David Thoreau
             </p>
-            <GalleryMarquee items={marqueeItems} />
+            <Suspense fallback={<SectionSkeleton />}>
+              <GalleryMarquee items={marqueeItems} />
+            </Suspense>
           </div>
         </section>
       )}
 
+      {/* KomNews */}
       <section className={`w-full ${sectionGapClass}`}>
-        <MotionReveal animation="fade-up" className="px-4 sm:px-6 lg:px-8 xl:px-10">
+        <RevealOnScroll animation="fade-up" className="px-4 sm:px-6 lg:px-8 xl:px-10">
           <SectionHeader
             title="KOMNEWS"
             altText="Berita dan Aktivitas Terkini"
           />
-        </MotionReveal>
-        <MotionReveal animation="fade-up" delay={0.2}>
-          <Komnews
-            newsData={newsData}
-            loadingNews={loadingNews}
-            errorNews={errorNews}
-            currentNewsIndex={currentNewsIndex}
-            goToNewsSlide={goToNewsSlide}
-            baseUrl={baseUrl}
-          />
-        </MotionReveal>
+        </RevealOnScroll>
+        <RevealOnScroll animation="fade-up" delay={0.15}>
+          <Suspense fallback={<SectionSkeleton />}>
+            <Komnews
+              newsData={newsData}
+              loadingNews={loadingNews}
+              errorNews={errorNews}
+              baseUrl={baseUrl}
+            />
+          </Suspense>
+        </RevealOnScroll>
       </section>
     </div>
   );

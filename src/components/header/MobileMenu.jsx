@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useFetchData } from '../../hooks/useAPI';
+import { useSharedFetch } from '@/hooks/useSharedFetch';
 import { FaFacebook, FaInstagram, FaYoutube, FaXTwitter } from "react-icons/fa6";
 
-const MobileMenu = ({ onCloseMenu }) => {
+const MobileMenu = ({ isOpen, onCloseMenu }) => {
   const [expandedSections, setExpandedSections] = useState({
     profile: false,
     community: false,
@@ -28,8 +28,9 @@ const MobileMenu = ({ onCloseMenu }) => {
   };
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
-  const { data: divisionsData } = useFetchData('divisions', baseUrl);
-  const { data: communitiesData } = useFetchData('communities', baseUrl);
+  // Shared fetch only triggers or connects to cached requests when menu is active
+  const { data: divisionsData } = useSharedFetch('divisions', baseUrl, { enabled: isOpen });
+  const { data: communitiesData } = useSharedFetch('communities', baseUrl, { enabled: isOpen });
 
   const divisions = divisionsData?.divisions || [];
   const communities = communitiesData?.communities || [];
@@ -220,8 +221,6 @@ const MobileMenu = ({ onCloseMenu }) => {
           >
             Riset
           </NavLink>
-
-          
         </div>
 
         <div className="mt-2 border-t border-white/10 px-3 pb-1 pt-4">
