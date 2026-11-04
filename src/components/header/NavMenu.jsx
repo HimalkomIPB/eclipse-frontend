@@ -42,119 +42,108 @@ const NavMenu = () => {
     setIsCommunityOpen(false);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
-        setIsProfileOpen(false);
-        setIsDepartmentOpen(false);
-      }
-      if (
-        departmentRef.current &&
-        !departmentRef.current.contains(event.target)
-      ) {
-        setIsDepartmentOpen(false);
-      }
-      if (
-        communityRef.current &&
-        !communityRef.current.contains(event.target)
-      ) {
-        setIsCommunityOpen(false);
-      }
-      if (informasiRef.current && !informasiRef.current.contains(event.target)) {
-        setIsInformasiOpen(false);
-      }
-    };
-
-    if (
-      isProfileOpen ||
-      isDepartmentOpen ||
-      isCommunityOpen ||
-      isInformasiOpen
-    ) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+  // Keep a ref to the latest close logic so the listener never goes stale
+  // and never needs to be re-registered (which caused the flicker).
+  const outsideClickHandlerRef = useRef(null);
+  outsideClickHandlerRef.current = (event) => {
+    if (profileRef.current && !profileRef.current.contains(event.target)) {
+      setIsProfileOpen(false);
+      setIsDepartmentOpen(false);
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isProfileOpen, isDepartmentOpen, isCommunityOpen, isInformasiOpen]);
-
-  const desktopLinkClass = ({ isActive }) =>
-    `hover:cursor-pointer text-[0.94rem] leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem] ${isActive ? "font-semibold text-white" : "font-medium"
-    }`;
-
-  const desktopButtonClass =
-    "flex flex-row gap-2 text-[0.94rem] font-medium leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem]";
-
-  const dropdownPanelClass =
-    "absolute hover:cursor-pointer left-0 top-full z-40 mt-4 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64";
-
-  const dropdownLinkClass = ({ isActive }) =>
-    `block rounded-2xl px-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${isActive ? "bg-white/8 font-semibold text-white" : "font-normal"
-    }`;
-
-  const panelTransition = {
-    type: "spring",
-    stiffness: 420,
-    damping: 30,
-    mass: 0.9,
+    if (communityRef.current && !communityRef.current.contains(event.target)) {
+      setIsCommunityOpen(false);
+    }
+    if (informasiRef.current && !informasiRef.current.contains(event.target)) {
+      setIsInformasiOpen(false);
+    }
   };
 
-  const panelVariants = {
-    hidden: { opacity: 0, y: -12, scale: 0.96 },
-    visible: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: -10, scale: 0.97 },
-  };
+  useEffect(() => {
+    // Register once — no deps so it never tears down and re-adds mid-interaction.
+    // pointerdown + capture phase fires before React's click handlers, so
+    // switching dropdowns (close A then open B) is always clean.
+    const handler = (e) => outsideClickHandlerRef.current?.(e);
+    document.addEventListener("pointerdown", handler, true);
+    return () => document.removeEventListener("pointerdown", handler, true);
+  }, []);
 
-  const nestedPanelVariants = {
-    hidden: { opacity: 0, height: 0, marginTop: 0 },
-    visible: { opacity: 1, height: "auto", marginTop: 8 },
-    exit: { opacity: 0, height: 0, marginTop: 0 },
-  };
+const desktopLinkClass = ({ isActive }) =>
+  `hover:cursor-pointer text-[0.94rem] leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem] ${isActive ? "font-semibold text-white" : "font-medium"
+  }`;
 
-  const nestedPanelTransition = {
-    duration: 0.2,
-    ease: "easeOut",
-  };
+const desktopButtonClass =
+  "flex flex-row gap-2 text-[0.94rem] font-medium leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem]";
 
-  return (
-    <nav className="flex items-center gap-8 font-montserrat 2xl:gap-10">
-      <NavLink to="/home" className={desktopLinkClass} onClick={closeDropdowns}>
-        Home
-      </NavLink>
-      <NavLink to="/explore" className={desktopLinkClass} onClick={closeDropdowns}>
-        Explore
-      </NavLink>
+const dropdownPanelClass =
+  "absolute hover:cursor-pointer left-0 top-full z-40 mt-4 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64";
+
+const dropdownLinkClass = ({ isActive }) =>
+  `block rounded-2xl px-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${isActive ? "bg-white/8 font-semibold text-white" : "font-normal"
+  }`;
+
+const panelTransition = {
+  type: "spring",
+  stiffness: 420,
+  damping: 30,
+  mass: 0.9,
+};
+
+const panelVariants = {
+  hidden: { opacity: 0, y: -12, scale: 0.96 },
+  visible: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: -10, scale: 0.97 },
+};
+
+const nestedPanelVariants = {
+  hidden: { opacity: 0, height: 0, marginTop: 0 },
+  visible: { opacity: 1, height: "auto", marginTop: 8 },
+  exit: { opacity: 0, height: 0, marginTop: 0 },
+};
+
+const nestedPanelTransition = {
+  duration: 0.2,
+  ease: "easeOut",
+};
+
+return (
+  <nav className="flex items-center gap-8 font-montserrat 2xl:gap-10">
+    <NavLink to="/home" className={desktopLinkClass} onClick={closeDropdowns}>
+      Home
+    </NavLink>
+    <NavLink to="/explore" className={desktopLinkClass} onClick={closeDropdowns}>
+      Explore
+    </NavLink>
 
       <div className="relative" ref={profileRef}>
-        <button
-          className={desktopButtonClass}
-          onClick={() => {
-            setIsProfileOpen(!isProfileOpen);
-            setIsDepartmentOpen(false);
-          }}
+            <button
+              className={desktopButtonClass}
+              onClick={() => {
+                // Close all others, then toggle Profil
+                setIsCommunityOpen(false);
+                setIsInformasiOpen(false);
+                setIsProfileOpen((prev) => !prev);
+                if (isProfileOpen) setIsDepartmentOpen(false);
+              }}
+            >
+        Profil
+        <svg
+          className={`h-4 w-4 transition-transform duration-300 ${isProfileOpen ? "rotate-180" : ""
+            }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
         >
-          Profil
-          <svg
-            className={`h-4 w-4 transition-transform duration-300 ${isProfileOpen ? "rotate-180" : ""
-              }`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            ></path>
-          </svg>
-        </button>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
+        </svg>
+      </button>
 
         <AnimatePresence>
-          {isProfileOpen && (
+              {isProfileOpen && (
             <motion.div
               initial="hidden"
               animate="visible"
@@ -177,7 +166,7 @@ const NavMenu = () => {
                   className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:bg-white/10 hover:text-white"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsDepartmentOpen(!isDepartmentOpen);
+                    setIsDepartmentOpen((prev) => !prev);
                   }}
                 >
                   <span>Departemen</span>
@@ -188,55 +177,61 @@ const NavMenu = () => {
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
-                </button>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M19 9l-7 7-7-7"
+    ></path>
+  </svg>
+                </button >
 
                 <AnimatePresence>
-                  {isDepartmentOpen && (
-                    <motion.div
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                      variants={nestedPanelVariants}
-                      transition={nestedPanelTransition}
-                      className="w-full overflow-hidden rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl"
-                      style={{ transformOrigin: "top left" }}
-                    >
-                      {divisions.length > 0 ? (
-                        divisions.map((division) => (
-                          <NavLink
-                            key={division.id || division.slug}
-                            to={`/division/${division.slug}`}
-                            className={dropdownLinkClass}
-                            onClick={closeDropdowns}
-                          >
-                            {division.abbreviation || division.name}
-                          </NavLink>
-                        ))
-                      ) : (
-                        <p className="px-4 py-3 text-[0.95rem] italic text-white/60">
-                          Loading...
-                        </p>
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </motion.div>
+        {isDepartmentOpen && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={nestedPanelVariants}
+            transition={nestedPanelTransition}
+            className="w-full overflow-hidden rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl"
+            style={{ transformOrigin: "top left" }}
+          >
+            {divisions.length > 0 ? (
+              divisions.map((division) => (
+                <NavLink
+                  key={division.id || division.slug}
+                  to={`/division/${division.slug}`}
+                  className={dropdownLinkClass}
+                  onClick={closeDropdowns}
+                >
+                  {division.abbreviation || division.name}
+                </NavLink>
+              ))
+            ) : (
+              <p className="px-4 py-3 text-[0.95rem] italic text-white/60">
+                Loading...
+              </p>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+  </div>
+            </motion.div >
           )}
-        </AnimatePresence>
-      </div>
+        </AnimatePresence >
+      </div >
 
       <div className="relative" ref={communityRef}>
         <button
           className={desktopButtonClass}
-          onClick={() => setIsCommunityOpen(!isCommunityOpen)}
+          onClick={() => {
+            // Close all others, then toggle Komunitas
+            setIsProfileOpen(false);
+            setIsDepartmentOpen(false);
+            setIsInformasiOpen(false);
+            setIsCommunityOpen((prev) => !prev);
+          }}
         >
           Komunitas
           <svg
@@ -246,14 +241,14 @@ const NavMenu = () => {
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            ></path>
-          </svg>
-        </button>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="2"
+    d="M19 9l-7 7-7-7"
+  ></path>
+          </svg >
+        </button >
 
         <AnimatePresence>
           {isCommunityOpen && (
@@ -290,7 +285,13 @@ const NavMenu = () => {
       <div className="relative" ref={informasiRef}>
         <button
           className={desktopButtonClass}
-          onClick={() => setIsInformasiOpen(!isInformasiOpen)}
+          onClick={() => {
+            // Close all others, then toggle Informasi
+            setIsProfileOpen(false);
+            setIsDepartmentOpen(false);
+            setIsCommunityOpen(false);
+            setIsInformasiOpen((prev) => !prev);
+          }}
         >
           Informasi
           <svg
@@ -360,26 +361,26 @@ const NavMenu = () => {
                 Riset
               </NavLink>
 
-              <NavLink
-                to="/syntax"
-                className={dropdownLinkClass}
-                onClick={closeDropdowns}
-              >
-                Syntax
-              </NavLink>
-            </motion.div>
+<NavLink
+  to="/syntax"
+  className={dropdownLinkClass}
+  onClick={closeDropdowns}
+>
+  Syntax
+</NavLink>
+            </motion.div >
           )}
-        </AnimatePresence>
-      </div>
+        </AnimatePresence >
+      </div >
 
-      <NavLink
-        to="/megaproker"
-        className={desktopLinkClass}
-        onClick={closeDropdowns}
-      >
-        Megaproker
-      </NavLink>
-    </nav>
+  <NavLink
+    to="/megaproker"
+    className={desktopLinkClass}
+    onClick={closeDropdowns}
+  >
+    Megaproker
+  </NavLink>
+    </nav >
   );
 };
 

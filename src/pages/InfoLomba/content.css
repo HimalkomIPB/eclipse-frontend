@@ -1,8 +1,140 @@
+/* Subtle float for lomba cards — small travel so text stays readable */
+@keyframes card-float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-card-float {
+  animation: card-float var(--card-float-duration, 5s) ease-in-out infinite;
+  animation-delay: var(--card-float-delay, 0s);
+  will-change: transform;
+}
+
+/* Independent floating, swaying, and breathing animations with coprime durations */
+@keyframes text-float-y {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes text-rotate-sway {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  33% {
+    transform: rotate(2.8deg);
+  }
+
+  66% {
+    transform: rotate(-2.3deg);
+  }
+}
+
+@keyframes text-breathe-scale {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.06);
+  }
+
+  75% {
+    transform: scale(0.97);
+  }
+}
+
+.animate-float-wrapper {
+  display: inline-block;
+  animation: text-float-y 4.3s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-rotate-wrapper {
+  display: inline-block;
+  transform-origin: center center;
+  animation: text-rotate-sway 6.1s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes text-glow-pulse {
+
+  0%,
+  100% {
+    text-shadow: none;
+  }
+
+  40% {
+    text-shadow:
+      0 0 8px rgba(147, 220, 255, 0.55),
+      0 0 22px rgba(99, 192, 255, 0.35),
+      0 0 44px rgba(56, 162, 255, 0.18);
+  }
+
+  60% {
+    text-shadow:
+      0 0 6px rgba(147, 220, 255, 0.45),
+      0 0 18px rgba(99, 192, 255, 0.28);
+  }
+}
+
+.animate-breathe-text {
+  display: inline-block;
+  transform-origin: center center;
+  /* Scale breathe (3.7s) + glow pulse (5.3s) — coprime so they never sync */
+  animation:
+    text-breathe-scale 3.7s ease-in-out infinite,
+    text-glow-pulse 5.3s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes filter-box-float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-filter-box {
+  animation: filter-box-float 4.5s ease-in-out infinite;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+.animate-filter-box:hover {
+  animation-play-state: paused;
+  transform: translateY(-10px) scale(1.02);
+
+}
+
 .info-lomba-content {
   overflow-wrap: anywhere;
 }
 
-.info-lomba-content > * + * {
+.info-lomba-content>*+* {
   margin-top: 1rem;
 }
 
