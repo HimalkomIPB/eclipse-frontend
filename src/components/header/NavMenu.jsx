@@ -345,6 +345,14 @@ const NavMenu = () => {
               </NavLink>
 
               <NavLink
+                to="/infolomba"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
+              >
+                Lomba
+              </NavLink>
+
+              <NavLink
                 to="/riset"
                 className={dropdownLinkClass}
                 onClick={closeDropdowns}
