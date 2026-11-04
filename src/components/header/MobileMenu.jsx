@@ -193,6 +193,14 @@ const MobileMenu = ({ onCloseMenu }) => {
                 Prestasi
               </NavLink>
               <NavLink
+                to="/infolomba"
+                className={({isActive}) => menuItemClass(isActive)}
+                onClick={onCloseMenu}
+                style={{ transitionDelay: '200ms' }}
+              >
+                Lomba
+              </NavLink>
+              <NavLink
                 to="/syntax"
                 className={({isActive}) => menuItemClass(isActive)}
                 onClick={onCloseMenu}

@@ -18,6 +18,8 @@ import Riset from './pages/Riset';
 import Syntax from './pages/Syntax';
 import Prestasi from './pages/Prestasi'
 import DetailPrestasi from './pages/Prestasi/Detail/Detail';
+import InfoLomba from './pages/InfoLomba';
+import DetailLomba from './pages/InfoLomba/Detail';
 
 const App = () => {
   return (
@@ -41,6 +43,8 @@ const App = () => {
           <Route path="/galeri/:id" element={<GalleryDetail />} />
           <Route path="/prestasi" element={<Prestasi />} />
           <Route path="/prestasi/:id" element={<DetailPrestasi />} />
+          <Route path="/infolomba" element={<InfoLomba />} />
+          <Route path="/infolomba/:slug" element={<DetailLomba />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </MainLayout>
