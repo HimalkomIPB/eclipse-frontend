@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useFetchData } from "../../hooks/useAPI";
 
@@ -7,10 +7,22 @@ import { useFetchData } from "../../hooks/useAPI";
  * Menu navigasi untuk desktop view
  */
 const NavMenu = () => {
+  const location = useLocation();
+  const isIlkomerzHubRoute = ["/infolomba", "/infomagang", "/beasiswa"].some(
+    (path) => location.pathname.startsWith(path)
+  );
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isInformasiOpen, setIsInformasiOpen] = useState(false);
   const [isDepartmentOpen, setIsDepartmentOpen] = useState(false);
   const [isCommunityOpen, setIsCommunityOpen] = useState(false);
+  const [isIlkomerzHubOpen, setIsIlkomerzHubOpen] = useState(isIlkomerzHubRoute);
+
+  useEffect(() => {
+    if (isIlkomerzHubRoute) {
+      setIsIlkomerzHubOpen(true);
+    }
+  }, [location.pathname, isIlkomerzHubRoute]);
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const { data: divisionsData } = useFetchData("divisions", baseUrl);
@@ -34,12 +46,14 @@ const NavMenu = () => {
   const informasiRef = useRef(null);
   const departmentRef = useRef(null);
   const communityRef = useRef(null);
+  const ilkomerzHubRef = useRef(null);
 
   const closeDropdowns = () => {
     setIsProfileOpen(false);
     setIsInformasiOpen(false);
     setIsDepartmentOpen(false);
     setIsCommunityOpen(false);
+    if (!isIlkomerzHubRoute) setIsIlkomerzHubOpen(false);
   };
 
   // Keep a ref to the latest close logic so the listener never goes stale
@@ -55,6 +69,7 @@ const NavMenu = () => {
     }
     if (informasiRef.current && !informasiRef.current.contains(event.target)) {
       setIsInformasiOpen(false);
+      if (!isIlkomerzHubRoute) setIsIlkomerzHubOpen(false);
     }
   };
 
@@ -67,83 +82,98 @@ const NavMenu = () => {
     return () => document.removeEventListener("pointerdown", handler, true);
   }, []);
 
-const desktopLinkClass = ({ isActive }) =>
-  `hover:cursor-pointer text-[0.94rem] leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem] ${isActive ? "font-semibold text-white" : "font-medium"
-  }`;
+  const desktopLinkClass = ({ isActive }) =>
+    `hover:cursor-pointer text-[0.94rem] leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem] ${
+      isActive ? "font-semibold text-white" : "font-medium"
+    }`;
 
-const desktopButtonClass =
-  "flex flex-row gap-2 text-[0.94rem] font-medium leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem]";
+  const desktopButtonClass =
+    "flex flex-row gap-2 text-[0.94rem] font-medium leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem]";
 
-const dropdownPanelClass =
-  "absolute hover:cursor-pointer left-0 top-full z-40 mt-4 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64";
+  const dropdownPanelClass =
+    "absolute hover:cursor-pointer left-0 top-full z-40 mt-4 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64";
 
-const dropdownLinkClass = ({ isActive }) =>
-  `block rounded-2xl px-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${isActive ? "bg-white/8 font-semibold text-white" : "font-normal"
-  }`;
+  const dropdownLinkClass = ({ isActive }) =>
+    `block rounded-2xl px-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${
+      isActive ? "bg-white/8 font-semibold text-white" : "font-normal"
+    }`;
 
-const panelTransition = {
-  type: "spring",
-  stiffness: 420,
-  damping: 30,
-  mass: 0.9,
-};
+  const dropdownSubLinkClass = ({ isActive }) =>
+    `block rounded-2xl pl-8 pr-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${
+      isActive ? "bg-white/8 font-semibold text-white" : "font-normal"
+    }`;
 
-const panelVariants = {
-  hidden: { opacity: 0, y: -12, scale: 0.96 },
-  visible: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: -10, scale: 0.97 },
-};
+  const panelTransition = {
+    type: "spring",
+    stiffness: 420,
+    damping: 30,
+    mass: 0.9,
+  };
 
-const nestedPanelVariants = {
-  hidden: { opacity: 0, height: 0, marginTop: 0 },
-  visible: { opacity: 1, height: "auto", marginTop: 8 },
-  exit: { opacity: 0, height: 0, marginTop: 0 },
-};
+  const panelVariants = {
+    hidden: { opacity: 0, y: -12, scale: 0.96 },
+    visible: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -10, scale: 0.97 },
+  };
 
-const nestedPanelTransition = {
-  duration: 0.2,
-  ease: "easeOut",
-};
+  const nestedPanelVariants = {
+    hidden: { opacity: 0, height: 0, marginTop: 0 },
+    visible: { opacity: 1, height: "auto", marginTop: 8 },
+    exit: { opacity: 0, height: 0, marginTop: 0 },
+  };
 
-return (
-  <nav className="flex items-center gap-8 font-montserrat 2xl:gap-10">
-    <NavLink to="/home" className={desktopLinkClass} onClick={closeDropdowns}>
-      Home
-    </NavLink>
-    <NavLink to="/explore" className={desktopLinkClass} onClick={closeDropdowns}>
-      Explore
-    </NavLink>
+  const hubPanelVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: { opacity: 1, height: "auto" },
+    exit: { opacity: 0, height: 0 },
+  };
+
+  const nestedPanelTransition = {
+    duration: 0.2,
+    ease: "easeOut",
+  };
+
+  return (
+    <nav className="flex items-center gap-8 font-montserrat 2xl:gap-10">
+      <NavLink to="/home" className={desktopLinkClass} onClick={closeDropdowns}>
+        Home
+      </NavLink>
+      <NavLink to="/explore" className={desktopLinkClass} onClick={closeDropdowns}>
+        Explore
+      </NavLink>
 
       <div className="relative" ref={profileRef}>
-            <button
-              className={desktopButtonClass}
-              onClick={() => {
-                // Close all others, then toggle Profil
-                setIsCommunityOpen(false);
-                setIsInformasiOpen(false);
-                setIsProfileOpen((prev) => !prev);
-                if (isProfileOpen) setIsDepartmentOpen(false);
-              }}
-            >
-        Profil
-        <svg
-          className={`h-4 w-4 transition-transform duration-300 ${isProfileOpen ? "rotate-180" : ""
-            }`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+        <button
+          className={desktopButtonClass}
+          onClick={() => {
+            // Close all others, then toggle Profil
+            setIsCommunityOpen(false);
+            setIsInformasiOpen(false);
+            if (!isIlkomerzHubRoute) setIsIlkomerzHubOpen(false);
+            setIsProfileOpen((prev) => !prev);
+            if (isProfileOpen) setIsDepartmentOpen(false);
+          }}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          ></path>
-        </svg>
-      </button>
+          Profil
+          <svg
+            className={`h-4 w-4 transition-transform duration-300 ${
+              isProfileOpen ? "rotate-180" : ""
+            }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+        </button>
 
         <AnimatePresence>
-              {isProfileOpen && (
+          {isProfileOpen && (
             <motion.div
               initial="hidden"
               animate="visible"
@@ -171,56 +201,57 @@ return (
                 >
                   <span>Departemen</span>
                   <svg
-                    className={`h-4 w-4 transition-transform duration-300 ${isDepartmentOpen ? "rotate-180" : ""
-                      }`}
+                    className={`h-4 w-4 transition-transform duration-300 ${
+                      isDepartmentOpen ? "rotate-180" : ""
+                    }`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M19 9l-7 7-7-7"
-    ></path>
-  </svg>
-                </button >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </button>
 
                 <AnimatePresence>
-        {isDepartmentOpen && (
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={nestedPanelVariants}
-            transition={nestedPanelTransition}
-            className="w-full overflow-hidden rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl"
-            style={{ transformOrigin: "top left" }}
-          >
-            {divisions.length > 0 ? (
-              divisions.map((division) => (
-                <NavLink
-                  key={division.id || division.slug}
-                  to={`/division/${division.slug}`}
-                  className={dropdownLinkClass}
-                  onClick={closeDropdowns}
-                >
-                  {division.abbreviation || division.name}
-                </NavLink>
-              ))
-            ) : (
-              <p className="px-4 py-3 text-[0.95rem] italic text-white/60">
-                Loading...
-              </p>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-  </div>
-            </motion.div >
+                  {isDepartmentOpen && (
+                    <motion.div
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={nestedPanelVariants}
+                      transition={nestedPanelTransition}
+                      className="w-full overflow-hidden rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl"
+                      style={{ transformOrigin: "top left" }}
+                    >
+                      {divisions.length > 0 ? (
+                        divisions.map((division) => (
+                          <NavLink
+                            key={division.id || division.slug}
+                            to={`/division/${division.slug}`}
+                            className={dropdownLinkClass}
+                            onClick={closeDropdowns}
+                          >
+                            {division.abbreviation || division.name}
+                          </NavLink>
+                        ))
+                      ) : (
+                        <p className="px-4 py-3 text-[0.95rem] italic text-white/60">
+                          Loading...
+                        </p>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
           )}
-        </AnimatePresence >
-      </div >
+        </AnimatePresence>
+      </div>
 
       <div className="relative" ref={communityRef}>
         <button
@@ -230,25 +261,27 @@ return (
             setIsProfileOpen(false);
             setIsDepartmentOpen(false);
             setIsInformasiOpen(false);
+            if (!isIlkomerzHubRoute) setIsIlkomerzHubOpen(false);
             setIsCommunityOpen((prev) => !prev);
           }}
         >
           Komunitas
           <svg
-            className={`h-4 w-4 transition-transform duration-300 ${isCommunityOpen ? "rotate-180" : ""
-              }`}
+            className={`h-4 w-4 transition-transform duration-300 ${
+              isCommunityOpen ? "rotate-180" : ""
+            }`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-  <path
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    strokeWidth="2"
-    d="M19 9l-7 7-7-7"
-  ></path>
-          </svg >
-        </button >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+        </button>
 
         <AnimatePresence>
           {isCommunityOpen && (
@@ -295,8 +328,9 @@ return (
         >
           Informasi
           <svg
-            className={`h-4 w-4 transition-transform duration-300 ${isInformasiOpen ? "rotate-180" : ""
-              }`}
+            className={`h-4 w-4 transition-transform duration-300 ${
+              isInformasiOpen ? "rotate-180" : ""
+            }`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -346,14 +380,6 @@ return (
               </NavLink>
 
               <NavLink
-                to="/infolomba"
-                className={dropdownLinkClass}
-                onClick={closeDropdowns}
-              >
-                Lomba
-              </NavLink>
-
-              <NavLink
                 to="/riset"
                 className={dropdownLinkClass}
                 onClick={closeDropdowns}
@@ -361,26 +387,87 @@ return (
                 Riset
               </NavLink>
 
-<NavLink
-  to="/syntax"
-  className={dropdownLinkClass}
-  onClick={closeDropdowns}
->
-  Syntax
-</NavLink>
-            </motion.div >
-          )}
-        </AnimatePresence >
-      </div >
+              <NavLink
+                to="/syntax"
+                className={dropdownLinkClass}
+                onClick={closeDropdowns}
+              >
+                Syntax
+              </NavLink>
 
-  <NavLink
-    to="/megaproker"
-    className={desktopLinkClass}
-    onClick={closeDropdowns}
-  >
-    Megaproker
-  </NavLink>
-    </nav >
+              <div ref={ilkomerzHubRef}>
+                <button
+                  type="button"
+                  className={`flex w-full items-center gap-2 rounded-2xl px-4 py-3 text-left text-[0.98rem] leading-none transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${
+                    isIlkomerzHubRoute ? "font-semibold text-white" : "font-normal text-white/82"
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsIlkomerzHubOpen((prev) => !prev);
+                  }}
+                >
+                  <span>Ilkomerz Hub</span>
+                  <svg
+                    className={`h-3 w-3 transition-transform duration-300 ${
+                      isIlkomerzHubOpen ? "rotate-180" : ""
+                    }`}
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M7 10l5 5 5-5z" />
+                  </svg>
+                </button>
+
+                <AnimatePresence>
+                  {isIlkomerzHubOpen && (
+                    <motion.div
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={hubPanelVariants}
+                      transition={nestedPanelTransition}
+                      className="-mx-2 -mb-2 mt-1.5 overflow-hidden rounded-b-[22px] border-t border-white/10 bg-black/25 p-1.5 backdrop-blur-md"
+                    >
+                      <NavLink
+                        to="/infolomba"
+                        className={dropdownSubLinkClass}
+                        onClick={closeDropdowns}
+                      >
+                        Info Lomba
+                      </NavLink>
+
+                      <NavLink
+                        to="/infomagang"
+                        className={dropdownSubLinkClass}
+                        onClick={closeDropdowns}
+                      >
+                        Info Magang
+                      </NavLink>
+
+                      <NavLink
+                        to="/beasiswa"
+                        className={dropdownSubLinkClass}
+                        onClick={closeDropdowns}
+                      >
+                        Beasiswa
+                      </NavLink>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <NavLink
+        to="/megaproker"
+        className={desktopLinkClass}
+        onClick={closeDropdowns}
+      >
+        Megaproker
+      </NavLink>
+    </nav>
   );
 };
 
