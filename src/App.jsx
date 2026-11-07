@@ -20,6 +20,8 @@ import Prestasi from './pages/Prestasi'
 import DetailPrestasi from './pages/Prestasi/Detail/Detail';
 import InfoLomba from './pages/InfoLomba';
 import DetailLomba from './pages/InfoLomba/Detail';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 
 const App = () => {
   return (
@@ -45,6 +47,8 @@ const App = () => {
           <Route path="/prestasi/:id" element={<DetailPrestasi />} />
           <Route path="/infolomba" element={<InfoLomba />} />
           <Route path="/infolomba/:slug" element={<DetailLomba />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </MainLayout>
