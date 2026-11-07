@@ -11,3 +11,5 @@ Coolify builds `Dockerfile` from this repo and deploys automatically on push:
 - Container listens on port 8080 (nginx, SPA fallback to `/index.html`).
 - Test changes on `staging` first, then merge into `main`.
 - Add `[skip ci]` to a commit message to skip the Coolify deploy.
+
+CD verified on staging: 2026-11-07 (GitHub push -> Coolify webhook).
