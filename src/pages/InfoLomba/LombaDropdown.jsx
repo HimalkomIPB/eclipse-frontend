@@ -85,7 +85,7 @@ export default function LombaDropdown({
               The outer panel has NO overflow-hidden, so rounded corners are
               purely cosmetic (border-radius) and nothing clips item bg layers.
             */}
-              <div className="max-h-60 overflow-y-auto rounded-[0.875rem]">
+              <div className="max-h-60 overflow-y-auto rounded-[0.875rem] dropdown-scroll pr-1">
                 <div className="p-1.5">
                   {options.map((option) => {
                     const isSelected = String(option.value) === String(value);

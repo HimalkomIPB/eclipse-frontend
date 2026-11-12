@@ -1,0 +1,127 @@
+/* Subtle float for magang cards — small travel so text stays readable */
+@keyframes card-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-card-float {
+  animation: card-float var(--card-float-duration, 5s) ease-in-out infinite;
+  animation-delay: var(--card-float-delay, 0s);
+  will-change: transform;
+}
+
+/* Independent floating, swaying, and breathing animations */
+@keyframes text-float-y {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes text-rotate-sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  33% {
+    transform: rotate(2.8deg);
+  }
+  66% {
+    transform: rotate(-2.3deg);
+  }
+}
+
+@keyframes text-breathe-scale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.06);
+  }
+  75% {
+    transform: scale(0.97);
+  }
+}
+
+.animate-float-wrapper {
+  display: inline-block;
+  animation: text-float-y 4.3s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-rotate-wrapper {
+  display: inline-block;
+  transform-origin: center center;
+  animation: text-rotate-sway 6.1s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes text-glow-pulse {
+  0%, 100% {
+    text-shadow: none;
+  }
+  40% {
+    text-shadow:
+      0 0 8px rgba(147, 220, 255, 0.55),
+      0 0 22px rgba(99, 192, 255, 0.35),
+      0 0 44px rgba(56, 162, 255, 0.18);
+  }
+  60% {
+    text-shadow:
+      0 0 6px rgba(147, 220, 255, 0.45),
+      0 0 18px rgba(99, 192, 255, 0.28);
+  }
+}
+
+.animate-breathe-text {
+  display: inline-block;
+  animation:
+    text-breathe-scale 5.7s ease-in-out infinite,
+    text-glow-pulse 5.7s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes filter-box-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-filter-box {
+  animation: filter-box-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Scrollbar for Dropdown Menu */
+.dropdown-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 9999px;
+  margin: 4px 0;
+}
+
+.dropdown-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+}
+
+.dropdown-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
