@@ -16,10 +16,14 @@ import Explore from './pages/Explore';
 import NotFound from './pages/NotFound';
 import Riset from './pages/Riset';
 import Syntax from './pages/Syntax';
-import Prestasi from './pages/Prestasi'
+import Prestasi from './pages/Prestasi';
 import DetailPrestasi from './pages/Prestasi/Detail/Detail';
 import InfoLomba from './pages/InfoLomba';
 import DetailLomba from './pages/InfoLomba/Detail';
+import InfoMagang from './pages/InfoMagang';
+import DetailMagang from './pages/InfoMagang/Detail';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 
 const App = () => {
   return (
@@ -45,6 +49,10 @@ const App = () => {
           <Route path="/prestasi/:id" element={<DetailPrestasi />} />
           <Route path="/infolomba" element={<InfoLomba />} />
           <Route path="/infolomba/:slug" element={<DetailLomba />} />
+          <Route path="/infomagang" element={<InfoMagang />} />
+          <Route path="/infomagang/:slug" element={<DetailMagang />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </MainLayout>
@@ -54,4 +62,3 @@ const App = () => {
 };
 
 export default App;
-// TEST

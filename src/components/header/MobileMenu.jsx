@@ -193,14 +193,6 @@ const MobileMenu = ({ onCloseMenu }) => {
                 Prestasi
               </NavLink>
               <NavLink
-                to="/infolomba"
-                className={({isActive}) => menuItemClass(isActive)}
-                onClick={onCloseMenu}
-                style={{ transitionDelay: '200ms' }}
-              >
-                Lomba
-              </NavLink>
-              <NavLink
                 to="/syntax"
                 className={({isActive}) => menuItemClass(isActive)}
                 onClick={onCloseMenu}
@@ -208,6 +200,36 @@ const MobileMenu = ({ onCloseMenu }) => {
               >
                 Syntax
               </NavLink>
+
+              <div className="mb-2 mt-2">
+                <h4 className="px-3 py-1 text-sm font-medium text-white/70">Ilkomerz Hub:</h4>
+                <div className="pl-2">
+                  <NavLink
+                    to="/infolomba"
+                    className={({isActive}) => menuItemClass(isActive)}
+                    onClick={onCloseMenu}
+                    style={{ transitionDelay: '250ms' }}
+                  >
+                    Info Lomba
+                  </NavLink>
+                  <NavLink
+                    to="/infomagang"
+                    className={({isActive}) => menuItemClass(isActive)}
+                    onClick={onCloseMenu}
+                    style={{ transitionDelay: '300ms' }}
+                  >
+                    Info Magang
+                  </NavLink>
+                  <NavLink
+                    to="/beasiswa"
+                    className={({isActive}) => menuItemClass(isActive)}
+                    onClick={onCloseMenu}
+                    style={{ transitionDelay: '350ms' }}
+                  >
+                    Beasiswa
+                  </NavLink>
+                </div>
+              </div>
             </div>
           )}
         </div>
