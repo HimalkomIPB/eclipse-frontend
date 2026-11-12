@@ -1,5 +1,5 @@
-# Production image for the React SPA, built by Coolify from this repo (build context = repo root).
-# VITE_API_BASE_URL is baked in at build time (Coolify passes it as a build-time env var / build arg).
+# Production image for the React SPA, built by GitHub Actions (.github/workflows/build-and-deploy.yml, build context = repo root).
+# VITE_API_BASE_URL is baked in at build time (the workflow passes it as a build arg from the GitHub environment variable).
 FROM node:20-alpine AS build
 ARG VITE_API_BASE_URL
 RUN test -n "$VITE_API_BASE_URL"
