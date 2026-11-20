@@ -2,27 +2,20 @@ import { useState, useRef, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useFetchData } from "../../hooks/useAPI";
+import { isRegistrationPath, registrationFeatures } from "../../pages/RegistrationInfo/features";
 
 /**
  * Menu navigasi untuk desktop view
  */
 const NavMenu = () => {
   const location = useLocation();
-  const isIlkomerzHubRoute = ["/infolomba", "/infomagang", "/beasiswa"].some(
-    (path) => location.pathname.startsWith(path)
-  );
+  const isIlkomerzHubRoute = isRegistrationPath(location.pathname);
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isInformasiOpen, setIsInformasiOpen] = useState(false);
   const [isDepartmentOpen, setIsDepartmentOpen] = useState(false);
   const [isCommunityOpen, setIsCommunityOpen] = useState(false);
-  const [isIlkomerzHubOpen, setIsIlkomerzHubOpen] = useState(isIlkomerzHubRoute);
-
-  useEffect(() => {
-    if (isIlkomerzHubRoute) {
-      setIsIlkomerzHubOpen(true);
-    }
-  }, [location.pathname, isIlkomerzHubRoute]);
+  const [isIlkomerzHubOpen, setIsIlkomerzHubOpen] = useState(false);
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const { data: divisionsData } = useFetchData("divisions", baseUrl);
@@ -46,14 +39,12 @@ const NavMenu = () => {
   const informasiRef = useRef(null);
   const departmentRef = useRef(null);
   const communityRef = useRef(null);
-  const ilkomerzHubRef = useRef(null);
 
   const closeDropdowns = () => {
     setIsProfileOpen(false);
     setIsInformasiOpen(false);
     setIsDepartmentOpen(false);
     setIsCommunityOpen(false);
-    if (!isIlkomerzHubRoute) setIsIlkomerzHubOpen(false);
   };
 
   // Keep a ref to the latest close logic so the listener never goes stale
@@ -69,7 +60,6 @@ const NavMenu = () => {
     }
     if (informasiRef.current && !informasiRef.current.contains(event.target)) {
       setIsInformasiOpen(false);
-      if (!isIlkomerzHubRoute) setIsIlkomerzHubOpen(false);
     }
   };
 
@@ -91,7 +81,7 @@ const NavMenu = () => {
     "flex flex-row gap-2 text-[0.94rem] font-medium leading-none tracking-[0.01em] text-white/88 transition-all duration-200 hover:text-white 2xl:text-[1rem]";
 
   const dropdownPanelClass =
-    "absolute hover:cursor-pointer left-0 top-full z-40 mt-4 min-w-60 rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64";
+    "absolute left-0 top-full z-40 mt-4 max-h-[calc(100dvh-7rem)] min-w-60 overflow-x-hidden overflow-y-auto overscroll-contain rounded-3xl border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] p-2 shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl 2xl:min-w-64";
 
   const dropdownLinkClass = ({ isActive }) =>
     `block rounded-2xl px-4 py-3 text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${
@@ -133,8 +123,22 @@ const NavMenu = () => {
     ease: "easeOut",
   };
 
+  const handleEscape = (event) => {
+    if (event.key !== "Escape") return;
+    const openDropdown = [
+      isProfileOpen && profileRef.current,
+      isCommunityOpen && communityRef.current,
+      isInformasiOpen && informasiRef.current,
+    ].find(Boolean);
+
+    if (openDropdown) {
+      closeDropdowns();
+      openDropdown.querySelector("button")?.focus();
+    }
+  };
+
   return (
-    <nav className="flex items-center gap-8 font-montserrat 2xl:gap-10">
+    <nav aria-label="Navigasi utama" onKeyDown={handleEscape} className="flex items-center gap-8 font-montserrat 2xl:gap-10">
       <NavLink to="/home" className={desktopLinkClass} onClick={closeDropdowns}>
         Home
       </NavLink>
@@ -144,12 +148,13 @@ const NavMenu = () => {
 
       <div className="relative" ref={profileRef}>
         <button
+          type="button"
+          aria-expanded={isProfileOpen}
           className={desktopButtonClass}
           onClick={() => {
             // Close all others, then toggle Profil
             setIsCommunityOpen(false);
             setIsInformasiOpen(false);
-            if (!isIlkomerzHubRoute) setIsIlkomerzHubOpen(false);
             setIsProfileOpen((prev) => !prev);
             if (isProfileOpen) setIsDepartmentOpen(false);
           }}
@@ -162,6 +167,7 @@ const NavMenu = () => {
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -193,6 +199,8 @@ const NavMenu = () => {
 
               <div ref={departmentRef}>
                 <button
+                  type="button"
+                  aria-expanded={isDepartmentOpen}
                   className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-[0.98rem] leading-none text-white/82 transition-all duration-200 hover:bg-white/10 hover:text-white"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -207,6 +215,7 @@ const NavMenu = () => {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"
@@ -255,13 +264,14 @@ const NavMenu = () => {
 
       <div className="relative" ref={communityRef}>
         <button
+          type="button"
+          aria-expanded={isCommunityOpen}
           className={desktopButtonClass}
           onClick={() => {
             // Close all others, then toggle Komunitas
             setIsProfileOpen(false);
             setIsDepartmentOpen(false);
             setIsInformasiOpen(false);
-            if (!isIlkomerzHubRoute) setIsIlkomerzHubOpen(false);
             setIsCommunityOpen((prev) => !prev);
           }}
         >
@@ -273,6 +283,7 @@ const NavMenu = () => {
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -317,12 +328,15 @@ const NavMenu = () => {
 
       <div className="relative" ref={informasiRef}>
         <button
-          className={desktopButtonClass}
+          type="button"
+          aria-expanded={isInformasiOpen}
+          className={`${desktopButtonClass} ${isIlkomerzHubRoute ? "font-semibold text-white" : ""}`}
           onClick={() => {
             // Close all others, then toggle Informasi
             setIsProfileOpen(false);
             setIsDepartmentOpen(false);
             setIsCommunityOpen(false);
+            if (!isInformasiOpen) setIsIlkomerzHubOpen(isIlkomerzHubRoute);
             setIsInformasiOpen((prev) => !prev);
           }}
         >
@@ -334,6 +348,7 @@ const NavMenu = () => {
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -395,9 +410,10 @@ const NavMenu = () => {
                 Syntax
               </NavLink>
 
-              <div ref={ilkomerzHubRef}>
+              <div>
                 <button
                   type="button"
+                  aria-expanded={isIlkomerzHubOpen}
                   className={`flex w-full items-center gap-2 rounded-2xl px-4 py-3 text-left text-[0.98rem] leading-none transition-all duration-200 hover:cursor-pointer hover:bg-white/10 hover:text-white ${
                     isIlkomerzHubRoute ? "font-semibold text-white" : "font-normal text-white/82"
                   }`}
@@ -413,6 +429,7 @@ const NavMenu = () => {
                     }`}
                     viewBox="0 0 24 24"
                     fill="currentColor"
+                    aria-hidden="true"
                   >
                     <path d="M7 10l5 5 5-5z" />
                   </svg>
@@ -428,29 +445,11 @@ const NavMenu = () => {
                       transition={nestedPanelTransition}
                       className="-mx-2 -mb-2 mt-1.5 overflow-hidden rounded-b-[22px] border-t border-white/10 bg-black/25 p-1.5 backdrop-blur-md"
                     >
-                      <NavLink
-                        to="/infolomba"
-                        className={dropdownSubLinkClass}
-                        onClick={closeDropdowns}
-                      >
-                        Info Lomba
-                      </NavLink>
-
-                      <NavLink
-                        to="/infomagang"
-                        className={dropdownSubLinkClass}
-                        onClick={closeDropdowns}
-                      >
-                        Info Magang
-                      </NavLink>
-
-                      <NavLink
-                        to="/beasiswa"
-                        className={dropdownSubLinkClass}
-                        onClick={closeDropdowns}
-                      >
-                        Beasiswa
-                      </NavLink>
+                      {registrationFeatures.map(({ path, label }) => (
+                        <NavLink key={path} to={path} className={dropdownSubLinkClass} onClick={closeDropdowns}>
+                          {label}
+                        </NavLink>
+                      ))}
                     </motion.div>
                   )}
                 </AnimatePresence>
