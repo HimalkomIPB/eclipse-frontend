@@ -1,6 +1,6 @@
 import { CalendarDays, ImageOff } from 'lucide-react';
 import { formatDate } from '@/utils/formatting';
-import { getLombaImage, REGISTRATION_STATUSES } from './api';
+import { getRegistrationImage, REGISTRATION_STATUSES } from './api';
 
 const statusClasses = {
   upcoming: 'border-sky-300/30 bg-sky-300/10 text-sky-100',
@@ -8,10 +8,11 @@ const statusClasses = {
   closed: 'border-white/20 bg-white/10 text-white/70',
 };
 
-export function RegistrationStatus({ status }) {
+export function RegistrationStatus({ status, labels = REGISTRATION_STATUSES }) {
+  const knownStatus = Object.hasOwn(labels, status);
   return (
-    <span className={`inline-flex rounded-full border px-3 py-1 text-sm font-medium ${statusClasses[status] || statusClasses.closed}`}>
-      {REGISTRATION_STATUSES[status] || 'Status tidak tersedia'}
+    <span className={`inline-flex rounded-full border px-3 py-1 text-sm font-medium ${knownStatus ? statusClasses[status] : statusClasses.closed}`}>
+      {knownStatus ? labels[status] : 'Status tidak tersedia'}
     </span>
   );
 }
@@ -34,8 +35,9 @@ export function RegistrationPeriod({ startDate, endDate }) {
   );
 }
 
-export function LombaCover({ item, detail = false }) {
-  const src = getLombaImage(item, import.meta.env.VITE_API_BASE_URL);
+export function RegistrationCover({ item, useStorageFallback, detail = false }) {
+  const storageBaseUrl = useStorageFallback ? import.meta.env.VITE_API_BASE_URL : undefined;
+  const src = getRegistrationImage(item, storageBaseUrl);
   return (
     <div className={`relative flex items-center justify-center overflow-hidden bg-white/5 ${detail ? 'min-h-56' : 'aspect-[16/10]'}`}>
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/45">
@@ -56,10 +58,14 @@ export function LombaCover({ item, detail = false }) {
   );
 }
 
-export function LombaError({ onRetry }) {
+export function RegistrationError({ name, error, onRetry }) {
+  const messages = {
+    403: `Akses ke info ${name} ditolak.`,
+    422: 'Pencarian atau filter tidak valid. Ubah filter lalu coba lagi.',
+  };
   return (
     <div role="alert" className="rounded-2xl border border-red-200/20 bg-white/5 p-8 text-center">
-      <p className="text-red-100">Gagal memuat info lomba. Silakan coba lagi.</p>
+      <p className="text-red-100">{messages[error.status] ?? `Gagal memuat info ${name}. Silakan coba lagi.`}</p>
       <button type="button" onClick={onRetry} className="mt-4 rounded-full border border-white/20 bg-white/10 px-5 py-2 hover:bg-white/20">
         Coba lagi
       </button>

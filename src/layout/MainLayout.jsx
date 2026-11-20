@@ -2,11 +2,11 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import bgStars from '../assets/bg-stars.webp';
 import bgStars1 from '../assets/bg-stars-1.webp';
+import { isRegistrationPath } from '../pages/RegistrationInfo/features';
 
 const MainLayout = ({ children }) => {
   const location = useLocation();
-  const isInfoLomba = location.pathname.startsWith('/infolomba');
-  const activeBg = isInfoLomba ? bgStars1 : bgStars;
+  const activeBg = isRegistrationPath(location.pathname) ? bgStars1 : bgStars;
 
   return (
     <div

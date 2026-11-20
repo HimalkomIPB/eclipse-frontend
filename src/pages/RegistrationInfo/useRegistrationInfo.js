@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { requestInfoLomba } from './api';
+import { requestRegistrationInfo } from './api';
 
-// Keep request handling local so existing API and image behavior stays intact.
-export default function useInfoLomba(endpoint) {
+export default function useRegistrationInfo(endpoint) {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const [attempt, setAttempt] = useState(0);
   const [state, setState] = useState({ data: null, loading: true, error: null, key: null });
@@ -12,7 +11,7 @@ export default function useInfoLomba(endpoint) {
     const controller = new AbortController();
     setState(previous => ({ ...previous, loading: true, error: null, key }));
 
-    requestInfoLomba(baseUrl, endpoint, { signal: controller.signal })
+    requestRegistrationInfo(baseUrl, endpoint, { signal: controller.signal })
       .then(data => {
         if (!controller.signal.aborted) setState({ data, loading: false, error: null, key });
       })
