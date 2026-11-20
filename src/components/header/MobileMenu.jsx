@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useFetchData } from '../../hooks/useAPI';
+import { isRegistrationPath, registrationFeatures } from '../../pages/RegistrationInfo/features';
 import { FaFacebook, FaInstagram, FaYoutube, FaXTwitter } from "react-icons/fa6";
 
-const MobileMenu = ({ onCloseMenu }) => {
+const MobileMenu = ({ isOpen, onCloseMenu }) => {
+  const { pathname } = useLocation();
+  const isIlkomerzHubRoute = isRegistrationPath(pathname);
   const [expandedSections, setExpandedSections] = useState({
     profile: false,
     community: false,
-    informasi: false
+    informasi: false,
+    ilkomerzHub: false,
   });
 
   const [animateItems, setAnimateItems] = useState(false);
@@ -19,6 +23,12 @@ const MobileMenu = ({ onCloseMenu }) => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (isOpen && isIlkomerzHubRoute) {
+      setExpandedSections(previous => ({ ...previous, informasi: true, ilkomerzHub: true }));
+    }
+  }, [isOpen, isIlkomerzHubRoute]);
 
   const toggleSection = (section) => {
     setExpandedSections(prev => ({
@@ -41,8 +51,8 @@ const MobileMenu = ({ onCloseMenu }) => {
   `;
 
   return (
-    <div className="fixed right-0 top-0 z-50 w-full rounded-[1.75rem] border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl">
-      <div className="flex max-h-[min(70vh,34rem)] flex-col overflow-y-auto px-3 py-3 sm:px-4">
+    <nav aria-label="Navigasi mobile" className="w-full rounded-[1.75rem] border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] shadow-[0_18px_36px_rgba(3,14,26,0.28)] backdrop-blur-xl">
+      <div className="max-h-[min(34rem,calc(100dvh-7rem))] overflow-y-auto overscroll-contain px-3 py-3 sm:px-4">
         <div className="border-b border-white/10 px-1 pb-2">
           <NavLink
             to="/home"
@@ -64,6 +74,8 @@ const MobileMenu = ({ onCloseMenu }) => {
 
         <div className="border-b border-white/10 px-1 py-2">
           <button
+            type="button"
+            aria-expanded={expandedSections.profile}
             className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-white transition hover:bg-white/10"
             onClick={() => toggleSection('profile')}
           >
@@ -115,6 +127,8 @@ const MobileMenu = ({ onCloseMenu }) => {
 
         <div className="border-b border-white/10 px-1 py-2">
           <button
+            type="button"
+            aria-expanded={expandedSections.community}
             className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-white transition hover:bg-white/10"
             onClick={() => toggleSection('community')}
           >
@@ -152,7 +166,9 @@ const MobileMenu = ({ onCloseMenu }) => {
 
         <div className="border-b border-white/10 px-1 py-2">
           <button
-            className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-white transition hover:bg-white/10"
+            type="button"
+            aria-expanded={expandedSections.informasi}
+            className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-white transition hover:bg-white/10 ${isIlkomerzHubRoute ? 'font-semibold' : ''}`}
             onClick={() => toggleSection('informasi')}
           >
             <span>Informasi</span>
@@ -185,20 +201,12 @@ const MobileMenu = ({ onCloseMenu }) => {
                 Galeri
               </NavLink>
               <NavLink
-                to="/Prestasi"
+                to="/prestasi"
                 className={({isActive}) => menuItemClass(isActive)}
                 onClick={onCloseMenu}
                 style={{ transitionDelay: '200ms' }}
               >
                 Prestasi
-              </NavLink>
-              <NavLink
-                to="/infolomba"
-                className={({isActive}) => menuItemClass(isActive)}
-                onClick={onCloseMenu}
-                style={{ transitionDelay: '200ms' }}
-              >
-                Lomba
               </NavLink>
               <NavLink
                 to="/syntax"
@@ -208,6 +216,33 @@ const MobileMenu = ({ onCloseMenu }) => {
               >
                 Syntax
               </NavLink>
+
+              <button
+                type="button"
+                aria-expanded={expandedSections.ilkomerzHub}
+                className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-white transition hover:bg-white/10 ${isIlkomerzHubRoute ? 'font-semibold' : ''}`}
+                onClick={() => toggleSection('ilkomerzHub')}
+              >
+                <span>Ilkomerz Hub</span>
+                <svg
+                  className={`h-4 w-4 transition-transform ${expandedSections.ilkomerzHub ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {expandedSections.ilkomerzHub && (
+                <div className="my-1 ml-3 border-l-2 border-white/20 pl-3">
+                  {registrationFeatures.map(({ path, label }) => (
+                    <NavLink key={path} to={path} className={({ isActive }) => menuItemClass(isActive)} onClick={onCloseMenu}>
+                      {label}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -220,7 +255,6 @@ const MobileMenu = ({ onCloseMenu }) => {
           >
             Megaproker
           </NavLink>
-
           <NavLink
             to="/riset"
             className={({isActive}) => menuItemClass(isActive)}
@@ -228,8 +262,6 @@ const MobileMenu = ({ onCloseMenu }) => {
           >
             Riset
           </NavLink>
-
-          
         </div>
 
         <div className="mt-2 border-t border-white/10 px-3 pb-1 pt-4">
@@ -273,7 +305,7 @@ const MobileMenu = ({ onCloseMenu }) => {
           </p>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

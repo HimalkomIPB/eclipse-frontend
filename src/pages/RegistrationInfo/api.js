@@ -1,24 +1,34 @@
 export const REGISTRATION_STATUSES = {
-  upcoming: 'Belum dibuka',
-  active: 'Sedang dibuka',
+  upcoming: 'Akan Datang',
+  active: 'Dibuka',
   closed: 'Ditutup',
 };
 
-export function readLombaFilters(searchParams) {
-  const page = Number(searchParams.get('page'));
-  const categoryId = Number(searchParams.get('category_id'));
-  const status = searchParams.get('status');
+export const LOMBA_STATUSES = {
+  ...REGISTRATION_STATUSES,
+  upcoming: 'Belum dibuka',
+  active: 'Sedang dibuka',
+};
 
-  return {
+export function readRegistrationFilters(searchParams, hasCategories = false) {
+  const page = Number(searchParams.get('page'));
+  const status = searchParams.get('status');
+  const filters = {
     page: Number.isSafeInteger(page) && page > 0 ? page : 1,
-    q: (searchParams.get('q') || '').trim().slice(0, 255),
-    category_id: Number.isSafeInteger(categoryId) && categoryId > 0 ? String(categoryId) : '',
+    q: [...(searchParams.get('q') || '').trim()].slice(0, 255).join(''),
     status: Object.hasOwn(REGISTRATION_STATUSES, status) ? status : '',
   };
+
+  if (hasCategories) {
+    const categoryId = Number(searchParams.get('category_id'));
+    filters.category_id = Number.isSafeInteger(categoryId) && categoryId > 0 ? String(categoryId) : '';
+  }
+
+  return filters;
 }
 
-export function buildLombaQuery({ page = 1, q = '', category_id = '', status = '' }) {
-  const filters = readLombaFilters(new URLSearchParams({ page, q, category_id, status }));
+export function buildRegistrationQuery(values, hasCategories = false) {
+  const filters = readRegistrationFilters(new URLSearchParams(values), hasCategories);
   const params = new URLSearchParams({ page: filters.page, per_page: 6 });
   if (filters.q) params.set('q', filters.q);
   if (filters.category_id) params.set('category_id', filters.category_id);
@@ -26,16 +36,16 @@ export function buildLombaQuery({ page = 1, q = '', category_id = '', status = '
   return params.toString();
 }
 
-export async function requestInfoLomba(baseUrl, endpoint, { signal } = {}) {
+export async function requestRegistrationInfo(baseUrl, endpoint, { signal } = {}) {
   if (!baseUrl) throw new Error('Alamat API belum dikonfigurasi.');
 
-  const response = await fetch(`${baseUrl.replace(/\/+$/, '')}/infolomba${endpoint}`, {
+  const response = await fetch(`${baseUrl.replace(/\/+$/, '')}${endpoint}`, {
     headers: { Accept: 'application/json' },
     signal,
   });
 
   if (!response.ok) {
-    const error = new Error('Gagal memuat info lomba. Silakan coba lagi.');
+    const error = new Error(`Permintaan API gagal (${response.status}).`);
     error.status = response.status;
     throw error;
   }
@@ -43,10 +53,10 @@ export async function requestInfoLomba(baseUrl, endpoint, { signal } = {}) {
   return response.json();
 }
 
-export function getLombaImage(item, baseUrl) {
+export function getRegistrationImage(item, storageBaseUrl) {
   if (item.image_url) return item.image_url;
-  return item.image && baseUrl
-    ? `${baseUrl.replace(/\/+$/, '')}/storage/${item.image.replace(/^\/+/, '')}`
+  return item.image && storageBaseUrl
+    ? `${storageBaseUrl.replace(/\/+$/, '')}/storage/${item.image.replace(/^\/+/, '')}`
     : '';
 }
 
