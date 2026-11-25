@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
-export default function LombaDropdown({
+export default function FilterDropdown({
   label,
   value,
   options,
@@ -12,6 +12,7 @@ export default function LombaDropdown({
   onToggle,
   onClose,
 }) {
+  const id = useId();
   const dropdownRef = useRef(null);
   // Keep a stable ref to onClose so the effect doesn't re-fire when the
   // parent re-renders with a new inline arrow function.
@@ -51,17 +52,19 @@ export default function LombaDropdown({
 
   return (
     <div className={`relative w-full ${isOpen ? 'z-40' : 'z-10'}`} ref={dropdownRef}>
-      <span className="mb-2 block font-medium text-white">{label}</span>
+      <span id={`${id}-label`} className="mb-2 block font-medium text-white">{label}</span>
       <button
         type="button"
         onClick={() => onToggle?.(!isOpen)}
-        className="flex w-full items-center justify-between rounded-xl border border-white/20 bg-[#123149] px-4 py-3 text-base text-white transition-colors duration-200 hover:border-white/40 focus:outline-none"
+        className="flex w-full items-center justify-between rounded-xl border border-white/20 bg-[#123149] px-4 py-3 text-base text-white transition-colors duration-200 hover:border-white/40 focus-visible:ring-2 focus-visible:ring-sky-200/60"
+        aria-labelledby={`${id}-label ${id}-value`}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
-        <span className="truncate">{displayLabel}</span>
+        <span id={`${id}-value`} className="truncate">{displayLabel}</span>
         <ChevronDown
           size={18}
+          aria-hidden="true"
           className={`shrink-0 text-white/80 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
@@ -77,6 +80,7 @@ export default function LombaDropdown({
             className="absolute left-0 top-full z-50 mt-2 w-full border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] shadow-[0_18px_36px_rgba(3,14,26,0.38)] backdrop-blur-xl"
             style={{ borderRadius: '1.5rem' }}
             role="listbox"
+            aria-labelledby={`${id}-label`}
           >
               {/*
               Padding lives on this inner div — NOT on a clip container — so

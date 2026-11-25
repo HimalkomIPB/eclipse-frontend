@@ -18,12 +18,11 @@ import Riset from './pages/Riset';
 import Syntax from './pages/Syntax';
 import Prestasi from './pages/Prestasi';
 import DetailPrestasi from './pages/Prestasi/Detail/Detail';
-import InfoLomba from './pages/InfoLomba';
-import DetailLomba from './pages/InfoLomba/Detail';
-import InfoMagang from './pages/InfoMagang';
-import DetailMagang from './pages/InfoMagang/Detail';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import RegistrationList from './pages/RegistrationInfo';
+import RegistrationDetail from './pages/RegistrationInfo/Detail';
+import { registrationFeatures } from './pages/RegistrationInfo/features';
 
 const App = () => {
   return (
@@ -47,12 +46,14 @@ const App = () => {
           <Route path="/galeri/:id" element={<GalleryDetail />} />
           <Route path="/prestasi" element={<Prestasi />} />
           <Route path="/prestasi/:id" element={<DetailPrestasi />} />
-          <Route path="/infolomba" element={<InfoLomba />} />
-          <Route path="/infolomba/:slug" element={<DetailLomba />} />
-          <Route path="/infomagang" element={<InfoMagang />} />
-          <Route path="/infomagang/:slug" element={<DetailMagang />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          {registrationFeatures.map(feature => (
+            <Route key={feature.path} path={feature.path}>
+              <Route index element={<RegistrationList key={feature.path} feature={feature} />} />
+              <Route path=":slug" element={<RegistrationDetail feature={feature} />} />
+            </Route>
+          ))}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </MainLayout>
