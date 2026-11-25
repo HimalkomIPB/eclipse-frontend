@@ -45,7 +45,7 @@ const Komunitas = () => {
         {/* Hero Section */}
         <section className="font-athiti">
           <div id="hero-section" 
-          className="flex flex-row justify-center items-center gap-6 sm:gap-12 md:gap-16 lg:gap-24 mt-10 sm:mt-20 md:mt-8 w-full px-4">
+          className="flex flex-row justify-center items-center gap-6 sm:gap-12 md:gap-16 lg:gap-24 mt-28 sm:mt-32 md:mt-36 lg:mt-40 w-full px-4">
             {/* Logo Komunitas */}
             <img
               src={`${baseUrl}/storage/${community.logo}`}

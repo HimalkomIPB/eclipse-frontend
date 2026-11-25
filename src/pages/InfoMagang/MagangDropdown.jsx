@@ -73,12 +73,12 @@ export default function MagangDropdown({
             variants={panelVariants}
             transition={panelTransition}
             className="absolute left-0 top-full z-50 mt-2 w-full border border-white/15 bg-[linear-gradient(180deg,rgba(19,54,79,0.98)_0%,rgba(13,39,59,0.96)_100%)] shadow-[0_18px_36px_rgba(3,14,26,0.38)] backdrop-blur-xl"
-            style={{ borderRadius: '0.875rem' }}
+            style={{ borderRadius: '1.5rem' }}
             role="listbox"
           >
             {/* Scrollable container with visible elegant custom scrollbar */}
-            <div className="max-h-60 overflow-y-auto rounded-[0.875rem] dropdown-scroll pr-1">
-              <div className="p-1.5">
+            <div className="max-h-60 overflow-y-auto rounded-3xl dropdown-scroll pr-1">
+              <div className="p-2">
                 {options.map((option) => {
                   const isSelected = String(option.value) === String(value);
                   return (
@@ -92,10 +92,10 @@ export default function MagangDropdown({
                         onChange(option.value);
                         onCloseRef.current?.();
                       }}
-                      className={`flex w-full items-center rounded-lg px-3 py-2.5 text-left text-sm leading-snug transition-colors duration-100 hover:bg-white/10 hover:text-white ${
+                      className={`flex w-full items-center rounded-2xl px-4 py-3 text-left text-[0.98rem] leading-none transition-colors duration-100 hover:bg-white/10 hover:text-white font-montserrat ${
                         isSelected
                           ? 'bg-white/10 font-semibold text-white'
-                          : 'font-normal text-white/85'
+                          : 'font-normal text-white/82'
                       }`}
                       role="option"
                       aria-selected={isSelected}

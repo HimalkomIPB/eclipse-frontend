@@ -57,26 +57,15 @@ export default function InfoMagang() {
     updateFilters({ q: new FormData(event.currentTarget).get('q') });
   };
 
-  const cardFloatDurations = [5.1, 5.9, 6.7, 5.5, 6.3, 7.1];
-  const cardFloatDelays = [0, 0.65, 1.3, 0.4, 1.0, 0.2];
-
   return (
     <section className="mx-auto mt-28 max-w-6xl px-4 pb-24 sm:mt-32 md:mt-20">
-      <SectionHeader
-        title={
-          <span className="animate-float-wrapper">
-            <span className="animate-rotate-wrapper">
-              <span className="animate-breathe-text">Info Magang</span>
-            </span>
-          </span>
-        }
-      />
+      <SectionHeader title="Info Magang" />
       <p className="mx-auto mb-10 max-w-2xl text-center text-lg text-white/80">
         Temukan lowongan magang pilihanmu dan persiapkan karier impianmu.
       </p>
 
       {/* Filter Box */}
-      <div className="animate-filter-box mb-8 rounded-2xl border border-white/15 bg-white/5 p-4 sm:p-6">
+      <div className="mb-8 rounded-2xl border border-white/15 bg-white/5 p-4 sm:p-6">
         <form
           onSubmit={handleSearch}
           onReset={() => setSearchParams({})}
@@ -161,14 +150,10 @@ export default function InfoMagang() {
             <p className="mb-5 text-white/65">{totalItems} lowongan magang ditemukan</p>
             {items.length ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {items.map((item, index) => (
+                {items.map((item) => (
                   <article
                     key={item.id}
-                    className="animate-card-float flex h-full flex-col overflow-hidden rounded-2xl border border-white/15 bg-[linear-gradient(180deg,rgba(27,62,89,0.92)_0%,rgba(14,41,59,0.94)_100%)] shadow-card"
-                    style={{
-                      '--card-float-duration': `${cardFloatDurations[index % cardFloatDurations.length]}s`,
-                      '--card-float-delay': `${cardFloatDelays[index % cardFloatDelays.length]}s`,
-                    }}
+                    className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/15 bg-[linear-gradient(180deg,rgba(27,62,89,0.92)_0%,rgba(14,41,59,0.94)_100%)] shadow-card"
                   >
                     <Link
                       to={`/infomagang/${encodeURIComponent(item.slug)}`}
