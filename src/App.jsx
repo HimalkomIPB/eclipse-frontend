@@ -16,8 +16,10 @@ import Explore from './pages/Explore';
 import NotFound from './pages/NotFound';
 import Riset from './pages/Riset';
 import Syntax from './pages/Syntax';
-import Prestasi from './pages/Prestasi'
+import Prestasi from './pages/Prestasi';
 import DetailPrestasi from './pages/Prestasi/Detail/Detail';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 import RegistrationList from './pages/RegistrationInfo';
 import RegistrationDetail from './pages/RegistrationInfo/Detail';
 import { registrationFeatures } from './pages/RegistrationInfo/features';
@@ -44,6 +46,8 @@ const App = () => {
           <Route path="/galeri/:id" element={<GalleryDetail />} />
           <Route path="/prestasi" element={<Prestasi />} />
           <Route path="/prestasi/:id" element={<DetailPrestasi />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           {registrationFeatures.map(feature => (
             <Route key={feature.path} path={feature.path}>
               <Route index element={<RegistrationList key={feature.path} feature={feature} />} />
@@ -59,4 +63,3 @@ const App = () => {
 };
 
 export default App;
-// TEST
